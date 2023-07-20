@@ -1,0 +1,66 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!--库版本设置-->
+	<PropertyGroup>
+		<NetstandardVersion>netstandard2.1</NetstandardVersion>
+		<DefaultTargetFramework>net6.0</DefaultTargetFramework>
+		<CommonTargetFrameworks Condition="'$(CommonTargetFrameworks)' == ''">net6.0</CommonTargetFrameworks>
+	</PropertyGroup>
+
+	<!--项目设置-->
+	<PropertyGroup>
+		<!--Nuget相关-->
+		<SrgDescription>SRG is an asp.net core enterprise application system development framework.</SrgDescription>
+		<!--版本号-->
+		<MapleDays>$([System.TimeSpan]::FromTicks($([MSBuild]::Subtract($([System.DateTime]::Now.Ticks), 633979008000000000))).TotalDays.ToString("0000"))</MapleDays>
+		<MapleTimeOfDayTotalHours>$([MSBuild]::Add($([System.DateTime]::Now.TimeOfDay.TotalHours), 1000).ToString("0000"))</MapleTimeOfDayTotalHours>
+		<!--提供隐式引用-->
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<!--控制编译器是否为库生成 XML 文档文件-->
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!--取消对公共可见类型或成员未设置注释的警告-->
+		<!--<NoWarn>$(NoWarn);CS1591</NoWarn>-->
+		<Product>Srg</Product>
+		<PackageTags>Srg</PackageTags>
+		<Copyright>Copyright © Fengqinhua</Copyright>
+		<Authors>Fengqinhua</Authors>
+		<Owners>Fengqinhua</Owners>
+	</PropertyGroup>
+
+
+
+	<!--<PropertyGroup>
+		-->
+	<!--JSON序列化和反序列化库-->
+	<!--
+		<SystenTextJsonVersion>7.0.0</SystenTextJsonVersion>
+		-->
+	<!--邮件处理库-->
+	<!--
+		<MailKitVersion>3.4.3</MailKitVersion>
+		<MimeKitVersion>3.4.3</MimeKitVersion>
+		-->
+	<!--反射实现库-->
+	<!--
+		<SystemReflectionEmitLightweightVersion>4.7.0</SystemReflectionEmitLightweightVersion>
+		-->
+	<!--EntityFrameworkCore-->
+	<!--
+		<MicrosoftEntityFrameworkCoreVersion>7.0.0</MicrosoftEntityFrameworkCoreVersion>
+		-->
+	<!--数据库连接所需的库-->
+	<!--
+		<MySqlConnectorVersion>2.2.2</MySqlConnectorVersion>
+		<MicrosoftDataSqliteVersion>7.0.0</MicrosoftDataSqliteVersion>
+		<MicrosoftDataSqliteCoreVersion>7.0.0</MicrosoftDataSqliteCoreVersion>
+		<SystemDataSqlClientVersion>4.8.5</SystemDataSqlClientVersion>
+		<SystenCollectionsImmutableVersion>7.0.0</SystenCollectionsImmutableVersion>
+		-->
+	<!--测试库-->
+	<!--
+		<MicrosoftNETTestSdkVersion>17.4.1</MicrosoftNETTestSdkVersion>
+		<MSTestTestFrameworkVersion>3.0.0</MSTestTestFrameworkVersion>
+		<MSTestTestAdapterFrameworkVersion>3.0.0</MSTestTestAdapterFrameworkVersion>
+		<CoverletCollectorVersion>3.2.0</CoverletCollectorVersion>
+	</PropertyGroup>-->
+</Project>
