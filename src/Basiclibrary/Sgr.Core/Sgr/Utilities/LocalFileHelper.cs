@@ -124,10 +124,9 @@ namespace Sgr.Utilities
         /// 读取指定文件，返回文件中的文本内容
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="removeBom"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<string> ReadFileContentToStringAsync(string path, bool removeBom = true, Encoding encoding = null)
+        public static async Task<string?> ReadFileContentToStringAsync(string path,  Encoding? encoding = null)
         {
             var bytes = await ReadFileContentToBytesAsync(path);
 
@@ -156,7 +155,7 @@ namespace Sgr.Utilities
         /// <param name="content"></param>
         /// <param name="overwrite"></param>
         /// <param name="encoding"></param>
-        public static void WriteStringToFileAsync(string path, string content, bool overwrite = true, Encoding encoding = null)
+        public static void WriteStringToFileAsync(string path, string content, bool overwrite = true, Encoding? encoding = null)
         {
             if (encoding == null)
                 encoding = Encoding.UTF8;

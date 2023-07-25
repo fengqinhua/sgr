@@ -27,7 +27,7 @@ namespace Sgr.Utilities
         /// <param name="bytes"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string ConvertFromBytesWithoutBom(byte[] bytes, Encoding encoding = null)
+        public static string? ConvertFromBytesWithoutBom(byte[] bytes, Encoding? encoding = null)
         {
             if (bytes == null)
                 return null;

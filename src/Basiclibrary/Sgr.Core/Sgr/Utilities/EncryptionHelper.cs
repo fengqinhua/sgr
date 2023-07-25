@@ -27,8 +27,8 @@ namespace Sgr.Utilities
     public static class EncryptionHelper
     {
         //通过KeyInfo的无参构造函数获得。自己保存下来以后，就可以一直用这一对Key了，保证之后的加解密数据都是一致的
-        private static byte[] Key = Convert.FromBase64String("JFBAXvy9WKEQl3opFU/U8wsG8FlESGSGCcHbwFY7w7U=");
-        private static byte[] Iv = Convert.FromBase64String("vMu9WHcI+aB78JqskBWjZQ==");
+        private static readonly byte[] Key = Convert.FromBase64String("JFBAXvy9WKEQl3opFU/U8wsG8FlESGSGCcHbwFY7w7U=");
+        private static readonly byte[] Iv = Convert.FromBase64String("vMu9WHcI+aB78JqskBWjZQ==");
 
         /// <summary>
         /// 加密

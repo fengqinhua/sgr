@@ -26,7 +26,124 @@ namespace Sgr.Domain.Entities
     /// </summary>
     public static class ExtendableObjectExtensions
     {
-        public static T GetData<T>(this IExtendableObject extendableObject, string name)
+        /// <summary>
+        /// 获取字符串
+        /// </summary>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string GetString(this IExtendableObject extendableObject, string name)
+        {
+            var result = GetObject<string>(extendableObject, name);
+            return result ?? "";
+        }
+
+        /// <summary>
+        /// 设置字符串
+        /// </summary>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public static void SetString(this IExtendableObject extendableObject, string name,string value)
+        {
+            SetObject(extendableObject, name, value);
+        }
+
+        /// <summary>
+        /// 删除对象
+        /// </summary>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool RemoveString(this IExtendableObject extendableObject, string name)
+        {
+            return RemoveString(extendableObject, name);
+        }
+
+
+        /// <summary>
+        /// 获取对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T? GetObject<T>(this IExtendableObject extendableObject, string name) where T : class
+        {
+            Check.NotNull(extendableObject, nameof(extendableObject));
+            Check.NotNull(name, nameof(name));
+
+            string key = "c_" + name;
+
+            if (!string.IsNullOrEmpty(extendableObject.ExtensionData))
+            {
+                var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
+                var prop = jsonNode?[key];
+                if (prop != null)
+                {
+                    return JsonSerializer.Deserialize<T>(prop); //return prop.GetValue<T>();
+                }
+                    
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 设置对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <exception cref="UserFriendlyException"></exception>
+        public static void SetObject<T>(this IExtendableObject extendableObject, string name, T? value) where T : class
+        {
+            Check.NotNull(extendableObject, nameof(extendableObject));
+            Check.NotNull(name, nameof(name));
+
+            var jsonNode = JsonNode.Parse(extendableObject.ExtensionData ?? "{}");
+
+            string key = "c_" + name;
+            if (value == null)
+                jsonNode!.AsObject().Remove(key);
+            else
+                jsonNode![key] = JsonSerializer.SerializeToNode(value);
+
+            SetExtensionData(extendableObject, jsonNode);
+        }
+
+        /// <summary>
+        /// 删除对象
+        /// </summary>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool RemoveObject(this IExtendableObject extendableObject, string name)
+        {
+            Check.NotNull(extendableObject, nameof(extendableObject));
+            Check.NotNull(name, nameof(name));
+
+            if (extendableObject.ExtensionData == null)
+                return false;
+
+            string key = "c_" + name;
+            var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
+            jsonNode!.AsObject().Remove(key);
+
+            SetExtensionData(extendableObject, jsonNode);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 获取数据（值类型）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T GetValue<T>(this IExtendableObject extendableObject, string name) where T : struct 
         {
             Check.NotNull(extendableObject, nameof(extendableObject));
             Check.NotNull(name, nameof(name));
@@ -34,8 +151,9 @@ namespace Sgr.Domain.Entities
             if (string.IsNullOrEmpty(extendableObject.ExtensionData))
                 return default;
 
+            string key = "s_" + name;
             var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
-            var prop = jsonNode[name];
+            var prop = jsonNode?[key];
 
             if (prop == null)
                 return default;
@@ -50,59 +168,64 @@ namespace Sgr.Domain.Entities
             //}
         }
 
-        public static void SetData<T>(this IExtendableObject extendableObject, string name, T value)
+        /// <summary>
+        /// 设置数据（值类型）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <exception cref="UserFriendlyException"></exception>
+        public static void SetValue<T>(this IExtendableObject extendableObject, string name, T value) where T : struct
         {
             Check.NotNull(extendableObject, nameof(extendableObject));
             Check.NotNull(name, nameof(name));
 
+            string key = "s_" + name;
 
-            if (extendableObject.ExtensionData == null)
-            {
-                if (EqualityComparer<T>.Default.Equals(value, default))
-                    return;
-                extendableObject.ExtensionData = null;
-            }
+            var jsonNode = JsonNode.Parse(extendableObject.ExtensionData ?? "{}");
+
+            if (EqualityComparer<T>.Default.Equals(value, default))
+                jsonNode!.AsObject().Remove(key);
             else
-            {
-                var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
-                if (value == null || EqualityComparer<T>.Default.Equals(value, default))
-                    jsonNode.AsObject().Remove(name);
-                else
-                    jsonNode[name] = JsonSerializer.SerializeToNode(value);
+                jsonNode![key] = JsonSerializer.SerializeToNode(value);
 
-                //else if (typeof(T).IsPrimitiveExtendedIncludingNullable())
-                //{
-                //    jsonNode[name] = "";
-                //}
-
-                var data = jsonNode.ToJsonString();
-                if (data == "{}")
-                    data = null;
-
-                if (data != null && Encoding.UTF8.GetBytes(data).Length >= Constant.ExtendableObjectMaxLength)
-                    throw new UserFriendlyException("ExtensionData exceeding the maximum number of bytes");
-
-                extendableObject.ExtensionData = data;
-            }
+            SetExtensionData(extendableObject, jsonNode);
         }
 
-        public static bool RemoveData(this IExtendableObject extendableObject, string name)
+        /// <summary>
+        /// 删除数据（值类型）
+        /// </summary>
+        /// <param name="extendableObject"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool RemoveValue(this IExtendableObject extendableObject, string name)
         {
             Check.NotNull(extendableObject, nameof(extendableObject));
+            Check.NotNull(name, nameof(name));
 
             if (extendableObject.ExtensionData == null)
-            {
                 return false;
-            }
 
+            string key = "s_" + name;
             var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
-            jsonNode.AsObject().Remove(name);
+            jsonNode!.AsObject().Remove(key);
 
-            var data = jsonNode.ToJsonString();
+            SetExtensionData(extendableObject, jsonNode);
+
+            return true;
+        }
+
+        private static void SetExtensionData(IExtendableObject extendableObject, JsonNode? jsonNode)
+        {
+            var data = jsonNode == null ? "{}" : jsonNode.ToJsonString();
             if (data == "{}")
                 data = null;
+
+            if (data != null && Encoding.UTF8.GetBytes(data).Length >= Constant.ExtendableObjectMaxLength)
+                throw new UserFriendlyException("ExtensionData exceeding the maximum number of bytes");
+
             extendableObject.ExtensionData = data;
-            return true;
         }
     }
 }

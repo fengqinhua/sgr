@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Sgr\Domain\Entities\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Basiclibrary\Sgr.Core\Sgr.Core.csproj" />
   </ItemGroup>
 

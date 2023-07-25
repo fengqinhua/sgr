@@ -91,7 +91,7 @@ namespace Sgr.Licence
                     {
                         for (int i = tmp.Length; i <= 25; i++)
                         {
-                            tmp = tmp + "A";
+                            tmp += "A";
                         }
                     }
 
@@ -186,7 +186,7 @@ namespace Sgr.Licence
             bool result = false;
             try
             {
-                ActivationInfo activationInfo = parsingActivationCode(sqm);
+                ActivationInfo? activationInfo = parsingActivationCode(sqm);
                 if (activationInfo == null)
                 {
                     msg = "注册码格式错误!";
@@ -244,8 +244,7 @@ namespace Sgr.Licence
                         }
                     }
 
-                    int LVT_SPAN = 0;
-                    if (!int.TryParse(strLVT_SPAN, out LVT_SPAN))
+                    if (!int.TryParse(strLVT_SPAN, out int LVT_SPAN))
                         LVT_SPAN = 0;
 
                     //获取基准时间
@@ -303,7 +302,7 @@ namespace Sgr.Licence
                             reader.Close();
                         }
 
-                        ActivationInfo activationInfo = parsingActivationCode(sqm);
+                        ActivationInfo? activationInfo = parsingActivationCode(sqm);
                         if (activationInfo != null)
                         {
                             string zcm = GetRegistrationCode();
@@ -333,14 +332,17 @@ namespace Sgr.Licence
         /// </summary>
         /// <param name="sqm"></param>
         /// <returns></returns>
-        private ActivationInfo parsingActivationCode(string sqm)
+        private ActivationInfo? parsingActivationCode(string sqm)
         {
             string temp = EncryptionHelper.Decrypt(sqm, false);
             string[] txts = temp.Split('^');
             if (txts.Length >= 5)
             {
-                ActivationInfo activationInfo = new ActivationInfo();
-                activationInfo.RegistrationCode = txts[0];
+                ActivationInfo activationInfo = new ActivationInfo()
+                {
+                    RegistrationCode = txts[0]
+                };
+
 
                 if (long.TryParse(txts[1], out long longCount))
                 {

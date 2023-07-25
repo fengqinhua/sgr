@@ -32,6 +32,6 @@ namespace Sgr.Domain.Entities
         /// }
         /// </code>
         /// </summary>
-        string ExtensionData { get; set; }
+        string? ExtensionData { get; set; }
     }
 }
