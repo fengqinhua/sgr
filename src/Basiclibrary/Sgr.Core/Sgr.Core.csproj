@@ -6,4 +6,13 @@
 		<RootNamespace />
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MicrosoftExtensionsPackagesVersion)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftExtensionsPackagesVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(MicrosoftExtensionsPackagesVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(MicrosoftExtensionsPackagesVersion)" />
+		<PackageReference Include="System.Collections.Immutable" Version="$(MicrosoftExtensionsPackagesVersion)" />
+		<PackageReference Include="System.Text.Json" Version="$(SystenTextJsonVersion)" />
+	</ItemGroup>
+
 </Project>

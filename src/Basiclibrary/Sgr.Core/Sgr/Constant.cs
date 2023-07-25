@@ -34,6 +34,15 @@ namespace Sgr
         /// </summary>
         public static int ExtendableObjectMaxLength = 2047;
 
+        /// <summary>
+        /// 缺省的组织标识
+        /// </summary>
+        public const long DEFAULT_ORGID = 11119;
+        /// <summary>
+        /// 缺省的用户标识
+        /// </summary>
+        public const long DEFAULT_USERID = 19527;
+
         //public const string Setup_SiteName = "SiteName";
         //public const string Setup_Language = "Language";
         //public const string Setup_AdminUsername = "AdminUsername";

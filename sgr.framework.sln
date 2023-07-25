@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basiclibrary", "Basiclibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Core", "src\Basiclibrary\Sgr.Core\Sgr.Core.csproj", "{E0E70563-B14E-45A0-B056-5C55973C587B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F99F833F-BC49-4837-931D-1D02B66B4C84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.Core.Tests", "tests\Sgr.Core.Tests\Sgr.Core.Tests.csproj", "{D253040C-4B34-4900-B808-1C7FDAC9109E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{E0E70563-B14E-45A0-B056-5C55973C587B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0E70563-B14E-45A0-B056-5C55973C587B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0E70563-B14E-45A0-B056-5C55973C587B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D253040C-4B34-4900-B808-1C7FDAC9109E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D253040C-4B34-4900-B808-1C7FDAC9109E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D253040C-4B34-4900-B808-1C7FDAC9109E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D253040C-4B34-4900-B808-1C7FDAC9109E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DCB118B9-0060-46FD-9E6B-3772E384D059} = {ECCC91A8-6C1D-41B7-8A58-D11C7534BF7B}
 		{E0E70563-B14E-45A0-B056-5C55973C587B} = {DCB118B9-0060-46FD-9E6B-3772E384D059}
+		{D253040C-4B34-4900-B808-1C7FDAC9109E} = {F99F833F-BC49-4837-931D-1D02B66B4C84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F860D220-ECF0-4466-AA85-30D0B2FCD69D}
