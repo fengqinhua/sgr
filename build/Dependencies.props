@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<!--库版本设置-->
 	<PropertyGroup>
-		<NetstandardVersion>netstandard2.1</NetstandardVersion>
+		<NetstandardVersion>netstandard2.0</NetstandardVersion>
 		<DefaultTargetFramework>net6.0</DefaultTargetFramework>
 		<CommonTargetFrameworks Condition="'$(CommonTargetFrameworks)' == ''">net6.0</CommonTargetFrameworks>
 	</PropertyGroup>
@@ -21,6 +21,7 @@
 		<MapleTimeOfDayTotalHours>$([MSBuild]::Add($([System.DateTime]::Now.TimeOfDay.TotalHours), 1000).ToString("0000"))</MapleTimeOfDayTotalHours>
 		<!--提供隐式引用-->
 		<ImplicitUsings>disable</ImplicitUsings>
+		<LangVersion>9.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<!--控制编译器是否为库生成 XML 文档文件-->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>

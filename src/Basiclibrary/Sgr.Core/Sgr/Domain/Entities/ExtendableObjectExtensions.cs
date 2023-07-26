@@ -77,7 +77,7 @@ namespace Sgr.Domain.Entities
 
             if (!string.IsNullOrEmpty(extendableObject.ExtensionData))
             {
-                var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
+                var jsonNode = JsonNode.Parse(extendableObject.ExtensionData ?? "{}");
                 var prop = jsonNode?[key];
                 if (prop != null)
                 {
@@ -152,7 +152,7 @@ namespace Sgr.Domain.Entities
                 return default;
 
             string key = "s_" + name;
-            var jsonNode = JsonNode.Parse(extendableObject.ExtensionData);
+            var jsonNode = JsonNode.Parse(extendableObject.ExtensionData ?? "{}");
             var prop = jsonNode?[key];
 
             if (prop == null)
