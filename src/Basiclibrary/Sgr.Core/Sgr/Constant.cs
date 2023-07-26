@@ -32,7 +32,7 @@ namespace Sgr
         /// <summary>
         /// 实体的扩展属性最大长度
         /// </summary>
-        public static int ExtendableObjectMaxLength = 2047;
+        public const int ExtendableObjectMaxLength = 2047;
 
         /// <summary>
         /// 缺省的组织标识
