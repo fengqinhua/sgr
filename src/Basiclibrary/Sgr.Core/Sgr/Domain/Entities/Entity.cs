@@ -12,8 +12,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace Sgr.Domain.Entities
 {
@@ -21,18 +19,18 @@ namespace Sgr.Domain.Entities
     /// 实体类型基类（字符串）
     /// </summary>
     [Serializable]
-    public abstract class EntityBase : IEntity<string>
+    public abstract class EntityBase : EntityHaveDomainEvent<string>
     {
         /// <summary>
         /// ID ，实体的唯一标识符
         /// </summary>
-        public string Id { get; set; } = "";
+        public override string Id { get; set; } = "";
 
         /// <summary>
         ///  检查此实体是否是暂时的
         /// </summary>
         /// <returns></returns>
-        public bool IsTransient()
+        public override bool IsTransient()
         {
             return string.IsNullOrEmpty(Id);
         }
@@ -78,18 +76,18 @@ namespace Sgr.Domain.Entities
     /// </summary>
     /// <typeparam name="TPrimaryKey"></typeparam>
     [Serializable]
-    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey> where TPrimaryKey : struct
+    public abstract class Entity<TPrimaryKey> : EntityHaveDomainEvent<TPrimaryKey> where TPrimaryKey : struct
     {
         /// <summary>
         /// ID ，实体的唯一标识符
         /// </summary>
-        public virtual TPrimaryKey Id { get; set; }
+        public override TPrimaryKey Id { get; set; }
 
         /// <summary>
         /// 检查此实体是否是暂时的（检查Id是否为空）
         /// </summary>
         /// <returns></returns>
-        public virtual bool IsTransient()
+        public override bool IsTransient()
         {
             //如果唯一标识为缺省值，那么则认为该实体是临时对象，还未进行持久化
             if (EqualityComparer<TPrimaryKey>.Default.Equals(Id, default))

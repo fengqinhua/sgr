@@ -37,12 +37,4 @@ namespace Sgr
         /// </summary>
         TOrgKey OrgId { get; }
     }
-
-    /// <summary>
-    /// 以类型long为ID唯一标识符的实体类型接口
-    /// </summary>
-    public interface ICurrentUser : ICurrentUser<long, long>
-    {
-
-    }
 }

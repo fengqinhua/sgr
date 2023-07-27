@@ -59,7 +59,7 @@ namespace $rootnamespace$
 > [配置 GitHub 和 Gitee 共存环境](https://cloud.tencent.com/document/product/436/7778)  
 
 
-### C# 8.0 可空(Nullable) 与 泛型约束
+### 04. C# 8.0 可空(Nullable) 与 泛型约束
 
 1.不可为null的值类型
 
@@ -89,3 +89,14 @@ public static void GenericNotnull<T>(T t) where T : notnull{ }
 
 > [C#高级编程之泛型（二）：泛型约束](https://blog.51cto.com/u_15127615/2755478)  
 > [C# 8.0 可空(Nullable)给ASP.NET Core带来的坑](https://blog.csdn.net/q913777031/article/details/113186007)  
+> [C# 8.0 可空引用类型](https://www.cnblogs.com/MASA/p/15836687.html)
+
+
+### 05. 仓储和工作单元的设计思考
+
+
+
+具体可参考：
+
+> [Repository 简化实现多条件查询](https://www.cnblogs.com/xishuai/p/repository-query-linq-expression.html)  
+

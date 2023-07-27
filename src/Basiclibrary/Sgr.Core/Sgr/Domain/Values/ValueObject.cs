@@ -31,11 +31,13 @@ namespace Sgr.Domain.Values
         /// <returns></returns>
         protected static bool EqualOperator(ValueObject left, ValueObject right)
         {
+#pragma warning disable IDE0041 // 使用 "is null" 检查
             if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
             {
                 return false;
             }
-            return ReferenceEquals(left, null) || left.Equals(right);
+            return ReferenceEquals(left, null) || left.Equals(right!);
+#pragma warning restore IDE0041 // 使用 "is null" 检查
         }
 
         /// <summary>

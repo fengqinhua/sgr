@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +21,7 @@ namespace Sgr.Domain.Entities
     /// 定义实体类型的接口。系统中的所有实体都必须实现此接口。
     /// </summary>
     /// <typeparam name="TPrimaryKey">主键ID类型</typeparam>
-    public interface IEntity<TPrimaryKey> 
+    public interface IEntity<TPrimaryKey>
     {
         /// <summary>
         /// ID ，实体的唯一标识符
@@ -31,14 +31,7 @@ namespace Sgr.Domain.Entities
         /// 检查此实体是否是暂时的（未持久化到数据库）
         /// </summary>
         /// <returns></returns>
-        bool IsTransient();
+        bool IsTransient(); 
     }
 
-    /// <summary>
-    /// 以类型long为ID唯一标识符的实体类型接口
-    /// </summary>
-    public interface IEntity : IEntity<long>
-    {
-
-    }
 }

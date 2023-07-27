@@ -10,6 +10,10 @@
 		<MicrosoftExtensionsPackagesVersion>7.0.0</MicrosoftExtensionsPackagesVersion>
 		<!--JSON序列化和反序列化库-->
 		<SystenTextJsonVersion>7.0.3</SystenTextJsonVersion>
+		<!--Microsoft.EntityFrameworkCore-->
+		<MicrosoftEntityFrameworkCoreVersion>7.0.0</MicrosoftEntityFrameworkCoreVersion>
+		<!--MediatR 中介者 -->
+		<MediatRVersion>12.1.1</MediatRVersion>
 	</PropertyGroup>
 
 	<!--项目设置-->
@@ -23,6 +27,7 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>9.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<!--<NoWarn>$(NoWarn);NU1603;CS8618;CS8625;CS1998;CS8600;CS8629;CS8603;8601;8602;8603;8604</NoWarn>-->
 		<!--控制编译器是否为库生成 XML 文档文件-->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<!--取消对公共可见类型或成员未设置注释的警告-->
