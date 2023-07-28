@@ -11,6 +11,8 @@
  **************************************************************/
 
 
+using Sgr.Domain.Entities;
+using Sgr.Domain.Uow;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +23,11 @@ namespace Sgr.Domain.Repositories
     /// 仓储接口
     /// <para>协调领域和数据映射层，利用类似于集合的接口来访问领域对象</para>
     /// </summary>
-    public interface IRepository { }
+    public interface IRepository<AggregateRoot> where AggregateRoot : IAggregateRoot
+    {
+        /// <summary>
+        /// 工作单元
+        /// </summary>
+        IUnitOfWork UnitOfWork { get; }
+    }
 }

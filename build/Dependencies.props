@@ -14,6 +14,9 @@
 		<MicrosoftEntityFrameworkCoreVersion>7.0.0</MicrosoftEntityFrameworkCoreVersion>
 		<!--MediatR 中介者 -->
 		<MediatRVersion>12.1.1</MediatRVersion>
+		<!--邮件处理库-->
+		<MailKitVersion>3.4.3</MailKitVersion>
+		<MimeKitVersion>3.4.3</MimeKitVersion>
 	</PropertyGroup>
 
 	<!--项目设置-->
