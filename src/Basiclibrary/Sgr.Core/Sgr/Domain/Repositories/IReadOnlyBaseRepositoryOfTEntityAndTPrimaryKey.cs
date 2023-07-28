@@ -24,8 +24,8 @@ namespace Sgr.Domain.Repositories
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKey"></typeparam>
-    public interface IReadOnlyBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> : IRepository
-        where TEntity : class, IEntity<TPrimaryKey>
+    public interface IReadOnlyBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> : IRepository<TEntity>
+        where TEntity : class, IEntity<TPrimaryKey>, IAggregateRoot
     {
         /// <summary>
         /// 查询总数

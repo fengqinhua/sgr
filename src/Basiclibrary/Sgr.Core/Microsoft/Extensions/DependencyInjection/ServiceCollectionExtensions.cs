@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using Microsoft.Extensions.Configuration;
+using Sgr.Generator;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,13 +24,20 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// 支持领域驱动DDD
+        /// 
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDdd(this IServiceCollection services)
+        public static IServiceCollection AddSgrCore(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddTransient<IAuditPropertySetter, AuditPropertySetter>();
+            //配置Id生成器
+            services.Configure<SnowflakeOption>(configuration.GetSection("Maple:Snowflake"));
+            services.AddSingleton<IStringIdGenerator, DefaultStringIdGenerator>();
+            services.AddSingleton<INumberIdGenerator, DefaultNumberIdGenerator>();
+
+
+
             return services;
         }
     }

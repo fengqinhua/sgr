@@ -25,7 +25,7 @@ namespace Sgr.Domain.Repositories
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKey"></typeparam>
     public interface IBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> : IReadOnlyBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey>
-        where TEntity : class, IEntity<TPrimaryKey>
+        where TEntity : class, IEntity<TPrimaryKey>, IAggregateRoot
     {
 
         #region INSERT

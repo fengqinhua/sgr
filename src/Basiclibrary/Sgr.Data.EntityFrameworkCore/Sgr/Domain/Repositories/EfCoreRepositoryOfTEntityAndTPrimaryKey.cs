@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Sgr.Domain.Entities.Auditing;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
+using Sgr.Domain.Uow;
 
 namespace Sgr.Domain.Repositories
 {
@@ -27,9 +28,13 @@ namespace Sgr.Domain.Repositories
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKey"></typeparam>
-    public abstract class EfCoreRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey>
-        : IBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
+    public abstract class EfCoreRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> : IBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey>
+        where TEntity : class, IEntity<TPrimaryKey>, IAggregateRoot
     {
+        /// <summary>
+        /// 工作单元
+        /// </summary>
+        public abstract IUnitOfWork UnitOfWork { get; }
 
         #region 待实现或扩展的方法
 

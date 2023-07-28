@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>$(NetstandardVersion)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MailKit" Version="$(MailKitVersion)" />
+		<PackageReference Include="MimeKit" Version="$(MimeKitVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
+	</ItemGroup>
+
+
+</Project>

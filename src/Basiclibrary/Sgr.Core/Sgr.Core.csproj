@@ -16,4 +16,8 @@
 		<PackageReference Include="System.Text.Json" Version="$(SystenTextJsonVersion)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\NewStarting\Product\ITM\Projects\sgr\src\Basiclibrary\Sgr.Core\.editorconfig" />
+	</ItemGroup>
+
 </Project>
