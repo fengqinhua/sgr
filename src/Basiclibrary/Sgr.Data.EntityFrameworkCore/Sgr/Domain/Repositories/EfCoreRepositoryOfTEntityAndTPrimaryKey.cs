@@ -228,7 +228,7 @@ namespace Sgr.Domain.Repositories
         /// <returns></returns>
         public virtual async Task DeleteAsync(TPrimaryKey id, CancellationToken cancellationToken = default)
         {
-            var entity = await GetAsync(id, false, cancellationToken);
+            var entity = await GetAsync(id, cancellationToken);
             if (entity != null)
                 await DeleteAsync(entity, cancellationToken);
         }
@@ -276,19 +276,19 @@ namespace Sgr.Domain.Repositories
         /// 根据对象全局唯一标识获取实体
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails">包含详情信息（一对一、一对多关系）</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<TEntity?> GetAsync(TPrimaryKey id,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
-            var queryable = includeDetails ? GetQueryableWithDetails() : GetQueryable();
+            var dbContext = GetDbContext();
+            return await dbContext.Set<TEntity>().FindAsync(id, cancellationToken);
 
-            return await queryable
-                .Where(f => f.Id!.Equals(id))
-                .OrderBy(f=>f.Id)
-                .FirstOrDefaultAsync(cancellationToken);
+            //var queryable = includeDetails ? GetQueryableWithDetails() : GetQueryable();
+            //return await queryable
+            //    .Where(f => f.Id!.Equals(id))
+            //    .OrderBy(f=>f.Id)
+            //    .FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <summary>

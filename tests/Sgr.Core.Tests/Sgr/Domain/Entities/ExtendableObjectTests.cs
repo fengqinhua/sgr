@@ -10,13 +10,8 @@
  * 
  **************************************************************/
 
-using Newtonsoft.Json.Linq;
 using Sgr.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Sgr.Domain.Entities
 {
@@ -128,7 +123,7 @@ namespace Sgr.Domain.Entities
         }
 
 
-        private void equalStudent(Student old_student, Student? read_student)
+        private static void equalStudent(Student old_student, Student? read_student)
         {
             Assert.IsNotNull(read_student);
             Assert.AreEqual(read_student.Id, old_student.Id);

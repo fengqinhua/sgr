@@ -1,0 +1,7 @@
+{
+  "id": "Sgr.Admin.WebHost",
+  "name": "后台管理模块HOST",
+  "category": "System",
+  "description": "Admin后台管理主程序",
+  "isEnable": true
+}

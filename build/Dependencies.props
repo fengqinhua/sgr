@@ -17,6 +17,8 @@
 		<!--邮件处理库-->
 		<MailKitVersion>3.4.3</MailKitVersion>
 		<MimeKitVersion>3.4.3</MimeKitVersion>
+		<!--FastEndpoints-->
+		<FastEndpointsVersion>5.14.0</FastEndpointsVersion>
 	</PropertyGroup>
 
 	<!--项目设置-->
@@ -30,6 +32,7 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>9.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<NoWarn>$(NoWarn);IDE0055;IDE1006;</NoWarn>
 		<!--<NoWarn>$(NoWarn);NU1603;CS8618;CS8625;CS1998;CS8600;CS8629;CS8603;8601;8602;8603;8604</NoWarn>-->
 		<!--控制编译器是否为库生成 XML 文档文件-->
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>

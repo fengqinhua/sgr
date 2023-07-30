@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Basiclibrary\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
+	</ItemGroup>
+
+</Project>

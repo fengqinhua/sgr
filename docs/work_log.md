@@ -90,6 +90,7 @@ public static void GenericNotnull<T>(T t) where T : notnull{ }
 > [C#高级编程之泛型（二）：泛型约束](https://blog.51cto.com/u_15127615/2755478)  
 > [C# 8.0 可空(Nullable)给ASP.NET Core带来的坑](https://blog.csdn.net/q913777031/article/details/113186007)  
 > [C# 8.0 可空引用类型](https://www.cnblogs.com/MASA/p/15836687.html)
+> [C# 8.0 的可空引用类型，不止是加个问号哦！你还有很多种不同的可空玩法](https://blog.csdn.net/wpwalter/article/details/103760542)
 
 
 ### 05. 仓储和工作单元的设计思考
@@ -99,4 +100,15 @@ public static void GenericNotnull<T>(T t) where T : notnull{ }
 具体可参考：
 
 > [Repository 简化实现多条件查询](https://www.cnblogs.com/xishuai/p/repository-query-linq-expression.html)  
+
+
+### 06. Endpoints
+
+
+
+具体可参考：
+
+> [MinimalApi.Endpoint](https://github.com/michelcedric/StructuredMinimalApi)
+> [FastEndpoints](https://github.com/FastEndpoints)
+> [Ardalis.ApiEndpoints](https://github.com/ardalis/ApiEndpoints)
 
