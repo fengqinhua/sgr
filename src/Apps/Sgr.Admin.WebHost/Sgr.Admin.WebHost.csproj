@@ -7,6 +7,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Basiclibrary\Sgr.Logging.NLog\Sgr.Logging.NLog.csproj" />
     <ProjectReference Include="..\..\Modules\Sgr.Foundation.API\Sgr.Foundation.API.csproj" />
   </ItemGroup>
 

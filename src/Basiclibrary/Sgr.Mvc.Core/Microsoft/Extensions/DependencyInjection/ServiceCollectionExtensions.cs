@@ -42,10 +42,16 @@ namespace Microsoft.Extensions.DependencyInjection
             IApplicationInfoContext applicationInfoContext = new ModularApplicationInfoContext(environment, provider);
             services.AddSingleton(applicationInfoContext);
 
+
+
             foreach (var module in applicationInfoContext.Application.Modules)
             {
                 if (module.Assembly == null)
                     continue;
+
+                //builder.Services.AddControllers()
+                //    .AddApplicationPart(Assembly.Load(new AssemblyName(AssemblyName)));
+                //services.AddControllers().AddApplicationPart(module.Assembly);
 
                 var moduleStartupType = module.Assembly.GetTypes().FirstOrDefault(t => typeof(IModuleStartup).IsAssignableFrom(t));
                 if ((moduleStartupType != null) && (moduleStartupType != typeof(IModuleStartup)))
