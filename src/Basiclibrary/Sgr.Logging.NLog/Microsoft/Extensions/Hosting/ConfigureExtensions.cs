@@ -59,10 +59,11 @@ namespace Microsoft.Extensions.Hosting
             }
 
 #if DEBUG
-            foreach(var rule in NLog.LogManager.Configuration.LoggingRules)
+            foreach (var rule in NLog.LogManager.Configuration.LoggingRules)
             {
                 bool needChange = false;
-                if(!rule.Levels.Contains(LogLevel.Debug))
+
+                if (!rule.Levels.Contains(LogLevel.Debug))
                 {
                     foreach (var target in rule.Targets)
                     {
@@ -88,7 +89,7 @@ namespace Microsoft.Extensions.Hosting
 
 
             builder.UseNLog();
-            
+
             return builder;
         }
     }
