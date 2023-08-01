@@ -19,6 +19,8 @@
 		<MimeKitVersion>3.4.3</MimeKitVersion>
 		<!--FastEndpoints-->
 		<FastEndpointsVersion>5.14.0</FastEndpointsVersion>
+		<!--日志-->
+		<NLogWebAspNetCoreVersion>5.3.2</NLogWebAspNetCoreVersion>
 	</PropertyGroup>
 
 	<!--项目设置-->

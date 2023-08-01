@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Sgr.Foundation.API.OrgEndpoints;
 
 namespace Sgr.Admin.WebHost
@@ -17,11 +18,15 @@ namespace Sgr.Admin.WebHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //…Ë÷√»’÷æ
+            builder.Logging.ClearProviders();
+            //builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+            builder.Host.UseNLogWeb();
 
             builder.Services.AddModules(builder.Environment);
 
             builder.Services.AddSgrEndpoints();
-
+     
             //// Add services to the container.
             //builder.Services.AddRazorPages();
 

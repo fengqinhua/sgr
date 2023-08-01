@@ -13,6 +13,7 @@
 using FastEndpoints;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Sgr.Admin.WebHost
 {
@@ -21,6 +22,15 @@ namespace Sgr.Admin.WebHost
     /// </summary>
     public class TestEndpoint : EndpointWithoutRequest
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        public TestEndpoint(ILogger<TestEndpoint> logger)
+        {
+            logger.LogError("TestEndpoint is call");
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -38,7 +48,7 @@ namespace Sgr.Admin.WebHost
         /// <returns></returns>
         public override async Task HandleAsync(CancellationToken ct)
         {
-            await SendAsync($"this is test!");
+            await SendAsync($"this is test!", 200, ct);
         }
     }
 }
