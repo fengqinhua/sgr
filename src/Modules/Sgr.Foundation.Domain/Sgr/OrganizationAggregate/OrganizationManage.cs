@@ -70,18 +70,7 @@ namespace Sgr.OrganizationAggregate
 
             //获取Id及Id-Path
             var id = _numberIdGenerator.GenerateUniqueId();
-            string nodePath;
-            if(parentId > 0)
-            {
-                var org = (await _organizationRepository.GetAsync(parentId)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
-
-                if(org.NodePath.Split('#').Length >= 5)
-                    throw new BusinessException($"组织机构目录层级不允许超过5层！");
-
-                nodePath = $"{org.NodePath}#{id}";
-            }
-            else
-                nodePath = $"{id}";
+            string nodePath = await getNodePath(parentId, id);
 
             //返回
             return new Organization(code)
@@ -96,6 +85,30 @@ namespace Sgr.OrganizationAggregate
             };
         }
 
+
+
+        /// <summary>
+        /// 调整组织机构的父节点
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="newParentId"></param>
+        /// <returns></returns>
+        public async Task ChangeParentIdAsync(Organization org, long newParentId)
+        {
+            string oldNodePath = org.NodePath;
+            string newNodePath = await getNodePath(newParentId, org.Id);
+
+            var orgs = await _organizationRepository.GetChildNodesRecursionAsync(org);
+
+            foreach(var item in orgs)
+            {
+                item.NodePath = item.NodePath.Replace(oldNodePath, newNodePath);
+            }
+
+            org.ParentId = newParentId;
+        }
+
+
         /// <summary>
         /// 是否符合组织编码规范要求
         /// </summary>
@@ -108,6 +121,24 @@ namespace Sgr.OrganizationAggregate
                 return BusinessCheckResult.Fail("组织机构编码已存在");
 
             return BusinessCheckResult.Ok();
+        }
+
+
+        private async Task<string> getNodePath(long parentId, long thisId)
+        {
+            string nodePath;
+            if (parentId > 0)
+            {
+                var org = (await _organizationRepository.GetAsync(parentId)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
+
+                if (org.NodePath.Split('#').Length >= 5)
+                    throw new BusinessException($"组织机构目录层级不允许超过5层！");
+
+                nodePath = $"{org.NodePath}#{thisId}";
+            }
+            else
+                nodePath = $"{thisId}";
+            return nodePath;
         }
     }
 }

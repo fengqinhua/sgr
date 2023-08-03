@@ -40,7 +40,16 @@ namespace Sgr.OrganizationAggregate
             string orgTypeCode,
             string areaCode,
             long ParentId = 0);
- 
+
+        /// <summary>
+        /// 调整组织机构的父节点
+        /// </summary>
+        /// <param name="org"></param>
+        /// <param name="newParentId"></param>
+        /// <returns></returns>
+        Task<Organization> ChangeParentIdAsync(Organization org,long newParentId);
+
+
         /// <summary>
         /// 是否符合组织编码规范要求
         /// </summary>
