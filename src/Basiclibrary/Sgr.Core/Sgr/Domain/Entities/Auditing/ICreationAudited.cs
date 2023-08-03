@@ -30,6 +30,6 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的创建时间
         /// </summary>
-        DateTime CreationTime { get; set; }
+        DateTimeOffset CreationTime { get; set; }
     }
 }

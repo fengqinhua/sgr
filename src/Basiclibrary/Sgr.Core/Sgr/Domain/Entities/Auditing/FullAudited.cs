@@ -30,7 +30,7 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的删除时间.
         /// </summary>
-        public DateTime? DeletionTime { get; set; }
+        public DateTimeOffset? DeletionTime { get; set; }
         /// <summary>
         /// 标识实体是否已经被软删除. 
         /// </summary>
@@ -52,7 +52,7 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的删除时间.
         /// </summary>
-        public DateTime? DeletionTime { get; set; }
+        public DateTimeOffset? DeletionTime { get; set; }
         /// <summary>
         /// 标识实体是否已经被软删除. 
         /// </summary>

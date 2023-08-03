@@ -47,7 +47,7 @@ namespace Sgr.Domain.Entities.Auditing
                     creationAuditedEntity.CreatorUserId = _currentUser.Id;
 
                 if (creationAuditedEntity.CreationTime == default)
-                    creationAuditedEntity.CreationTime = DateTime.Now;
+                    creationAuditedEntity.CreationTime = DateTimeOffset.Now;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Sgr.Domain.Entities.Auditing
         {
             if (targetObject is ICreationAndModifyAudited<TUserKey> creationAndModifyAuditedEntity)
             {
-                creationAndModifyAuditedEntity.LastModificationTime = DateTime.Now;
+                creationAndModifyAuditedEntity.LastModificationTime = DateTimeOffset.Now;
                 creationAndModifyAuditedEntity.LastModifierUserId = _currentUser.Id;
             }
 
@@ -72,7 +72,7 @@ namespace Sgr.Domain.Entities.Auditing
         {
             if (targetObject is IFullAudited<TUserKey> fullAuditedEntity)
             {
-                fullAuditedEntity.DeletionTime = DateTime.Now;
+                fullAuditedEntity.DeletionTime = DateTimeOffset.Now;
                 fullAuditedEntity.DeleterUserId = _currentUser.Id;
                 fullAuditedEntity.IsDeleted = true;
             }

@@ -52,19 +52,19 @@ namespace Sgr.Licence
         /// <summary>
         /// 最近一次检测授权文件
         /// </summary>
-        private DateTime _lastCheckReistered = DateTime.MinValue;
+        private DateTimeOffset _lastCheckReistered = DateTimeOffset.MinValue;
         /// <summary>
         /// 上一次访问时间
         /// </summary>
-        private DateTime _productLastVisitDate = DateTime.MinValue;
+        private DateTimeOffset _productLastVisitDate = DateTimeOffset.MinValue;
         /// <summary>
         /// 授权开始时间
         /// </summary>
-        private DateTime _startTime = DateTime.MaxValue;
+        private DateTimeOffset _startTime = DateTimeOffset.MaxValue;
         /// <summary>
         /// 授权截止时间
         /// </summary>
-        private DateTime _endTime = DateTime.MinValue;
+        private DateTimeOffset _endTime = DateTimeOffset.MinValue;
 
         /// <summary>
         /// 获取注册码（取决于计算机名称和网卡地址）
@@ -138,7 +138,7 @@ namespace Sgr.Licence
             refrashProductLastVisitDate();
 
             //当前时间
-            DateTime thisTime = DateTime.Now;// (DateTime.Now > _productLastVisitDate) ? DateTime.Now : _productLastVisitDate;
+            DateTimeOffset thisTime = DateTimeOffset.Now;// (DateTime.Now > _productLastVisitDate) ? DateTime.Now : _productLastVisitDate;
 
             if (_startTime <= thisTime && thisTime <= _endTime)
             {
@@ -150,7 +150,7 @@ namespace Sgr.Licence
                 result = true;
             }
             else
-                msg = $"授权期限为{_startTime.ToShortDateString()}至{_endTime.ToShortDateString()}，现已到期，请及时续费！";
+                msg = $"授权期限为{_startTime.LocalDateTime.ToShortDateString()}至{_endTime.LocalDateTime.ToShortDateString()}，现已到期，请及时续费！";
 
             if (result)
             {
@@ -224,7 +224,7 @@ namespace Sgr.Licence
         /// </summary>
         private void refrashProductLastVisitDate()
         {
-            DateTime now = DateTime.Now;
+            DateTimeOffset now = DateTimeOffset.Now;
 
             double sinceLastRefresh = (now - _productLastVisitDate).TotalHours;
             if (sinceLastRefresh > 1)
@@ -248,7 +248,7 @@ namespace Sgr.Licence
                         LVT_SPAN = 0;
 
                     //获取基准时间
-                    DateTime benchmarkDate = getBenchmarkDate();
+                    DateTimeOffset benchmarkDate = getBenchmarkDate();
                     _productLastVisitDate = benchmarkDate.AddSeconds(LVT_SPAN);
                     if (now > _productLastVisitDate)
                     {
@@ -281,7 +281,7 @@ namespace Sgr.Licence
             //500次，第500次调用以后再次重新判断
             if (_isRegistered)
             {
-                double hour = (DateTime.Now - _lastCheckReistered).TotalHours;
+                double hour = (DateTimeOffset.Now - _lastCheckReistered).TotalHours;
                 //如果此处程序是否已完成注册的状态缓存一个小时，超过一个小时以后再次重新判断
                 if (hour > 1)
                     _isRegistered = false;
@@ -313,7 +313,7 @@ namespace Sgr.Licence
                                 _startTime = activationInfo.StartTime;
                                 _endTime = activationInfo.EndTime;
 
-                                _lastCheckReistered = DateTime.Now;
+                                _lastCheckReistered = DateTimeOffset.Now;
                                 _isRegistered = true;
                             }
                         }
@@ -394,18 +394,18 @@ namespace Sgr.Licence
             }
         }
 
-        private DateTime convertLongDateTime(long d)
+        private DateTimeOffset convertLongDateTime(long d)
         {
-            DateTime dtStart = getBenchmarkDate();
+            DateTimeOffset dtStart = getBenchmarkDate();
             long lTime = long.Parse(d + "0000");
             TimeSpan toNow = new TimeSpan(lTime);
-            DateTime dtResult = dtStart.Add(toNow);
+            DateTimeOffset dtResult = dtStart.Add(toNow);
             return dtResult;
         }
 
-        private long ConvertDataTimeLong(DateTime dt)
+        private long ConvertDataTimeLong(DateTimeOffset dt)
         {
-            DateTime dtStart = getBenchmarkDate();
+            DateTimeOffset dtStart = getBenchmarkDate();
             TimeSpan toNow = dt.Subtract(dtStart);
             long timeStamp = toNow.Ticks;
             timeStamp = long.Parse(timeStamp.ToString().Substring(0, timeStamp.ToString().Length - 4));
@@ -416,9 +416,9 @@ namespace Sgr.Licence
         /// 获取注册与鉴权所用的基准时间
         /// </summary>
         /// <returns></returns>
-        private DateTime getBenchmarkDate()
+        private DateTimeOffset getBenchmarkDate()
         {
-            return DateTime.Parse("2000-1-1");
+            return new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero);
         }
 
 

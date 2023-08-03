@@ -28,11 +28,11 @@ namespace Sgr.Licence
         /// <summary>
         /// 授权开始时间
         /// </summary>
-        public DateTime StartTime { get; set; } = Constant.MaxDateTime;
+        public DateTimeOffset StartTime { get; set; } = Constant.MaxDateTime;
         /// <summary>
         /// 授权结束时间
         /// </summary>
-        public DateTime EndTime { get; set; } = Constant.MinDateTime;
+        public DateTimeOffset EndTime { get; set; } = Constant.MinDateTime;
         /// <summary>
         /// 授权数量
         /// </summary>

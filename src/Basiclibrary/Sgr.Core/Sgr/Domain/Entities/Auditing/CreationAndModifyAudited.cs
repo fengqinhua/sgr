@@ -30,7 +30,7 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的最近一次的修改时间.
         /// </summary>
-        public DateTime? LastModificationTime { get; set; }
+        public DateTimeOffset? LastModificationTime { get; set; }
     }
 
     /// <summary>
@@ -48,6 +48,6 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的最近一次的修改时间.
         /// </summary>
-        public DateTime? LastModificationTime { get; set; }
+        public DateTimeOffset? LastModificationTime { get; set; }
     }
 }

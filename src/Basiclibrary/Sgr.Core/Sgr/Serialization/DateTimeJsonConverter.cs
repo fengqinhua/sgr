@@ -21,7 +21,7 @@ namespace Sgr.Serialization
     /// <summary>
     /// JSON中针对DateTime的序列化与反序列化
     /// </summary>
-    public class DateTimeJsonConverter : JsonConverter<DateTime>
+    public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     {
 
         /// <summary>
@@ -31,11 +31,11 @@ namespace Sgr.Serialization
         /// <param name="typeToConvert"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.String)
             {
-                if (DateTime.TryParse(reader.GetString(), out DateTime dateTime))
+                if (DateTimeOffset.TryParse(reader.GetString(), out DateTimeOffset dateTime))
                 {
                     return dateTime;
                 }
@@ -49,7 +49,7 @@ namespace Sgr.Serialization
         /// <param name="writer"></param>
         /// <param name="value"></param>
         /// <param name="options"></param>
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
         }

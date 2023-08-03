@@ -29,6 +29,6 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的最近一次的修改时间.
         /// </summary>
-        DateTime? LastModificationTime { get; set; }
+        DateTimeOffset? LastModificationTime { get; set; }
     }
 }

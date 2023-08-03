@@ -29,6 +29,6 @@ namespace Sgr.Domain.Entities.Auditing
         /// <summary>
         /// 实体的删除时间.
         /// </summary>
-        DateTime? DeletionTime { get; set; }
+        DateTimeOffset? DeletionTime { get; set; }
     }
 }
