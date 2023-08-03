@@ -24,11 +24,11 @@ namespace Sgr
         /// <summary>
         /// 最小时间
         /// </summary>
-        public static readonly DateTime MinDateTime = new DateTime(1900, 1, 1, 1, 1, 1);
+        public static readonly DateTime MinDateTime = new (1900, 1, 1, 1, 1, 1);
         /// <summary>
         /// 最大时间
         /// </summary>
-        public static readonly DateTime MaxDateTime = new DateTime(2999, 1, 1, 1, 1, 1);
+        public static readonly DateTime MaxDateTime = new (2999, 1, 1, 1, 1, 1);
         /// <summary>
         /// 实体的扩展属性最大长度
         /// </summary>

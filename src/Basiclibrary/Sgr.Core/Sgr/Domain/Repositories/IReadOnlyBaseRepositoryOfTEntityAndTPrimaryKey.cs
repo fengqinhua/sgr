@@ -38,9 +38,12 @@ namespace Sgr.Domain.Repositories
         /// 根据对象全局唯一标识获取实体
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<TEntity?> GetAsync(TPrimaryKey id, CancellationToken cancellationToken = default);
+        Task<TEntity?> GetAsync(TPrimaryKey id,
+            bool includeDetails = false, 
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据对象全局唯一标识集合获取实体集合
