@@ -92,16 +92,6 @@ namespace Sgr.Domain.Repositories
         }
 
         /// <summary>
-        /// 缺省的Include方法
-        /// </summary>
-        /// <param name="dbSet"></param>
-        /// <returns></returns>
-        protected virtual IQueryable<TEntity> DefaultIncludeWithDetails(IQueryable<TEntity> dbSet)
-        {
-            return dbSet;
-        }
-
-        /// <summary>
         /// 获取IQueryable
         /// </summary>
         /// <returns></returns>
@@ -111,13 +101,24 @@ namespace Sgr.Domain.Repositories
         }
 
         /// <summary>
-        /// 获取IQueryable （包含缺省的 Include FOR Details）
+        /// 获取IQueryable
         /// </summary>
+        /// <param name="propertiesToInclude"></param>
         /// <returns></returns>
-        protected virtual IQueryable<TEntity> GetQueryableWithDetails()
+        protected virtual IQueryable<TEntity> GetQueryable(string[] propertiesToInclude)
         {
-            return DefaultIncludeWithDetails(GetDbContext().Set<TEntity>());
+            IQueryable<TEntity> queryable = GetQueryable();
+            if (propertiesToInclude != null)
+            {
+                foreach (var property in propertiesToInclude)
+                {
+                    queryable = queryable.Include(property);
+                }
+            }
+
+            return queryable;
         }
+        
 
         #endregion
 
@@ -228,7 +229,7 @@ namespace Sgr.Domain.Repositories
         /// <returns></returns>
         public virtual async Task DeleteAsync(TPrimaryKey id, CancellationToken cancellationToken = default)
         {
-            var entity = await GetAsync(id, false, cancellationToken);
+            var entity = await GetAsync(id, cancellationToken);
             if (entity != null)
                 await DeleteAsync(entity, cancellationToken);
         }
@@ -253,7 +254,7 @@ namespace Sgr.Domain.Repositories
         /// <returns></returns>
         public virtual async Task BulkDeleteAsync(IEnumerable<TPrimaryKey> ids, CancellationToken cancellationToken = default)
         {
-            var entities = await GetByIdsAsync(ids, false, cancellationToken);
+            var entities = await GetByIdsAsync(ids, cancellationToken);
             await BulkDeleteAsync(entities, cancellationToken);
         }
 
@@ -276,43 +277,25 @@ namespace Sgr.Domain.Repositories
         /// 根据对象全局唯一标识获取实体
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<TEntity?> GetAsync(TPrimaryKey id,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
-            if (includeDetails)
-            {
-                var queryable = GetQueryableWithDetails();// includeDetails ? GetQueryableWithDetails() : GetQueryable();
-                return await queryable
-                    .Where(f => f.Id!.Equals(id))
-                    .OrderBy(f => f.Id)
-                    .FirstOrDefaultAsync(cancellationToken);
-            }
-            else
-            {
-                var dbContext = GetDbContext();
-                return await dbContext!.Set<TEntity>().FindAsync(new TPrimaryKey[] { id }, cancellationToken);
-            }
-
+            var dbContext = GetDbContext();
+            return await dbContext!.Set<TEntity>().FindAsync(new TPrimaryKey[] { id }, cancellationToken);
         }
 
         /// <summary>
         /// 根据对象全局唯一标识集合获取实体集合
         /// </summary>
         /// <param name="ids"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<TPrimaryKey> ids,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
-            var queryable = includeDetails ? GetQueryableWithDetails() : GetQueryable();
-            
-            return await queryable
+            return await GetQueryable()
                 .Where(f => ids.Contains(f.Id))
                 .OrderBy(f => f.Id)
                 .ToArrayAsync(cancellationToken);
@@ -321,18 +304,61 @@ namespace Sgr.Domain.Repositories
         /// <summary>
         /// 获取所有实体的集合
         /// </summary>
-        /// <param name="includeDetails">包含详情信息（一对一、一对多关系）</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
-            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
-            var queryable = includeDetails ? GetQueryableWithDetails() : GetQueryable();
-
-            return await queryable
+            return await GetQueryable()
                 .OrderBy(f => f.Id)
                 .ToArrayAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据对象全局唯一标识获取实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity?> GetAsync(TPrimaryKey id,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        {
+            return await GetQueryable(propertiesToInclude).FirstOrDefaultAsync(f=>f.Id!.Equals(id), cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据对象全局唯一标识集合获取实体集合
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<TPrimaryKey> ids,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        { 
+            return await GetQueryable(propertiesToInclude)
+                 .Where(f => ids.Contains(f.Id))
+                 .OrderBy(f => f.Id)
+                 .ToArrayAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取所有实体的集合
+        /// </summary>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        {
+            return await GetQueryable(propertiesToInclude)
+                .OrderBy(f => f.Id)
+                .ToArrayAsync(cancellationToken);
+
         }
 
         #endregion

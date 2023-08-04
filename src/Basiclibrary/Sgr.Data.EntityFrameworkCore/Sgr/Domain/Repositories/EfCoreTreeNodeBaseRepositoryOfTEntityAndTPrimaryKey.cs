@@ -30,51 +30,111 @@ namespace Sgr.Domain.Repositories
         EfCoreRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey>, ITreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>, ITreeNode<TPrimaryKey>, IAggregateRoot
     {
+
         /// <summary>
         /// 获取根节点
         /// </summary>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<IEnumerable<TEntity>> GetRootNodesAsync(bool includeDetails = false,
+        public virtual async Task<IEnumerable<TEntity>> GetRootNodesAsync(
            CancellationToken cancellationToken = default)
         {
-            var id = default(TEntity)!;
-            return await GetChildNodesAsync(id, includeDetails, cancellationToken);
+            var id = default(TPrimaryKey)!;
+            return await GetChildNodesAsync(id,cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取根节点
+        /// </summary>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetRootNodesAsync(
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        {
+            var id = default(TPrimaryKey)!;
+            return await GetChildNodesAsync(id, propertiesToInclude,cancellationToken);
         }
 
         /// <summary>
         /// 获取其子节点集合
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<TEntity>> GetChildNodesAsync(TEntity entity,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
             if (entity == null)
                 return Enumerable.Empty<TEntity>();
             else
-                return await GetChildNodesAsync(entity!.Id, includeDetails, cancellationToken);
+                return await GetChildNodesAsync(entity!.Id, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取其子节点集合
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetChildNodesAsync(TEntity entity,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        {
+
+            if (entity == null)
+                return Enumerable.Empty<TEntity>();
+            else
+                return await GetChildNodesAsync(entity!.Id, propertiesToInclude, cancellationToken);
         }
 
         /// <summary>
         /// 递归获取所有其子节点集合（含孙子节点）
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TEntity entity,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default)
         {
-            var queryable = includeDetails ? GetQueryableWithDetails() : GetQueryable();
-
-            return await queryable
+            return await GetQueryable()
                 .Where(f => f.NodePath.StartsWith(entity.NodePath))
+                .OrderBy(f => f.Id)
+                .ToArrayAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 递归获取所有其子节点集合（含孙子节点）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TEntity entity,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        {
+            return await GetQueryable(propertiesToInclude)
+                .Where(f => f.NodePath.StartsWith(entity.NodePath))
+                .OrderBy(f => f.Id)
+                .ToArrayAsync(cancellationToken);
+
+        }
+
+
+        /// <summary>
+        /// 根据Id获取其子节点集合
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetChildNodesAsync(TPrimaryKey id,
+            CancellationToken cancellationToken = default)
+        {
+            return await GetQueryable()
+                .Where(f => f.ParentId!.Equals(id))
                 .OrderBy(f => f.Id)
                 .ToArrayAsync(cancellationToken);
         }
@@ -84,37 +144,55 @@ namespace Sgr.Domain.Repositories
         /// 根据Id获取其子节点集合
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails"></param>
+        /// <param name="propertiesToInclude"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public virtual async Task<IEnumerable<TEntity>> GetChildNodesAsync(TPrimaryKey id,
-            bool includeDetails = false,
+            string[] propertiesToInclude,
             CancellationToken cancellationToken = default)
-        {
-            var queryable = includeDetails ? GetQueryableWithDetails() : GetQueryable();
-            return await queryable
-                .Where(f => f.ParentId!.Equals( id))
+        { 
+            return await GetQueryable(propertiesToInclude)
+                .Where(f => f.ParentId!.Equals(id))
                 .OrderBy(f => f.Id)
                 .ToArrayAsync(cancellationToken);
         }
+
 
         /// <summary>
         /// 根据Id递归获取所有其子节点集合（含孙子节点）
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async  Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TPrimaryKey id,
-            bool includeDetails = false,
+        public virtual async Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TPrimaryKey id,
             CancellationToken cancellationToken = default)
         {
-            var entity = await GetAsync(id, false, cancellationToken);
+            var entity = await GetAsync(id, cancellationToken);
             if (entity == null)
                 return Enumerable.Empty<TEntity>();
             else
-                return await GetChildNodesRecursionAsync(entity!, includeDetails, cancellationToken);
+                return await GetChildNodesRecursionAsync(entity!, cancellationToken);
         }
+
+
+        /// <summary>
+        /// 根据Id递归获取所有其子节点集合（含孙子节点）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TPrimaryKey id,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default)
+        {
+            var entity = await GetAsync(id, cancellationToken);
+            if (entity == null)
+                return Enumerable.Empty<TEntity>();
+            else
+                return await GetChildNodesRecursionAsync(entity!, propertiesToInclude, cancellationToken);
+        }
+         
 
     }
 }

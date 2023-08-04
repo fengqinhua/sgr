@@ -38,34 +38,60 @@ namespace Sgr.Domain.Repositories
         /// 根据对象全局唯一标识获取实体
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<TEntity?> GetAsync(TPrimaryKey id,
-            bool includeDetails = false, 
             CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据对象全局唯一标识集合获取实体集合
         /// </summary>
         /// <param name="ids"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<TPrimaryKey> ids,
-            bool includeDetails = false,
+            CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// 获取所有实体的集合
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetAllAsync(
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 根据对象全局唯一标识获取实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity?> GetAsync(TPrimaryKey id,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 根据对象全局唯一标识集合获取实体集合
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<TPrimaryKey> ids,
+            string[] propertiesToInclude,
             CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 获取所有实体的集合
         /// </summary>
-        /// <param name="includeDetails">包含详情信息（一对一、一对多关系）</param>
+        /// <param name="propertiesToInclude"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetAllAsync(
-            bool includeDetails = false,
+            string[] propertiesToInclude,
             CancellationToken cancellationToken = default);
-
     }
 
 

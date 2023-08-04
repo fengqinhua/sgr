@@ -31,54 +31,103 @@ namespace Sgr.Domain.Repositories
         /// <summary>
         /// 获取根节点
         /// </summary>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetRootNodesAsync(bool includeDetails = false,
+        Task<IEnumerable<TEntity>> GetRootNodesAsync(
            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取根节点
+        /// </summary>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetRootNodesAsync(
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 获取其子节点集合
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetChildNodesAsync(TEntity entity,
-            bool includeDetails = false,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取其子节点集合
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetChildNodesAsync(TEntity entity,
+            string[] propertiesToInclude,
             CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 递归获取所有其子节点集合（含孙子节点）
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TEntity entity,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 递归获取所有其子节点集合（含孙子节点）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TEntity entity,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default);
+
 
         /// <summary>
         /// 根据Id获取其子节点集合
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetChildNodesAsync(TPrimaryKey id,
-            bool includeDetails = false,
             CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// 根据Id获取其子节点集合
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetChildNodesAsync(TPrimaryKey id,
+            string[] propertiesToInclude,
+            CancellationToken cancellationToken = default);
+
 
         /// <summary>
         /// 根据Id递归获取所有其子节点集合（含孙子节点）
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="includeDetails"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TPrimaryKey id,
-            bool includeDetails = false,
+            CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// 根据Id递归获取所有其子节点集合（含孙子节点）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetChildNodesRecursionAsync(TPrimaryKey id,
+            string[] propertiesToInclude,
             CancellationToken cancellationToken = default);
     }
 }

@@ -35,13 +35,13 @@ namespace Sgr.OrganizationAggregate
         /// <param name="organizationRepository"></param>
         /// <param name="numberIdGenerator"></param>
         public OrganizationManage(IOrganizationRepository organizationRepository,
-            INumberIdGenerator numberIdGenerator) 
+            INumberIdGenerator numberIdGenerator)
         {
             _organizationRepository = organizationRepository;
             _numberIdGenerator = numberIdGenerator;
         }
 
-        
+
 
         /// <summary>
         /// 创建一个新的组织机构
@@ -54,10 +54,10 @@ namespace Sgr.OrganizationAggregate
         /// <returns></returns>
         /// <exception cref="BusinessException"></exception>
         public async Task<Organization> CreateNewAsync(
-            string code, 
-            string name, 
-            string orgTypeCode, 
-            string areaCode, 
+            string code,
+            string name,
+            string orgTypeCode,
+            string areaCode,
             long parentId = 0)
         {
             //不可为空
@@ -101,7 +101,7 @@ namespace Sgr.OrganizationAggregate
             string oldNodePath = org.NodePath;
             string newNodePath = await getNodePath(newParentId, org.Id, cancellationToken);
 
-            var orgs = await _organizationRepository.GetChildNodesRecursionAsync(org, false, cancellationToken);
+            var orgs = await _organizationRepository.GetChildNodesRecursionAsync(org, cancellationToken);
 
             foreach (var item in orgs)
             {
@@ -135,7 +135,7 @@ namespace Sgr.OrganizationAggregate
             string nodePath;
             if (parentId > 0)
             {
-                var org = (await _organizationRepository.GetAsync(parentId, false, cancellationToken)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
+                var org = (await _organizationRepository.GetAsync(parentId, cancellationToken)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
 
                 if (org.NodePath.Split('#').Length >= 5)
                     throw new BusinessException($"组织机构目录层级不允许超过5层！");
