@@ -16,6 +16,7 @@ using Sgr.Domain.Managers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.OrganizationAggregate
@@ -46,8 +47,12 @@ namespace Sgr.OrganizationAggregate
         /// </summary>
         /// <param name="org"></param>
         /// <param name="newParentId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Organization> ChangeParentIdAsync(Organization org,long newParentId);
+        Task ChangeParentIdAsync(
+            Organization org,
+            long newParentId,
+            CancellationToken cancellationToken = default);
 
 
         /// <summary>
@@ -55,8 +60,12 @@ namespace Sgr.OrganizationAggregate
         /// </summary>
         /// <param name="code"></param>
         /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<BusinessCheckResult> IsUniqueAsync(string code, long id = 0);
+        Task<BusinessCheckResult> IsUniqueAsync(
+            string code,
+            long id = 0,
+            CancellationToken cancellationToken = default);
 
 
     }

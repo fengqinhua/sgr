@@ -16,6 +16,7 @@ using Sgr.Generator;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.OrganizationAggregate
@@ -85,27 +86,32 @@ namespace Sgr.OrganizationAggregate
             };
         }
 
-
-
         /// <summary>
         /// 调整组织机构的父节点
         /// </summary>
         /// <param name="org"></param>
         /// <param name="newParentId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task ChangeParentIdAsync(Organization org, long newParentId)
+        public async Task ChangeParentIdAsync(
+            Organization org,
+            long newParentId,
+            CancellationToken cancellationToken = default)
         {
             string oldNodePath = org.NodePath;
-            string newNodePath = await getNodePath(newParentId, org.Id);
+            string newNodePath = await getNodePath(newParentId, org.Id, cancellationToken);
 
-            var orgs = await _organizationRepository.GetChildNodesRecursionAsync(org);
+            var orgs = await _organizationRepository.GetChildNodesRecursionAsync(org, false, cancellationToken);
 
-            foreach(var item in orgs)
+            foreach (var item in orgs)
             {
                 item.NodePath = item.NodePath.Replace(oldNodePath, newNodePath);
+
+                await _organizationRepository.UpdateAsync(item);
             }
 
             org.ParentId = newParentId;
+            await _organizationRepository.UpdateAsync(org);
         }
 
 
@@ -114,22 +120,22 @@ namespace Sgr.OrganizationAggregate
         /// </summary>
         /// <param name="code"></param>
         /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  async Task<BusinessCheckResult> IsUniqueAsync(string code, long id = 0)
+        public async Task<BusinessCheckResult> IsUniqueAsync(string code, long id = 0, CancellationToken cancellationToken = default)
         {
-            if (await _organizationRepository.ExistAsync(code, id))
+            if (await _organizationRepository.ExistAsync(code, id, cancellationToken))
                 return BusinessCheckResult.Fail("组织机构编码已存在");
 
             return BusinessCheckResult.Ok();
         }
 
-
-        private async Task<string> getNodePath(long parentId, long thisId)
+        private async Task<string> getNodePath(long parentId, long thisId, CancellationToken cancellationToken = default)
         {
             string nodePath;
             if (parentId > 0)
             {
-                var org = (await _organizationRepository.GetAsync(parentId)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
+                var org = (await _organizationRepository.GetAsync(parentId, false, cancellationToken)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
 
                 if (org.NodePath.Split('#').Length >= 5)
                     throw new BusinessException($"组织机构目录层级不允许超过5层！");

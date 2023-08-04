@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：7fb420d7-0b9a-4495-aca5-2cdaf35cad42
- * 命名空间：Microsoft.EntityFrameworkCore
- * 创建时间：2023/7/27 11:35:22
+ * 唯一标识：1903f1c2-d8c3-43e2-9a74-802cd0bfddbe
+ * 命名空间：Sgr.EntityFrameworkCore
+ * 创建时间：2023/8/4 9:19:41
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -11,20 +11,15 @@
  **************************************************************/
 
 using MediatR;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Sgr;
-using Sgr.Domain.Entities;
 using Sgr.Domain.Uow;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.EntityFrameworkCore
+namespace Sgr.EntityFrameworkCore
 {
     /// <summary>
     /// 支持IUnitOfWork的DbContext
@@ -57,9 +52,20 @@ namespace Microsoft.EntityFrameworkCore
 #endif
         }
 
+        /// <summary>
+        /// 是否有活动的事务
+        /// </summary>
+        public bool HasActiveTransaction => _currentTransaction != null;
+
+        /// <summary>
+        /// 获取当前活动的事务
+        /// </summary>
+        /// <returns></returns>
+        public IDbContextTransaction? GetCurrentTransaction() => _currentTransaction;
+
         #region IUnitOfWork
 
- 
+
         /// <summary>
         /// 执行Save操作
         /// </summary>

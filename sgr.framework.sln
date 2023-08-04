@@ -9,9 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6FCFF47D
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}"
-	ProjectSection(SolutionItems) = preProject
-		docs\work_log.md = docs\work_log.md
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ECCC91A8-6C1D-41B7-8A58-D11C7534BF7B}"
 EndProject
@@ -43,11 +40,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.API", "src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Logging.NLog", "src\Basiclibrary\Sgr.Logging.NLog\Sgr.Logging.NLog.csproj", "{2E655CA8-16BF-4A26-AFDB-CC3C0BD78CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.Foundation.Domain", "src\Modules\Sgr.Foundation.Domain\Sgr.Foundation.Domain.csproj", "{0C720308-585E-4654-8893-4CD6084B416D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.Domain", "src\Modules\Sgr.Foundation.Domain\Sgr.Foundation.Domain.csproj", "{0C720308-585E-4654-8893-4CD6084B416D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sgr.Foundation", "Sgr.Foundation", "{ABE2D800-DA65-4165-B5CC-DEE29A6BCA37}"
 	ProjectSection(SolutionItems) = preProject
 		docs\Sgr.Foundation\domain.md = docs\Sgr.Foundation\domain.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.Infrastructure", "src\Modules\Sgr.Foundation.Infrastructure\Sgr.Foundation.Infrastructure.csproj", "{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "work_logs", "work_logs", "{A4B5551C-FA0E-404D-A632-26CD2715C6E5}"
+	ProjectSection(SolutionItems) = preProject
+		docs\work_log\work_log_202307.md = docs\work_log\work_log_202307.md
+		docs\work_log\work_log_202308.md = docs\work_log\work_log_202308.md
 	EndProjectSection
 EndProject
 Global
@@ -92,6 +97,10 @@ Global
 		{0C720308-585E-4654-8893-4CD6084B416D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C720308-585E-4654-8893-4CD6084B416D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C720308-585E-4654-8893-4CD6084B416D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +121,8 @@ Global
 		{2E655CA8-16BF-4A26-AFDB-CC3C0BD78CBC} = {DCB118B9-0060-46FD-9E6B-3772E384D059}
 		{0C720308-585E-4654-8893-4CD6084B416D} = {FA5DD2E2-802E-4462-83BF-1D78B3355FB2}
 		{ABE2D800-DA65-4165-B5CC-DEE29A6BCA37} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
+		{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE} = {FA5DD2E2-802E-4462-83BF-1D78B3355FB2}
+		{A4B5551C-FA0E-404D-A632-26CD2715C6E5} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F860D220-ECF0-4466-AA85-30D0B2FCD69D}

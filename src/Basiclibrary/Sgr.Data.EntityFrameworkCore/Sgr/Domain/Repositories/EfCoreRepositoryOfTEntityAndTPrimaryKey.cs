@@ -106,7 +106,7 @@ namespace Sgr.Domain.Repositories
         /// </summary>
         /// <returns></returns>
         protected virtual IQueryable<TEntity> GetQueryable()
-        {
+        { 
             return GetDbContext().Set<TEntity>();
         }
 

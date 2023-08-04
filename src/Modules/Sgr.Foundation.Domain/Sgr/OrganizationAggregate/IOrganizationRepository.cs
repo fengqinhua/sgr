@@ -15,6 +15,7 @@ using Sgr.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.OrganizationAggregate
@@ -29,7 +30,8 @@ namespace Sgr.OrganizationAggregate
         /// </summary>
         /// <param name="code"></param>
         /// <param name="exclude_orgId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> ExistAsync(string code, long exclude_orgId = 0);
+        public Task<bool> ExistAsync(string code, long exclude_orgId = 0,CancellationToken cancellationToken = default);
     }
 }

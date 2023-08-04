@@ -11,7 +11,7 @@
 		<!--JSON序列化和反序列化库-->
 		<SystenTextJsonVersion>7.0.3</SystenTextJsonVersion>
 		<!--Microsoft.EntityFrameworkCore-->
-		<MicrosoftEntityFrameworkCoreVersion>7.0.0</MicrosoftEntityFrameworkCoreVersion>
+		<MicrosoftEntityFrameworkCoreVersion>7.0.9</MicrosoftEntityFrameworkCoreVersion>
 		<!--MediatR 中介者 -->
 		<MediatRVersion>12.1.1</MediatRVersion>
 		<!--邮件处理库-->

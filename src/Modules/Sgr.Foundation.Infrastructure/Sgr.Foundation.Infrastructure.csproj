@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Data.EntityFrameworkCore\Sgr.Data.EntityFrameworkCore.csproj" />
+	  <ProjectReference Include="..\Sgr.Foundation.Domain\Sgr.Foundation.Domain.csproj" />
+	</ItemGroup>
+
+
+</Project>
