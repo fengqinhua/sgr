@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Sgr;
+using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
 using Sgr.Modules;
 using System;
@@ -15,6 +17,17 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// 添加 Endpoints
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddUserIdentity(this IServiceCollection services)
+        {
+            services.AddScoped<ICurrentUser, DefaultCurrentUser>();
+
+            return services;
+        }
 
         /// <summary>
         /// 添加 Endpoints
@@ -66,8 +79,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
-
-
 
     }
 }

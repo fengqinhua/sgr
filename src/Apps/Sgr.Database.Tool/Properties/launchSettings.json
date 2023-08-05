@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Sgr.Database.Tool": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:52878;http://localhost:52879"
+    }
+  }
+}

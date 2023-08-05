@@ -22,6 +22,8 @@ namespace Sgr.OrganizationAggregate
     /// </summary>
     public class Organization : FullAudited<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>
     {
+        private Organization() { }
+
         /// <summary>
         /// 组织机构
         /// </summary>
@@ -122,14 +124,14 @@ namespace Sgr.OrganizationAggregate
 
         #region 业务规则
 
-        /// <summary>
-        /// 改变组织机构状态
-        /// </summary>
-        /// <param name="state"></param>
-        public void ChangeEntityState(EntityStates state)
-        {
+        ///// <summary>
+        ///// 改变组织机构状态
+        ///// </summary>
+        ///// <param name="state"></param>
+        //public void ChangeEntityState(EntityStates state)
+        //{
 
-        }
+        //}
 
 
         /// <summary>

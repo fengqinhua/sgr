@@ -18,19 +18,17 @@ using System.Text;
 namespace Sgr.Domain.Entities.Auditing
 {
     /// <summary>
-    /// 审核操作接口的缺省实现
+    /// 审核操作接口的缺省实现(主键使用Long)
     /// </summary>
-    /// <typeparam name="TUserKey"></typeparam>
-    /// <typeparam name="TOrgKey"></typeparam>
-    public class DefaultAuditedOperator<TUserKey, TOrgKey> : IAuditedOperator
+    public class DefaultAuditedOperator : IAuditedOperator
     {
-        private readonly ICurrentUser<TUserKey, TOrgKey> _currentUser;
+        private readonly ICurrentUser _currentUser;
 
         /// <summary>
         /// 审核操作接口的缺省实现
         /// </summary>
         /// <param name="currentUser"></param>
-        public DefaultAuditedOperator(ICurrentUser<TUserKey, TOrgKey> currentUser)
+        public DefaultAuditedOperator(ICurrentUser currentUser)
         {
             _currentUser = currentUser;
         }
@@ -39,43 +37,50 @@ namespace Sgr.Domain.Entities.Auditing
         /// 更新实体创建相关审计信息
         /// </summary>
         /// <param name="targetObject"></param>
-        public void UpdateCreationAudited(object targetObject)
+        public virtual void UpdateCreationAudited(object targetObject)
         {
-            if (targetObject is ICreationAudited<TUserKey> creationAuditedEntity)
+            if (targetObject is ICreationAudited<long> creationAuditedEntity)
             {
-                creationAuditedEntity.CreatorUserId ??= _currentUser.Id;
+                long userId = Constant.DEFAULT_USERID;
+                long.TryParse(_currentUser.Id, out userId);
+
+                if(creationAuditedEntity.CreatorUserId == 0)
+                    creationAuditedEntity.CreatorUserId = userId;
 
                 if (creationAuditedEntity.CreationTime == default)
                     creationAuditedEntity.CreationTime = DateTimeOffset.Now;
             }
-
-
-
         }
 
         /// <summary>
         /// 更新实体修改相关审计信息
         /// </summary>
         /// <param name="targetObject"></param>
-        public void UpdateModifyAudited(object targetObject)
+        public virtual void UpdateModifyAudited(object targetObject)
         {
-            if (targetObject is ICreationAndModifyAudited<TUserKey> creationAndModifyAuditedEntity)
+            if (targetObject is ICreationAndModifyAudited<long> creationAndModifyAuditedEntity)
             {
                 creationAndModifyAuditedEntity.LastModificationTime = DateTimeOffset.Now;
-                creationAndModifyAuditedEntity.LastModifierUserId = _currentUser.Id;
+
+                long userId = Constant.DEFAULT_USERID;
+                long.TryParse(_currentUser.Id, out userId);
+                creationAndModifyAuditedEntity.LastModifierUserId = userId;
             }
         }
         /// <summary>
         /// 更新实体删除相关审计信息
         /// </summary>
         /// <param name="targetObject"></param>
-        public void UpdateDeleteAudited(object targetObject)
+        public virtual void UpdateDeleteAudited(object targetObject)
         {
-            if (targetObject is IFullAudited<TUserKey> fullAuditedEntity)
+            if (targetObject is IFullAudited<long> fullAuditedEntity)
             {
                 fullAuditedEntity.DeletionTime = DateTimeOffset.Now;
-                fullAuditedEntity.DeleterUserId = _currentUser.Id;
                 fullAuditedEntity.IsDeleted = true;
+
+                long userId = Constant.DEFAULT_USERID;
+                long.TryParse(_currentUser.Id, out userId);
+                fullAuditedEntity.DeleterUserId = userId;
             }
 
 

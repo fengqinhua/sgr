@@ -28,7 +28,6 @@ namespace Sgr.Modules
         /// <summary>
         /// 模块所在的应用程序集
         /// </summary>
-        [AllowNull]
         public Assembly? Assembly { get; set; }
 
         ///// <summary>

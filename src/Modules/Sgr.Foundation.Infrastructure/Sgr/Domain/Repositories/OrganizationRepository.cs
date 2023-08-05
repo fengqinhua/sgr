@@ -13,12 +13,14 @@
 using Microsoft.EntityFrameworkCore;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Uow;
+using Sgr.EntityFrameworkCore;
 using Sgr.Generator;
 using Sgr.OrganizationAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.Domain.Repositories
@@ -27,9 +29,10 @@ namespace Sgr.Domain.Repositories
     /// 
     /// </summary>
     public class OrganizationRepository :
-        EfCoreTreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<Organization, long>
+        EfCoreTreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<Organization, long>, IOrganizationRepository
     {
-        private readonly FoundationContext _context;
+
+        private readonly SgrDbContext _context;
         private readonly IAuditedOperator _auditedOperator;
         private readonly INumberIdGenerator _numberIdGenerator;
         /// <summary>
@@ -44,7 +47,7 @@ namespace Sgr.Domain.Repositories
         /// <param name="auditedOperator"></param>
         /// <param name="numberIdGenerator"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public OrganizationRepository(FoundationContext context, IAuditedOperator auditedOperator, INumberIdGenerator numberIdGenerator)
+        public OrganizationRepository(SgrDbContext context, IAuditedOperator auditedOperator, INumberIdGenerator numberIdGenerator)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _auditedOperator = auditedOperator ?? throw new ArgumentNullException(nameof(auditedOperator));
@@ -77,5 +80,23 @@ namespace Sgr.Domain.Repositories
         {
             return _context;
         }
+
+
+        #region IOrganizationRepository
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="exclude_orgId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> ExistAsync(string code, long exclude_orgId = 0, CancellationToken cancellationToken = default)
+        {
+            return await base.GetQueryable().CountAsync(f => f.Code == code && f.Id != exclude_orgId) > 0;
+        }
+
+        #endregion
+
     }
 }

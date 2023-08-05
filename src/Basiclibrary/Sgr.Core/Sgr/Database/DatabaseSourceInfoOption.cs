@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：a5ec62fc-9e77-4f3b-a5ce-59dc84930b9f
- * 命名空间：Sgr
- * 创建时间：2023/7/20 21:46:54
+ * 唯一标识：31b59344-37a5-49e0-b9ad-4f908ab5105e
+ * 命名空间：Sgr.Database
+ * 创建时间：2023/8/4 17:01:17
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -10,29 +10,28 @@
  * 
  **************************************************************/
 
-
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sgr
+namespace Sgr.Database
 {
     /// <summary>
-    /// 当前用户信息
+    /// 
     /// </summary>
-    public interface ICurrentUser
+    public class DatabaseSourceInfoOption
     {
         /// <summary>
-        /// 当前用户标识
+        /// 数据库类型
         /// </summary>
-        string Id { get; }
+        public string? DatabaseType { get; set; }
         /// <summary>
-        /// 当前用户名称
+        /// 数据库连接字符串
         /// </summary>
-        string Name { get; } 
+        public string? DataConnectionString { get; set; }
         /// <summary>
-        /// 当前用户所在组织
+        /// 超时时间
         /// </summary>
-        string OrgId { get; }
+        public int? CommandTimeout { get; set; }
     }
 }

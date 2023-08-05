@@ -44,6 +44,7 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
 
             builder.HasKey(b => b.Id);
             builder.Property("Id")
+                .ValueGeneratedNever()
                 .HasComment("主键");
 
 

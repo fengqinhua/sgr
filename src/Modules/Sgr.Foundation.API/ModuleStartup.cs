@@ -14,8 +14,11 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Sgr.Domain.Repositories;
+using Sgr.EntityFrameworkCore;
 using Sgr.Foundation.API.OrgEndpoints;
 using Sgr.Modules;
+using Sgr.OrganizationAggregate;
 
 namespace Sgr.Foundation.API
 {
@@ -40,6 +43,12 @@ namespace Sgr.Foundation.API
         /// <param name="services"></param>
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+            services.AddScoped<IOrganizationManage, OrganizationManage>();
+
+            EntityFrameworkTypeRegistrar.Instance.Register<FoundationEntityFrameworkTypeProvider>();
+            //services.AddSingleton<IEntityFrameworkTypeProvider, FoundationEntityFrameworkTypeProvider>();
+
             //services.AddScoped<IEndpoint, OrgGetByIdEndpoint>();
         }
     }

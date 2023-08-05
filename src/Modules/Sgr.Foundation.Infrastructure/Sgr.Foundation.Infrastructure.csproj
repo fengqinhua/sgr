@@ -11,5 +11,5 @@
 	  <ProjectReference Include="..\Sgr.Foundation.Domain\Sgr.Foundation.Domain.csproj" />
 	</ItemGroup>
 
-
+	
 </Project>

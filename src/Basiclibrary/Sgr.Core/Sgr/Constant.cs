@@ -42,7 +42,10 @@ namespace Sgr
         /// 缺省的用户标识
         /// </summary>
         public const long DEFAULT_USERID = 19527;
-
+        /// <summary>
+        /// 缺省的数据源名称
+        /// </summary>
+        public const string DEFAULT_DATABASE_SOURCE_NAME = "SGR_DATABASE_SOURCE";
         //public const string Setup_SiteName = "SiteName";
         //public const string Setup_Language = "Language";
         //public const string Setup_AdminUsername = "AdminUsername";

@@ -12,6 +12,8 @@
 		<SystenTextJsonVersion>7.0.3</SystenTextJsonVersion>
 		<!--Microsoft.EntityFrameworkCore-->
 		<MicrosoftEntityFrameworkCoreVersion>7.0.9</MicrosoftEntityFrameworkCoreVersion>
+		<EFCoreNamingConventionsVersion>7.0.2</EFCoreNamingConventionsVersion>
+		<PomeloEntityFrameworkCoreMySqlVersion>7.0.0</PomeloEntityFrameworkCoreMySqlVersion>
 		<!--MediatR 中介者 -->
 		<MediatRVersion>12.1.1</MediatRVersion>
 		<!--邮件处理库-->

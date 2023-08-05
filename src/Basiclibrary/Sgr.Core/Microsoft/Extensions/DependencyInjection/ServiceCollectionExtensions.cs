@@ -11,6 +11,8 @@
  **************************************************************/
 
 using Microsoft.Extensions.Configuration;
+using Sgr.Database;
+using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,13 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Configure<SnowflakeOption>(configuration.GetSection("Maple:Snowflake"));
             services.AddSingleton<IStringIdGenerator, DefaultStringIdGenerator>();
             services.AddSingleton<INumberIdGenerator, DefaultNumberIdGenerator>();
+
+            //数据源信息
+            services.AddSingleton<IDatabaseSourceInfoProvider, DefaultDatabaseSourceInfoProvider>();
+            services.AddSingleton<IDatabaseSourceInfoManager, DefaultDatabaseSourceInfoManager>();
+
+            //配置审计接口
+            services.AddScoped<IAuditedOperator, DefaultAuditedOperator>();
 
 
 

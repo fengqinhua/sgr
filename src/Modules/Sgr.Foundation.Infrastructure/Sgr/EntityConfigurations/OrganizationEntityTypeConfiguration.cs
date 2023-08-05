@@ -12,14 +12,9 @@
 
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sgr.OrganizationAggregate;
-using Sgr.Domain.Entities;
 using Sgr.EntityFrameworkCore.EntityConfigurations;
+using Sgr.EntityFrameworkCore;
 
 namespace Sgr.EntityConfigurations
 {
@@ -27,7 +22,9 @@ namespace Sgr.EntityConfigurations
     {
         public override void Configure(EntityTypeBuilder<Organization> builder)
         {
-            builder.ToTable("organization", FoundationContext.DEFAULT_SCHEMA);
+            //builder.ToTable("organization", SgrDbContext.DEFAULT_SCHEMA);
+
+            builder.ToTable("organization");
 
             base.Configure(builder);
 
@@ -80,39 +77,5 @@ namespace Sgr.EntityConfigurations
                 .HasComment("组织机构状态");
 
         }
-
-        //public override void Configure(EntityTypeBuilder<Organization> orgConfiguration)
-        //{
-
-
-        //    orgConfiguration.ToTable("organization", FoundationContext.DEFAULT_SCHEMA,
-        //        t => t.HasComment("组织机构"));
-
-        //    orgConfiguration.Ignore(b => b.DomainEvents);
-
-        //    orgConfiguration.HasKey(b => b.Id);
-
-
-        //    orgConfiguration.Property(b => b.Address)
-        //        .HasMaxLength(200)
-        //        .IsRequired()
-        //        .HasComment("地址");
-
-        //    //buyerConfiguration.HasIndex("IdentityGuid")
-        //    //    .IsUnique(true);
-
-        //    //buyerConfiguration.Property(b => b.Name);
-
-        //    //buyerConfiguration.HasMany(b => b.PaymentMethods)
-        //    //    .WithOne()
-        //    //    .HasForeignKey("BuyerId")
-        //    //    .OnDelete(DeleteBehavior.Cascade);
-
-        //    //var navigation = buyerConfiguration.Metadata.FindNavigation(nameof(Buyer.PaymentMethods));
-
-        //    //navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-        //}
-
-
     }
 }
