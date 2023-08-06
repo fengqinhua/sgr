@@ -18,61 +18,59 @@ using Sgr.EntityFrameworkCore;
 
 namespace Sgr.EntityConfigurations
 {
-    internal class OrganizationEntityTypeConfiguration : EntityTypeConfigurationBase<Organization,long>
+    internal class OrganizationEntityTypeConfiguration : EntityTypeConfigurationBase<Organization, long>
     {
         public override void Configure(EntityTypeBuilder<Organization> builder)
         {
-            //builder.ToTable("organization", SgrDbContext.DEFAULT_SCHEMA);
-
-            builder.ToTable("organization");
+            builder.ToTable("sgr_organization");
 
             base.Configure(builder);
 
-            builder.Property(b => b.Code)
+            builder.PropertyAndHasColumnName(b => b.Code, GetColumnNameCase())
                 .HasMaxLength(200)
                 .IsRequired()
                 .HasComment("组织机构编码");
 
-            builder.Property(b => b.Name)
+            builder.PropertyAndHasColumnName(b => b.Name, GetColumnNameCase())
                 .HasMaxLength(200)
                 .IsRequired()
                 .HasComment("组织机构名称");
 
-            builder.Property(b => b.OrgTypeCode)
+            builder.PropertyAndHasColumnName(b => b.OrgTypeCode, GetColumnNameCase())
                 .HasMaxLength(50)
                 .IsRequired()
                 .HasComment("组织机构类型编码");
 
-            builder.Property(b => b.AreaCode)
+            builder.PropertyAndHasColumnName(b => b.AreaCode, GetColumnNameCase())
                 .HasMaxLength(50)
                 .IsRequired()
                 .HasComment("所属行政区划编码");
 
-            builder.Property(b => b.OrderNumber)
+            builder.PropertyAndHasColumnName(b => b.OrderNumber, GetColumnNameCase())
                 .IsRequired()
                 .HasComment("组织机构排序号");
 
-            builder.Property(b => b.Leader)
+            builder.PropertyAndHasColumnName(b => b.Leader, GetColumnNameCase())
                 .HasMaxLength(50)
                 .HasComment("机构负责人");
 
-            builder.Property(b => b.Phone)
+            builder.PropertyAndHasColumnName(b => b.Phone, GetColumnNameCase())
                 .HasMaxLength(50)
                 .HasComment("联系电话");
 
-            builder.Property(b => b.Email)
+            builder.PropertyAndHasColumnName(b => b.Email, GetColumnNameCase())
                 .HasMaxLength(50)
                 .HasComment("联系邮箱");
 
-            builder.Property(b => b.Address)
+            builder.PropertyAndHasColumnName(b => b.Address, GetColumnNameCase())
                 .HasMaxLength(200)
                 .HasComment("所在地址");
 
-            builder.Property(b => b.LogoUrl)
+            builder.PropertyAndHasColumnName(b => b.LogoUrl, GetColumnNameCase())
                 .HasMaxLength(200)
                 .HasComment("Logo地址");
 
-            builder.Property(b => b.State)
+            builder.PropertyAndHasColumnName(b => b.State, GetColumnNameCase())
                 .IsRequired()
                 .HasComment("组织机构状态");
 

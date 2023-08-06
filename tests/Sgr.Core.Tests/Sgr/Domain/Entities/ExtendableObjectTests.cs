@@ -11,6 +11,7 @@
  **************************************************************/
 
 using Sgr.Exceptions;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Sgr.Domain.Entities
@@ -18,9 +19,11 @@ namespace Sgr.Domain.Entities
     [TestClass]
     public class ExtendableObjectTests
     {
+
         [TestMethod]
         public void ExtendableObject_SaveValue()
         {
+
             var entity = new ExtendableEntityClass();
 
             //针对数值

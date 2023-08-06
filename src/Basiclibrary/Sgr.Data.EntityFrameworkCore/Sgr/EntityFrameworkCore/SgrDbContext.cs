@@ -33,11 +33,6 @@ namespace Sgr.EntityFrameworkCore
     public class SgrDbContext : UnitOfWorkDbContext
     {
         /// <summary>
-        /// 缺省的 Schema
-        /// </summary>
-        public const string DEFAULT_SCHEMA = "sgr";
-
-        /// <summary>
         /// efcore 数据库访问上下文
         /// </summary>
         /// <param name="options"></param>
@@ -63,8 +58,7 @@ namespace Sgr.EntityFrameworkCore
 
             foreach (var type in types)
             {
-                var typeProvider = Activator.CreateInstance(type) as IEntityFrameworkTypeProvider;
-                if(typeProvider != null)
+                if (Activator.CreateInstance(type) is IEntityFrameworkTypeProvider typeProvider)
                 {
                     typeProvider.RegisterEntities(modelBuilder);
                     typeProvider.RegisterEntityConfigurations(modelBuilder);

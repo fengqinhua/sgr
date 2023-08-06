@@ -18,12 +18,14 @@ using Sgr.Domain.Entities.Auditing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sgr.EntityFrameworkCore.EntityConfigurations
 {
+
     /// <summary>
     /// 
     /// </summary>
@@ -32,6 +34,16 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
     public abstract class EntityTypeConfigurationBase<TEntity, TPrimaryKey>
          : IEntityTypeConfiguration<TEntity> where TEntity : class, IEntity<TPrimaryKey>
     {
+
+        /// <summary>
+        /// 获取数据库字段名称大小写设置规则
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ColumnNameCase GetColumnNameCase()
+        {
+            return ColumnNameCase.Lowercase;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -43,18 +55,18 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
             var entityType = typeof(TEntity);
 
             builder.HasKey(b => b.Id);
-            builder.Property("Id")
+            builder.PropertyAndHasColumnName("Id", GetColumnNameCase(), "sgr")
                 .ValueGeneratedNever()
                 .HasComment("主键");
 
 
             if (typeof(ITreeNode<TPrimaryKey>).IsAssignableFrom(entityType))
             {
-                builder.Property("ParentId")
+                builder.PropertyAndHasColumnName("ParentId", GetColumnNameCase(), "sgr")
                     .IsRequired()
                     .HasComment("上级节点Id");
 
-                builder.Property("NodePath")
+                builder.PropertyAndHasColumnName("NodePath", GetColumnNameCase(), "sgr")
                     .IsRequired()
                     .HasMaxLength(255)
                     .HasComment("树节点层次目录");
@@ -62,14 +74,14 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
 
             if (typeof(IExtendableObject).IsAssignableFrom(entityType))
             {
-                builder.Property("ExtensionData")
+                builder.PropertyAndHasColumnName("ExtensionData", GetColumnNameCase(), "sgr")
                     .HasMaxLength(Constant.ExtendableObjectMaxLength)
                     .HasComment("扩展对象/实体");
             }
 
             if (typeof(IOptimisticLock).IsAssignableFrom(entityType))
             {
-                builder.Property("RowVersion")
+                builder.PropertyAndHasColumnName("RowVersion", GetColumnNameCase(), "sgr")
                     .IsConcurrencyToken()
                     .IsRequired()
                     .HasValueGenerator<LongValueGenerator>()
@@ -84,45 +96,64 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
 
             if (typeof(ISoftDelete).IsAssignableFrom(entityType))
             {
-                builder.Property("IsDeleted")
+                builder.PropertyAndHasColumnName("IsDeleted", GetColumnNameCase(), "sgr")
                     .IsRequired()
                     .HasComment("是否已经被软删除");
             }
 
-            if (typeof(IMustHaveOrg<>).IsAssignableFrom(entityType))
+            if(IsAssignableToOpenGenericType(entityType, typeof(IMustHaveOrg<>)))
             {
-                builder.Property("OrgId")
+                builder.PropertyAndHasColumnName("OrgId", GetColumnNameCase(), "sgr")
                     .IsRequired()
                     .HasComment("所在组织ID");
             }
 
-            if (typeof(ICreationAudited<>).IsAssignableFrom(entityType))
+            if (IsAssignableToOpenGenericType(entityType, typeof(ICreationAudited<>)))
             {
-                builder.Property("CreatorUserId")
+                builder.PropertyAndHasColumnName("CreatorUserId", GetColumnNameCase(), "sgr")
                     .HasComment("创建的用户ID");
 
-                builder.Property("CreationTime")
+                builder.PropertyAndHasColumnName("CreationTime", GetColumnNameCase(), "sgr")
                     .HasComment("创建时间");
             }
 
-            if (typeof(ICreationAndModifyAudited<>).IsAssignableFrom(entityType))
+            if (IsAssignableToOpenGenericType(entityType, typeof(ICreationAndModifyAudited<>)))
             {
-                builder.Property("LastModifierUserId")
+                builder.PropertyAndHasColumnName("LastModifierUserId", GetColumnNameCase(), "sgr")
                     .HasComment("修改的用户ID");
 
-                builder.Property("LastModificationTime")
+                builder.PropertyAndHasColumnName("LastModificationTime", GetColumnNameCase(), "sgr")
                     .HasComment("修改时间");
             }
 
-            if (typeof(IFullAudited<>).IsAssignableFrom(entityType))
+            if (IsAssignableToOpenGenericType(entityType, typeof(IFullAudited<>)))
             {
-                builder.Property("DeleterUserId")
+                builder.PropertyAndHasColumnName("DeleterUserId", GetColumnNameCase(), "sgr")
                     .HasComment("删除的用户ID");
 
-                builder.Property("DeletionTime")
+                builder.PropertyAndHasColumnName("DeletionTime", GetColumnNameCase(), "sgr")
                     .HasComment("删除时间");
             }
         }
-         
+
+        private bool IsAssignableToOpenGenericType(Type givenType, Type genericType)
+        {
+            return Array.Exists(givenType.GetInterfaces(), t => t.IsGenericType && t.GetGenericTypeDefinition() == genericType);
+            
+            //var interfaceTypes = givenType.GetInterfaces();
+            //foreach (var it in interfaceTypes)
+            //{
+            //    if (it.IsGenericType && it.GetGenericTypeDefinition() == genericType)
+            //        return true;
+            //}
+
+            //if (givenType.IsGenericType && givenType.GetGenericTypeDefinition() == genericType)
+            //    return true;
+
+            //Type? baseType = givenType.BaseType;
+            //if (baseType == null) return false;
+
+            //return IsAssignableToGenericType(baseType, genericType);
+        }
     }
 }
