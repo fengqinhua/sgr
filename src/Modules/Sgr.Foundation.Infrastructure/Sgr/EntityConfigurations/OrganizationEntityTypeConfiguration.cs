@@ -70,6 +70,10 @@ namespace Sgr.EntityConfigurations
                 .HasMaxLength(200)
                 .HasComment("Logo地址");
 
+            builder.PropertyAndHasColumnName(b => b.Remarks, GetColumnNameCase())
+                .HasMaxLength(500)
+                .HasComment("描述");
+
             builder.PropertyAndHasColumnName(b => b.State, GetColumnNameCase())
                 .IsRequired()
                 .HasComment("组织机构状态");

@@ -27,9 +27,13 @@ namespace Sgr
         /// </summary>
         string Id { get; }
         /// <summary>
-        /// 当前用户名称
+        /// 当前用户登录名称
         /// </summary>
-        string Name { get; } 
+        string LoginName { get; }
+        /// <summary>
+        /// 当前用户姓名
+        /// </summary>
+        string UserName { get; }
         /// <summary>
         /// 当前用户所在组织
         /// </summary>

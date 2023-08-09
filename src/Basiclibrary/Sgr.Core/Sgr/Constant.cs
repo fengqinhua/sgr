@@ -56,5 +56,33 @@ namespace Sgr
         //public const string Setup_DatabaseConnectionString = "DatabaseConnectionString";
         //public const string Setup_DatabaseTablePrefix = "DatabaseTablePrefix";
         //public const string Setup_SiteTimeZone = "SiteTimeZone";
+
+        /// <summary>
+        /// 用户标识
+        /// </summary>
+        public const string CLAIM_USER_ID = "use_id";
+        /// <summary>
+        /// 用户登录名称
+        /// </summary>
+        public const string CLAIM_LOGIN_NAME = "login_name";
+        /// <summary>
+        /// 用户姓名
+        /// </summary>
+        public const string CLAIM_USER_NAME = "use_name";
+        /// <summary>
+        /// 用户所属组织标识
+        /// </summary>
+        public const string CLAIM_USER_ORGID = "use_orgid";
+        /// <summary>
+        /// 在HttpContent中表示审计日志状态的标识Key
+        /// </summary>
+        public const string AUDITLOG_STATU_HTTPCONTEXT_KEY = "_SgrAuditLog";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string POWEREDBY_HEADERNAME  = "X-Powered-By";
+        public const string POWEREDBY_HEADERVALUE = "sgr";
+
     }
 }

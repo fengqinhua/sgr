@@ -25,7 +25,7 @@ namespace Sgr.Database.Tool
 
             
             builder.Services.AddSgrCore(builder.Configuration);
-            builder.Services.AddUserIdentity();
+            builder.Services.AddSgrMvcCore();
             builder.Services.AddModules(builder.Environment);
             builder.Services.AddDbContexts(builder.Configuration);
 

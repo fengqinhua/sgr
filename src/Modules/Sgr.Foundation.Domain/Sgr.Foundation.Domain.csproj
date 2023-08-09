@@ -10,4 +10,9 @@
 	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Core\Sgr.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Sgr\ResourceAggregate\" />
+	  <Folder Include="Sgr\StaffAggregate\" />
+	</ItemGroup>
+
 </Project>

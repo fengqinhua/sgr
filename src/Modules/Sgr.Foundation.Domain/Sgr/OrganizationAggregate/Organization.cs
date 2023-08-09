@@ -12,6 +12,7 @@
 
 using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -20,8 +21,9 @@ namespace Sgr.OrganizationAggregate
     /// <summary>
     /// 组织机构
     /// </summary>
-    public class Organization : FullAudited<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>
+    public class Organization : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>
     {
+
         private Organization() { }
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace Sgr.OrganizationAggregate
         {
             Code = core;
         }
+    
 
         /// <summary>
         /// 组织机构编码（默认情况下，选用统一社会信用代码）
@@ -48,9 +51,6 @@ namespace Sgr.OrganizationAggregate
         /// 所属行政区划编码（默认情况下，选用邮政编码）
         /// </summary>
         public string AreaCode { get; internal protected set; } = string.Empty;
-
-
-
 
         /// <summary>
         /// 组织机构排序号
@@ -76,6 +76,10 @@ namespace Sgr.OrganizationAggregate
         /// Logo地址
         /// </summary>
         public string? LogoUrl { get; set; }
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string? Remarks { get; set; }
 
         /// <summary>
         /// 组织机构状态

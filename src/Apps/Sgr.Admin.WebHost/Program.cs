@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sgr.Admin.WebHost.Extensions;
+using Sgr.AuditLog;
 using Sgr.Foundation.API.OrgEndpoints;
 
 namespace Sgr.Admin.WebHost
@@ -23,12 +26,22 @@ namespace Sgr.Admin.WebHost
             //builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
             builder.Host.UseNLogWeb();
 
+            builder.Services.AddSgrCore(builder.Configuration);
+            builder.Services.AddSgrMvcCore((services) =>
+            {
+                services.Replace(ServiceDescriptor.Singleton<IAuditLogContributor, AuditLogContributorAll>());
+            });
+
+            builder.Services.AddDbContexts(builder.Configuration);
             builder.Services.AddModules(builder.Environment);
+            builder.Services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+            });
+
 
             builder.Services.AddSgrEndpoints();
-     
-            //// Add services to the container.
-            //builder.Services.AddRazorPages();
+            builder.Services.AddControllers();
 
             var app = builder.Build();
 
@@ -40,16 +53,14 @@ namespace Sgr.Admin.WebHost
             //    app.UseHsts();
             //}
 
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
 
-            //app.UseRouting();
-
-            //app.UseAuthorization();
-
-            //app.MapRazorPages();
-
+            //app.UseAuditLog(true, new string[] {  }); //"/WeatherForecast"
+            app.UsePoweredBy(true);
             app.UseModules();
+
+            app.UseHttpsRedirection();
+            //app.UseAuthorization();
+            app.MapControllers();
             app.UseEndpoints();
 
             app.Run();
