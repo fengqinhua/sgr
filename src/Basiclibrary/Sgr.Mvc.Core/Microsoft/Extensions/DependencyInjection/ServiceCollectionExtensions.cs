@@ -1,11 +1,17 @@
 ﻿using FastEndpoints;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Sgr;
+using Sgr.ActionFilters;
+using Sgr.AuditLog;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
+using Sgr.Middlewares;
 using Sgr.Modules;
+using Sgr.Services;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -18,14 +24,69 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// 添加 Endpoints
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSgrMvcCore(this IServiceCollection services, Action<IServiceCollection>? configure = null)
+        {
+            AddUserIdentity(services);
+            AddSgrPoweredBy(services);
+            AddSgrAuditLog(services);
+
+            configure?.Invoke(services);
+
+            return services;
+        }
+
+        /// <summary>
+        /// 添加PoweredBy相关服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSgrPoweredBy(this IServiceCollection services)
+        {
+            services.AddSingleton<IPoweredByMiddlewareOptions, PoweredByMiddlewareOptions>();
+            //services.AddTransient<PoweredByMiddleware>();
+
+            return services;
+        }
+
+
+        /// <summary>
+        /// 添加审计日志相关服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSgrAuditLog(this IServiceCollection services)
+        {
+            services.AddSingleton<IAuditLogMiddlewareOptions, AuditLogMiddlewareOptions>();
+            services.AddSingleton<IAuditLogFilterOptions, AuditLogFilterOptions>();
+
+            services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
+         
+            services.AddTransient<AuditLogMiddleware>();
+
+            services.AddTransient<AuditLogActionFilterAttribute>();
+            services.AddTransient<AuditLogPageFilterAttribute>();
+            services.AddTransient<UnAuditLogActionFilterAttribute>();
+            services.AddTransient<UnAuditLogPageFilterAttribute>();
+
+
+            return services;
+        }
+
+        
+
+        /// <summary>
+        /// 
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         public static IServiceCollection AddUserIdentity(this IServiceCollection services)
         {
-            services.AddScoped<ICurrentUser, DefaultCurrentUser>();
-
+            services.AddTransient<ICurrentUser, DefaultCurrentUser>();
             return services;
         }
 

@@ -13,12 +13,17 @@
 using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sgr.Domain.Repositories;
 using Sgr.EntityFrameworkCore;
 using Sgr.Foundation.API.OrgEndpoints;
+using Sgr.Foundation.API.Services;
 using Sgr.Modules;
 using Sgr.OrganizationAggregate;
+using Sgr.Services;
 
 namespace Sgr.Foundation.API
 {
@@ -45,6 +50,8 @@ namespace Sgr.Foundation.API
         {
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<IOrganizationManage, OrganizationManage>();
+
+            //services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
 
             EntityFrameworkTypeRegistrar.Instance.Register<FoundationEntityFrameworkTypeProvider>();
             //services.AddSingleton<IEntityFrameworkTypeProvider, FoundationEntityFrameworkTypeProvider>();

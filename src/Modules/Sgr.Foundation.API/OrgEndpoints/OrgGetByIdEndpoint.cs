@@ -13,12 +13,16 @@
 using FastEndpoints;
 using System.Threading.Tasks;
 using System.Threading;
+using Sgr.ActionFilters;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
 
 namespace Sgr.Foundation.API.OrgEndpoints
 {
     /// <summary>
     /// 
     /// </summary>
+    /// 
     public class OrgGetByIdEndpoint : EndpointWithoutRequest
     {
         /// <summary>
@@ -29,6 +33,11 @@ namespace Sgr.Foundation.API.OrgEndpoints
             Verbs(Http.GET);
             Routes("/api/org");
             AllowAnonymous();
+
+            Description(b =>
+            {
+                b.WithDisplayName("this is OrgGetByIdEndpoint");
+            });
         }
 
         /// <summary>
@@ -36,6 +45,7 @@ namespace Sgr.Foundation.API.OrgEndpoints
         /// </summary>
         /// <param name="ct"></param>
         /// <returns></returns>
+        //[AuditLogActionFilter("获取天气列表")]
         public override async Task HandleAsync(CancellationToken ct)
         {
             await SendAsync($"this is OrgGetByIdEndpoint!");

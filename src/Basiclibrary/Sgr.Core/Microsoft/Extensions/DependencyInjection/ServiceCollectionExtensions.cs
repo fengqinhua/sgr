@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Sgr.Database;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
+using Sgr.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -43,7 +44,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IDatabaseSourceInfoManager, DefaultDatabaseSourceInfoManager>();
 
             //配置审计接口
-            services.AddScoped<IAuditedOperator, DefaultAuditedOperator>();
+            services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
+            services.AddTransient<IAuditLogService, DefaultAuditLogService>();
 
 
 

@@ -21,6 +21,9 @@ namespace Sgr
     /// </summary>
     public class DefaultCurrentUser : ICurrentUser
     {
+
+
+
         private IHttpContextAccessor _context;
 
         /// <summary>
@@ -31,35 +34,29 @@ namespace Sgr
         public DefaultCurrentUser(IHttpContextAccessor context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+
+            if(_context.HttpContext == null)
+                throw new ArgumentNullException(nameof(context));
         }
 
         /// <summary>
-        /// 
+        /// 当前用户标识
         /// </summary>
-        public string Id => getValueFromClaim("use_id", "");
+        public string Id => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_ID, "");
 
         /// <summary>
-        /// 
+        /// 当前用户登录名称
         /// </summary>
-        public string Name => getValueFromClaim("use_name", "unset");
+        public string LoginName => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_LOGIN_NAME, "unset");
+        /// <summary>
+        /// 当前用户姓名
+        /// </summary>
+        public string UserName => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_NAME, "");
 
         /// <summary>
-        /// 
+        /// 当前用户所在组织
         /// </summary>
-        public string OrgId => getValueFromClaim("use_orgid", "unset");
+        public string OrgId => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_ORGID, "0");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        protected string getValueFromClaim(string key,string defaultValue)
-        {
-            var claim = _context.HttpContext!.User.FindFirst(key);
-            if (claim != null)
-                return claim.Value;
-            return defaultValue;
-        }
     }
 }

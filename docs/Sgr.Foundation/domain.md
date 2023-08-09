@@ -14,3 +14,12 @@
  参考： 
 
  > []( https://11)
+
+ 
+#### 1.2 权限设计
+
+
+ 参考： 
+
+ > [DDD权限平台建模与实战]( https://mp.weixin.qq.com/s/ztmHRHMGSSgD8WXodDfa7A)
+

@@ -14,5 +14,9 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Sgr\AspNetCore\" />
+	</ItemGroup>
 
 </Project>
