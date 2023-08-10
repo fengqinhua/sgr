@@ -111,13 +111,13 @@ namespace Microsoft.AspNetCore.Http
             string result = "";
             try
             {
+
+
                 context.Request.EnableBuffering();                              //可以实现多次读取Body
 
-                using (var sr = new StreamReader(context.Request.Body))
-                {
-                    result = await sr.ReadToEndAsync();
-                    context.Request.Body.Seek(0, SeekOrigin.Begin);
-                }
+                using var sr = new StreamReader(context.Request.Body);
+                result = await sr.ReadToEndAsync();
+                context.Request.Body.Seek(0, SeekOrigin.Begin);
             }
             finally { }
 
@@ -142,12 +142,13 @@ namespace Microsoft.AspNetCore.Http
                     var form = await context.Request.ReadFormAsync();
                     if (form != null)
                     {
-                        StringBuilder stringBuilder = new StringBuilder();
+                        StringBuilder stringBuilder = new ();
 
                         foreach (var key in form.Keys)
                         {
                             stringBuilder.Append($"key:{key} value:{form[key]}; ");
                         }
+
                         result = stringBuilder.ToString();
                     }
                 }

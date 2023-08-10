@@ -43,6 +43,7 @@ namespace Sgr.Middlewares
         /// 是否启用
         /// </summary>
         public bool IsEnabled { get; set; } = true;
+
         /// <summary>
         /// 是否忽略匿名用户的请求
         /// </summary>
@@ -55,6 +56,7 @@ namespace Sgr.Middlewares
         /// 审计信息构建者
         /// </summary>
         public IAuditLogContributor Contributor { get; private set; }
+
         /// <summary>
         /// 添加可忽略的请求地址
         /// </summary>
@@ -109,10 +111,10 @@ namespace Sgr.Middlewares
             //{
 
             //}
-            
+
             //检查是否满足忽略的地址清单
             if (_ignoredUrls.Any(x => context.Request.Path.Value.StartsWith(x)))
-                return false;
+            return false;
 
             return true;
         }

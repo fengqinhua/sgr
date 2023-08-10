@@ -82,6 +82,9 @@ namespace Sgr
         /// 
         /// </summary>
         public const string POWEREDBY_HEADERNAME  = "X-Powered-By";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string POWEREDBY_HEADERVALUE = "sgr";
 
     }
