@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Http
 {
     /// <summary>
     /// 缺省的 Http Request User Agent 解析器
-    /// <para>如有需要可引入UAParser库以获取更准确的信息！</para>
+    /// <para>如有需要可引入UAParser库以获取更准确的信息</para>
     /// </summary>
     public class DefaultHttpUserAgentProvider : IHttpUserAgentProvider
     {
