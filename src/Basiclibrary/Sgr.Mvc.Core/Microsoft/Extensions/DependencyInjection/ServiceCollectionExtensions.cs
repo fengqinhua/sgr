@@ -1,6 +1,7 @@
 ﻿using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -64,6 +65,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IAuditLogMiddlewareOptions, AuditLogMiddlewareOptions>();
             services.AddSingleton<IAuditLogFilterOptions, AuditLogFilterOptions>();
 
+            
+            services.AddSingleton<IHttpUserAgentProvider, DefaultHttpUserAgentProvider>();
             services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
          
             services.AddTransient<AuditLogMiddleware>();

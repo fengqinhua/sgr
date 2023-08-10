@@ -26,13 +26,16 @@ namespace Sgr.AuditLog
     public class AuditLogContributorAll : AuditLogContributor
     {
         private readonly Stopwatch _stopwatch;
+        private readonly IHttpUserAgentProvider _httpUserAgentProvider;
 
         /// <summary>
         /// 
         /// </summary>
-        public AuditLogContributorAll()
+        /// <param name="httpUserAgentProvider"></param>
+        public AuditLogContributorAll(IHttpUserAgentProvider httpUserAgentProvider)
         {
             _stopwatch = new Stopwatch();
+            _httpUserAgentProvider = httpUserAgentProvider;
         }
 
         /// <summary>
@@ -46,10 +49,10 @@ namespace Sgr.AuditLog
         {
             await base.PreContribute(context, auditInfo);
             
-            string ua = context.GetUserAgent();
-            auditInfo.ClientBrowser = ua;
-            //auditInfo.ClientOs= context.get();
-            //auditInfo.OperateWay = getLoginWay(auditInfo.ClientBrowser);
+            var httpUserAgent = _httpUserAgentProvider.Analysis(context);
+            auditInfo.ClientBrowser = httpUserAgent.BrowserInfo;
+            auditInfo.ClientOs = httpUserAgent.Os;
+            auditInfo.OperateWay = httpUserAgent.OperateWay;
 
             auditInfo.Param = await context.GetHttpBodyAsync();
             if (string.IsNullOrEmpty(auditInfo.Param))
