@@ -11,13 +11,13 @@
  **************************************************************/
 
 using Microsoft.AspNetCore.Http;
-using Sgr.AuditLog;
+using Sgr.AspNetCore.AuditLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
-namespace Sgr.Middlewares
+namespace Sgr.AspNetCore.Middlewares
 {
     /// <summary>
     /// 日志审计中间件选项
@@ -33,7 +33,7 @@ namespace Sgr.Middlewares
         /// <param name="contributor"></param>
         public AuditLogMiddlewareOptions(IAuditLogContributor contributor)
         {
-            _ignoredUrls = new List<string>() {  };
+            _ignoredUrls = new List<string>() { };
             initDefaultIgnoredUrls();
 
             Contributor = contributor;
@@ -100,8 +100,8 @@ namespace Sgr.Middlewares
                 return false;
 
             //检查是否需要忽略匿名的用户请求
-            if(IsIgnoreAnonymousUsers
-                && context.GetValueFromClaim(Constant.CLAIM_USER_ID,"").Length == 0)
+            if (IsIgnoreAnonymousUsers
+                && context.GetValueFromClaim(Constant.CLAIM_USER_ID, "").Length == 0)
                 return false;
 
             //检查是否需要忽略指定的ContentType
@@ -114,7 +114,7 @@ namespace Sgr.Middlewares
 
             //检查是否满足忽略的地址清单
             if (_ignoredUrls.Any(x => context.Request.Path.Value.StartsWith(x)))
-            return false;
+                return false;
 
             return true;
         }

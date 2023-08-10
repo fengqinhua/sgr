@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：6c07c3e7-c736-4070-b269-c58d9a9a8a15
+ * 唯一标识：9728e461-9515-40c1-bea6-aa4522293fd1
  * 命名空间：Sgr.ActionFilters
- * 创建时间：2023/8/9 10:05:57
+ * 创建时间：2023/8/9 7:21:52
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -10,25 +10,29 @@
  * 
  **************************************************************/
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Sgr.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace Sgr.ActionFilters
+namespace Sgr.AspNetCore.ActionFilters
 {
     /// <summary>
     /// 审计日志拦截器
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public class AuditLogPageFilterAttribute : Attribute, IAsyncPageFilter
+    [AttributeUsage(AttributeTargets.Method)]
+    public class AuditLogActionFilterAttribute : Attribute, IAsyncActionFilter
     {
+        //[TypeTestFilter(typeof(WeatherForecast), "myparam1", "myparam2", "myparam2", MaxValue = 10, MinValue = 1)]
+        //[TypeFilter(typeof(AddHeaderAttribute), Arguments = new object[] { "Author","Ruby" })]
+
         /// <summary>
         /// 审计日志拦截器
         /// </summary>
         /// <param name="description"></param>
-        public AuditLogPageFilterAttribute(string description = "")
+        public AuditLogActionFilterAttribute(string description = "")
         {
             Description = description;
         }
@@ -36,16 +40,16 @@ namespace Sgr.ActionFilters
         /// <summary>
         /// 日志描述
         /// </summary>
-        public string Description { get;private set; }  
+        public string Description { get; private set; }
 
         /// <summary>
-        /// 在调用处理程序方法之前，在模型绑定完成后异步调用。
+        /// 
         /// </summary>
         /// <param name="context"></param>
         /// <param name="next"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var auditLogFilterOptions = context.HttpContext.RequestServices.GetRequiredService<IAuditLogFilterOptions>();
 
@@ -63,7 +67,7 @@ namespace Sgr.ActionFilters
 
             try
             {
-                await auditLogFilterOptions.Contributor.PreContribute(context.HttpContext, auditInfo, this.Description);
+                await auditLogFilterOptions.Contributor.PreContribute(context.HttpContext, auditInfo, Description);
 
                 await next();
 
@@ -79,17 +83,7 @@ namespace Sgr.ActionFilters
             {
                 await auditLogService.OperateLogAsync(auditInfo, status, message);
             }
-        }
 
-        /// <summary>
-        /// 在选择处理程序方法之后，但在模型绑定发生之前异步调用
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public Task OnPageHandlerSelectionAsync(PageHandlerSelectedContext context)
-        {
-            return Task.CompletedTask;
         }
     }
 }

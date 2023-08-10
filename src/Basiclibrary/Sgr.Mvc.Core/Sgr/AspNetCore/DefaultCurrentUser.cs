@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.IO.Compression;
 
-namespace Sgr
+namespace Sgr.AspNetCore
 {
     /// <summary>
     /// 
@@ -35,7 +35,7 @@ namespace Sgr
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
 
-            if(_context.HttpContext == null)
+            if (_context.HttpContext == null)
                 throw new ArgumentNullException(nameof(context));
         }
 

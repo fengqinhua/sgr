@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Sgr.Services;
 using System.Threading.Tasks;
 
-namespace Sgr.AuditLog
+namespace Sgr.AspNetCore.AuditLog
 {
     /// <summary>
     /// 审计信息构建者
@@ -35,6 +35,6 @@ namespace Sgr.AuditLog
         /// <param name="auditInfo"></param>
         /// <param name="functionDescriptor"></param>
         /// <returns></returns>
-        Task PreContribute(HttpContext context, UserHttpRequestAuditInfo auditInfo,string functionDescriptor = "");
+        Task PreContribute(HttpContext context, UserHttpRequestAuditInfo auditInfo, string functionDescriptor = "");
     }
 }

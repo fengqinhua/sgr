@@ -20,7 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sgr.Modules
+namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 该接口用于初始化模块的服务和HTTP请求管道

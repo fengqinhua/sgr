@@ -21,7 +21,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sgr.Modules
+namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 基于json配置获取模块信息（从指定目录中）
@@ -54,7 +54,7 @@ namespace Sgr.Modules
                     var assemblyName = new AssemblyName(module.Id);
                     var assembly = Assembly.Load(assemblyName);
                     var version = assembly.GetName().Version;
-            
+
                     yield return new ModuleInfo
                     {
                         Id = module.Id,

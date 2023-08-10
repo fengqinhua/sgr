@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Razor.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
-using Sgr.ActionFilters;
+using Sgr.AspNetCore.ActionFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +58,8 @@ namespace Sgr.Admin.WebHost.Controllers
         //[UnAuditLogActionFilter()]
         public IEnumerable<WeatherForecast> Get()
         {
+            _logger.LogInformation("获取天气列表...");
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

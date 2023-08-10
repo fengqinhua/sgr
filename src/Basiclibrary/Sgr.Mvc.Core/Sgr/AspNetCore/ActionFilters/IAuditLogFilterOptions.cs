@@ -12,9 +12,9 @@
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Sgr.AuditLog;
+using Sgr.AspNetCore.AuditLog;
 
-namespace Sgr.ActionFilters
+namespace Sgr.AspNetCore.ActionFilters
 {
     /// <summary>
     /// 审计日志拦截器选项
@@ -24,7 +24,7 @@ namespace Sgr.ActionFilters
         /// <summary>
         /// 审计信息构造
         /// </summary>
-        IAuditLogContributor Contributor { get;  }
+        IAuditLogContributor Contributor { get; }
         /// <summary>
         /// 是否启用
         /// </summary>
@@ -36,7 +36,7 @@ namespace Sgr.ActionFilters
         /// <summary>
         /// 是否忽略HTTP GET请求
         /// </summary>
-        bool IsIgnoreGetRequests { get; set; } 
+        bool IsIgnoreGetRequests { get; set; }
         /// <summary>
         /// 是否需要执行PageFilter
         /// </summary>

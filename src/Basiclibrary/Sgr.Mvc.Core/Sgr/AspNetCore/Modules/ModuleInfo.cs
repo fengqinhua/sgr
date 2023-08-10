@@ -14,7 +14,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-namespace Sgr.Modules
+namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 模块基本信息

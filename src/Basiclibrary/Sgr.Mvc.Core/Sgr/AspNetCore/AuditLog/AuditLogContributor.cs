@@ -15,7 +15,7 @@ using Sgr.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace Sgr.AuditLog
+namespace Sgr.AspNetCore.AuditLog
 {
     /// <summary>
     /// 审计信息构建者(基础版)

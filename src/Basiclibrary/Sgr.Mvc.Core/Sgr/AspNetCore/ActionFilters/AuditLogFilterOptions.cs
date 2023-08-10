@@ -13,11 +13,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Sgr.AuditLog;
+using Sgr.AspNetCore.AuditLog;
 using System;
 using System.Collections.Generic;
 
-namespace Sgr.ActionFilters
+namespace Sgr.AspNetCore.ActionFilters
 {
     /// <summary>
     /// 日志审计中间件选项

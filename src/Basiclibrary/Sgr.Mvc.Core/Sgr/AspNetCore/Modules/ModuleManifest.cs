@@ -1,4 +1,4 @@
-﻿namespace Sgr.Modules
+﻿namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 基于json配置获取模块信息
@@ -24,6 +24,6 @@
         /// <summary>
         /// 模块是否需要加载
         /// </summary>
-        public bool IsEnable { get; set; } = true; 
+        public bool IsEnable { get; set; } = true;
     }
 }

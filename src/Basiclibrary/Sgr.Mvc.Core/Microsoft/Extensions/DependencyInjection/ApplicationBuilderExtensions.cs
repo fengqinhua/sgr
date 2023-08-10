@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Sgr.ActionFilters;
-using Sgr.AuditLog;
-using Sgr.Middlewares;
-using Sgr.Modules;
+using Sgr.AspNetCore.ActionFilters;
+using Sgr.AspNetCore.Middlewares;
+using Sgr.AspNetCore.Modules;
 using System;
 using System.Linq;
 

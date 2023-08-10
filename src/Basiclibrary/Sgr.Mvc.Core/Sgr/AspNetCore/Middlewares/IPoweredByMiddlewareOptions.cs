@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-namespace Sgr.Middlewares
+namespace Sgr.AspNetCore.Middlewares
 {
     /// <summary>
     /// 

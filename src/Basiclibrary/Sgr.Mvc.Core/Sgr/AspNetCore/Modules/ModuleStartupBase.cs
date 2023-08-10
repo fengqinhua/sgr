@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Sgr.Modules
+namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 用于初始化模块的服务和HTTP请求管道的基类

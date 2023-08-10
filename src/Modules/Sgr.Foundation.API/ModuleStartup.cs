@@ -21,9 +21,9 @@ using Sgr.Domain.Repositories;
 using Sgr.EntityFrameworkCore;
 using Sgr.Foundation.API.OrgEndpoints;
 using Sgr.Foundation.API.Services;
-using Sgr.Modules;
 using Sgr.OrganizationAggregate;
 using Sgr.Services;
+using Sgr.AspNetCore.Modules;
 
 namespace Sgr.Foundation.API
 {

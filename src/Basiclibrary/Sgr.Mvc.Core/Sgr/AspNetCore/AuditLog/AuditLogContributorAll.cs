@@ -18,7 +18,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Sgr.AuditLog
+namespace Sgr.AspNetCore.AuditLog
 {
     /// <summary>
     /// 
@@ -48,7 +48,7 @@ namespace Sgr.AuditLog
         public override async Task PreContribute(HttpContext context, UserHttpRequestAuditInfo auditInfo, string functionDescriptor = "")
         {
             await base.PreContribute(context, auditInfo);
-            
+
             var httpUserAgent = _httpUserAgentProvider.Analysis(context);
             auditInfo.ClientBrowser = httpUserAgent.BrowserInfo;
             auditInfo.ClientOs = httpUserAgent.Os;

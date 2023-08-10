@@ -11,10 +11,10 @@
  **************************************************************/
 
 using Microsoft.AspNetCore.Http;
-using Sgr.AuditLog;
+using Sgr.AspNetCore.AuditLog;
 using System.Collections.Generic;
 
-namespace Sgr.Middlewares
+namespace Sgr.AspNetCore.Middlewares
 {
     /// <summary>
     /// 

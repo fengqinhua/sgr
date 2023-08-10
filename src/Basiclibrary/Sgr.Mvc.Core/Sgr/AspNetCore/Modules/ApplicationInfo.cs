@@ -18,7 +18,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sgr.Modules
+namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 应用程序信息
@@ -27,7 +27,7 @@ namespace Sgr.Modules
     {
         private readonly Dictionary<string, ModuleInfo> _modulesById;
         private readonly List<ModuleInfo> _modules;
-        
+
         /// <summary>
         /// 应用程序名称
         /// </summary>

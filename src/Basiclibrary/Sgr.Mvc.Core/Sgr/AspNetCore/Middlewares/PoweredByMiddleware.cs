@@ -14,12 +14,12 @@ using FastEndpoints;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace Sgr.Middlewares
+namespace Sgr.AspNetCore.Middlewares
 {
     /// <summary>
     /// 
     /// </summary>
-    public class PoweredByMiddleware 
+    public class PoweredByMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IPoweredByMiddlewareOptions _options;

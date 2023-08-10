@@ -10,8 +10,7 @@
  * 
  **************************************************************/
 
-
-namespace Sgr.Modules
+namespace Sgr.AspNetCore.Modules
 {
     /// <summary>
     /// 应用程序上下文

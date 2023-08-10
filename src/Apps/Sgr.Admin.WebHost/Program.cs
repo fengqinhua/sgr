@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Sgr.Admin.WebHost.Extensions;
-using Sgr.AuditLog;
+using Sgr.AspNetCore.AuditLog;
 using Sgr.Foundation.API.OrgEndpoints;
 
 namespace Sgr.Admin.WebHost

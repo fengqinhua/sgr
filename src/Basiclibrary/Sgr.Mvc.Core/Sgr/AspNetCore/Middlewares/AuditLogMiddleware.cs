@@ -20,7 +20,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sgr.Middlewares
+namespace Sgr.AspNetCore.Middlewares
 {
     /// <summary>
     /// 审计日志中间件
@@ -38,7 +38,7 @@ namespace Sgr.Middlewares
         public AuditLogMiddleware(IAuditLogMiddlewareOptions auditLogMiddlewareOptions, IAuditLogService auditLogService)
         {
             _auditLogMiddlewareOptions = auditLogMiddlewareOptions;
-            _auditLogService = auditLogService;  
+            _auditLogService = auditLogService;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Sgr.Middlewares
             try
             {
                 await _auditLogMiddlewareOptions.Contributor.PreContribute(context, auditInfo);
-                
+
                 await next(context);
 
                 await _auditLogMiddlewareOptions.Contributor.PostContribute(context, auditInfo);
@@ -77,7 +77,7 @@ namespace Sgr.Middlewares
             }
             finally
             {
-                if(context.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
+                if (context.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
                     await _auditLogService.OperateLogAsync(auditInfo, status, message);
             }
         }
