@@ -81,11 +81,16 @@ namespace Sgr
         /// <summary>
         /// 
         /// </summary>
-        public const string POWEREDBY_HEADERNAME  = "X-Powered-By";
+        public const string SGR_ERRORHANDLE_HEADERNAME = "_Sgr-Error-Handle";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string POWEREDBY_HEADERNAME  = "_X-Powered-By";
         /// <summary>
         /// 
         /// </summary>
         public const string POWEREDBY_HEADERVALUE = "sgr";
+
 
     }
 }

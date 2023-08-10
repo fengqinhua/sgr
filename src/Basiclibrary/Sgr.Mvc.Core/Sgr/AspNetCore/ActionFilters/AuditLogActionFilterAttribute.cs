@@ -61,8 +61,7 @@ namespace Sgr.AspNetCore.ActionFilters
 
             bool status = true;
             string message = "";
-            UserHttpRequestAuditInfo auditInfo = new UserHttpRequestAuditInfo();
-
+            UserHttpRequestAuditInfo auditInfo = new();
             var auditLogService = context.HttpContext.RequestServices.GetRequiredService<IAuditLogService>();
 
             try

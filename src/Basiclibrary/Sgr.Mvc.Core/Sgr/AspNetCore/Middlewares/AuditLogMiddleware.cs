@@ -58,7 +58,7 @@ namespace Sgr.AspNetCore.Middlewares
             bool status = true;
             string message = "";
 
-            UserHttpRequestAuditInfo auditInfo = new UserHttpRequestAuditInfo();
+            UserHttpRequestAuditInfo auditInfo = new();
             context.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] = true;
 
             try
