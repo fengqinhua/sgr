@@ -283,7 +283,7 @@ namespace Sgr.Domain.Repositories
             CancellationToken cancellationToken = default)
         {
             var dbContext = GetDbContext();
-            return await dbContext!.Set<TEntity>().FindAsync(new TPrimaryKey[] { id }, cancellationToken);
+            return await dbContext!.Set<TEntity>().FindAsync(keyValues: new object?[] { id }, cancellationToken: cancellationToken);
         }
 
         /// <summary>

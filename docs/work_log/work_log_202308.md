@@ -80,3 +80,12 @@
 
 参考： 
 > [ASP.NET Core依赖注入——依赖注入最佳实践](https://www.cnblogs.com/runningsmallguo/p/10234307.html)
+
+
+### 06. 异常处理
+
+
+参考： 
+> [ASP.NET core中使用UseExceptionHandler进行全局异常处理的实现](https://www.duidaima.com/Group/Topic/ASP.NET/2040)
+
+

@@ -16,6 +16,18 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ApplicationBuilderExtensions
     {
         /// <summary>
+        /// 开启自定义移除处理中间件
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseSgrExceptionHandler(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+            return app;
+        }
+
+        /// <summary>
         /// 开启审计日志中间件
         /// </summary>
         /// <param name="app"></param>

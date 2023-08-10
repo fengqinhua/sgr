@@ -68,6 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
          
             services.AddTransient<AuditLogMiddleware>();
+            services.AddTransient<ExceptionHandlingMiddleware>();
 
             services.AddTransient<AuditLogActionFilterAttribute>();
             services.AddTransient<AuditLogPageFilterAttribute>();

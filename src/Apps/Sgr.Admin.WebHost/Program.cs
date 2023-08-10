@@ -1,3 +1,4 @@
+using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -54,7 +55,7 @@ namespace Sgr.Admin.WebHost
             //    app.UseHsts();
             //}
 
-
+            app.UseSgrExceptionHandler();
             app.UseAuditLog((options) =>
             {
                 options.IsEnabled = false;
@@ -77,8 +78,9 @@ namespace Sgr.Admin.WebHost
             app.UseHttpsRedirection();
             //app.UseAuthorization();
             app.MapControllers();
+            app.UseDefaultExceptionHandler(); //add this
 
-            app.UseEndpoints();
+            app.UseEndpoints(); 
 
             app.Run();
         }
