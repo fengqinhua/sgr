@@ -29,20 +29,6 @@ namespace Microsoft.AspNetCore.Http
     public static class HttpContextExtensions
     {
         /// <summary>
-        /// 获取UserAgent信息
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static string GetUserAgent(this HttpContext context)
-        {
-            var browser = context.Request?.Headers?["User-Agent"];
-            if (browser.HasValue)
-                return browser!.Value.ToString();
-            else
-                return "";
-        }
-
-        /// <summary>
         /// 获取Http请求地址
         /// </summary>
         /// <param name="context"></param>
