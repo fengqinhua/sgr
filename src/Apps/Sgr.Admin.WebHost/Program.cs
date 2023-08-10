@@ -42,6 +42,7 @@ namespace Sgr.Admin.WebHost
 
             builder.Services.AddSgrEndpoints();
             builder.Services.AddControllers();
+            //builder.Services.AddProblemDetails();
 
             var app = builder.Build();
 

@@ -129,10 +129,10 @@ namespace Microsoft.AspNetCore.Http
                     if (form != null)
                     {
                         StringBuilder stringBuilder = new ();
-
-                        foreach (var key in form.Keys)
+                        
+                        foreach (var key in form)
                         {
-                            stringBuilder.Append($"key:{key} value:{form[key]}; ");
+                            stringBuilder.Append($"key:{key.Key} value:{key.Value}; ");
                         }
 
                         result = stringBuilder.ToString();
