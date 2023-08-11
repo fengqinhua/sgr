@@ -32,7 +32,7 @@ namespace Sgr.UserAggregate
         /// <summary>
         /// 岗位列表
         /// </summary>
-        public IEnumerable<UserDuty> Dities => _duties.AsReadOnly();
+        public IEnumerable<UserDuty> Duties => _duties.AsReadOnly();
         /// <summary>
         /// 角色列表
         /// </summary>
@@ -83,23 +83,23 @@ namespace Sgr.UserAggregate
         public int LoginCount { get; internal protected set; } = 0;
 
         /// <summary>
-        /// 账户名称
+        /// 用户姓名
         /// </summary>
         public string? UserName { get; set; } = string.Empty;
         /// <summary>
-        /// 账户绑定的手机号码
+        /// 用户绑定的手机号码
         /// </summary>
         public string? UserPhone { get; set; }
         /// <summary>
-        /// 账户绑定的邮箱地址
+        /// 用户绑定的邮箱地址
         /// </summary>
         public string? UserEmail { get; set; }
         /// <summary>
-        /// QQ号码
+        /// 用户QQ号码
         /// </summary>
         public string? QQ { get; set; }
         /// <summary>
-        /// 微信号码
+        /// 用户微信号码
         /// </summary>
         public string? Wechat { get; set; }
 

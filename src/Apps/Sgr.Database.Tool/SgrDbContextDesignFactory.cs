@@ -46,7 +46,7 @@ namespace Sgr.Database.Tool
 
             var serverVersion = new MySqlServerVersion(new Version(5, 7, 10));
             var optionsBuilder = new DbContextOptionsBuilder<SgrDbContext>()
-                .UseMySql("server=localhost;port=3306;database=map_sam;uid=root;pwd=1qaz@WSX;",
+                .UseMySql("server=localhost;port=3306;database=sgr;uid=root;pwd=1qaz@WSX;",
                 serverVersion,
                 b => b.MigrationsAssembly("Sgr.Database.Tool"));
 

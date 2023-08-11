@@ -26,7 +26,7 @@ namespace Sgr.DepartmentAggregate
         /// <summary>
         /// 部门编码
         /// </summary>
-        public string Code { get; private set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
         /// <summary>
         /// 部门名称
         /// </summary>
@@ -35,6 +35,24 @@ namespace Sgr.DepartmentAggregate
         /// 排序号
         /// </summary>
         public int OrderNumber { get; set; } = 0;
+
+        /// <summary>
+        /// 负责人/联系人
+        /// </summary>
+        public string? Leader { get; set; }
+        /// <summary>
+        /// 联系电话
+        /// </summary>
+        public string? Phone { get; set; }
+        /// <summary>
+        /// 联系邮箱
+        /// </summary>
+        public string? Email { get; set; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string? Remarks { get; set; }
+
         /// <summary>
         /// 部门状态
         /// </summary>

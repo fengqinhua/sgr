@@ -26,7 +26,7 @@ namespace Sgr.AuditLogAggregate
         /// <summary>
         /// 账号
         /// </summary>
-        public string LoginName { get; set; } = string.Empty;
+        public string? LoginName { get; set; } = string.Empty;
         /// <summary>
         /// 用户姓名
         /// </summary>

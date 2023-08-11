@@ -42,7 +42,26 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
         {
             var propertyBuilder = builder.Property(propertyName);
 
-            return propertyBuilder.HasColumnName(getColumnName(propertyName, prefix, columnNameCase));
+            return propertyBuilder.HasColumnName(GetColumnName(propertyName, prefix, columnNameCase));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="builder"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="columnNameCase"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public static PropertyBuilder<TProperty> PropertyAndHasColumnName<TProperty>(this EntityTypeBuilder builder,
+            string propertyName,
+            ColumnNameCase columnNameCase = ColumnNameCase.Lowercase,
+            string prefix = "m")
+        {
+            var propertyBuilder = builder.Property<TProperty>(propertyName);
+
+            return propertyBuilder.HasColumnName(GetColumnName(propertyName, prefix, columnNameCase));
         }
 
         /// <summary>
@@ -61,12 +80,18 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
             string prefix = "m") where TEntity : class
         {
             var propertyBuilder = builder.Property(propertyExpression);
-            return propertyBuilder.HasColumnName(getColumnName(propertyBuilder.Metadata.GetColumnName(), prefix, columnNameCase));
+            return propertyBuilder.HasColumnName(GetColumnName(propertyBuilder.Metadata.GetColumnName(), prefix, columnNameCase));
         }
 
 
-
-        private static string getColumnName(string propertyName, string prefix, ColumnNameCase columnNameCase)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="prefix"></param>
+        /// <param name="columnNameCase"></param>
+        /// <returns></returns>
+        private static string GetColumnName(string propertyName, string prefix, ColumnNameCase columnNameCase)
         {
             string columnName = string.IsNullOrEmpty(prefix) ? propertyName : $"{prefix}_{propertyName}";
             switch (columnNameCase)

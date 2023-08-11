@@ -70,6 +70,10 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
                     .IsRequired()
                     .HasMaxLength(255)
                     .HasComment("树节点层次目录");
+
+
+                builder.HasIndex("ParentId");
+                builder.HasIndex("NodePath");
             }
 
             if (typeof(IExtendableObject).IsAssignableFrom(entityType))
@@ -106,6 +110,8 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
                 builder.PropertyAndHasColumnName("OrgId", GetColumnNameCase(), "sgr")
                     .IsRequired()
                     .HasComment("所在组织ID");
+
+                builder.HasIndex("OrgId");
             }
 
             if (IsAssignableToOpenGenericType(entityType, typeof(ICreationAudited<>)))

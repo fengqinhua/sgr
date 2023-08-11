@@ -11,9 +11,14 @@
  **************************************************************/
 
 using Microsoft.EntityFrameworkCore;
+using Sgr.AuditLogAggregate;
+using Sgr.DepartmentAggregate;
+using Sgr.DutyAggregate;
 using Sgr.EntityConfigurations;
 using Sgr.EntityFrameworkCore;
 using Sgr.OrganizationAggregate;
+using Sgr.RoleAggregate;
+using Sgr.UserAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +39,21 @@ namespace Sgr
         /// <exception cref="NotImplementedException"></exception>
         public void RegisterEntities(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<LogLogin>();
+            modelBuilder.Entity<LogOperate>();
+
             modelBuilder.Entity<Organization>();
+            modelBuilder.Entity<Department>();
+            modelBuilder.Entity<Duty>();
+
+            modelBuilder.Entity<Role>();
+            modelBuilder.Entity<RoleResource>();
+
+            modelBuilder.Entity<User>();
+            modelBuilder.Entity<UserDuty>();
+            modelBuilder.Entity<UserRole>();
+
+
         }
 
         /// <summary>
@@ -43,7 +62,19 @@ namespace Sgr
         /// <param name="modelBuilder"></param>
         public void RegisterEntityConfigurations(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new LogLoginEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new LogOperateEntityTypeConfiguration());
+
             modelBuilder.ApplyConfiguration(new OrganizationEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DepartmentEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DutyEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleResourceEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserDutyEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
         }
     }
 }

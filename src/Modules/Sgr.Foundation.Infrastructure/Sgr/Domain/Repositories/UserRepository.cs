@@ -1,26 +1,14 @@
-﻿/**************************************************************
- * 
- * 唯一标识：1f0dc49b-3482-43b3-9cdc-bf891df93e2e
- * 命名空间：Sgr.Domain.Repositories
- * 创建时间：2023/8/4 11:33:15
- * 机器名称：DESKTOP-S0D075D
- * 创建者：antho
- * 电子邮箱：fengqinhua2016@163.com
- * 描述：
- * 
- **************************************************************/
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Sgr.AuditLogAggregate;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Uow;
 using Sgr.EntityFrameworkCore;
 using Sgr.Generator;
-using Sgr.OrganizationAggregate;
+using Sgr.UserAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.Domain.Repositories
@@ -28,10 +16,9 @@ namespace Sgr.Domain.Repositories
     /// <summary>
     /// 
     /// </summary>
-    public class OrganizationRepository :
-        EfCoreTreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<Organization, long>, IOrganizationRepository
+    public class UserRepository
+        : EfCoreRepositoryOfTEntityAndTPrimaryKey<User, long>, IUserRepository
     {
-
         private readonly SgrDbContext _context;
         private readonly IAuditedOperator _auditedOperator;
         private readonly INumberIdGenerator _numberIdGenerator;
@@ -47,7 +34,7 @@ namespace Sgr.Domain.Repositories
         /// <param name="auditedOperator"></param>
         /// <param name="numberIdGenerator"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public OrganizationRepository(SgrDbContext context, IAuditedOperator auditedOperator, INumberIdGenerator numberIdGenerator)
+        public UserRepository(SgrDbContext context, IAuditedOperator auditedOperator, INumberIdGenerator numberIdGenerator)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _auditedOperator = auditedOperator ?? throw new ArgumentNullException(nameof(auditedOperator));
@@ -58,7 +45,7 @@ namespace Sgr.Domain.Repositories
         /// 设置主键Id
         /// </summary>
         /// <param name="entity"></param>
-        protected override void CheckAndSetId(Organization entity)
+        protected override void CheckAndSetId(User entity)
         {
             entity.Id = _numberIdGenerator.GenerateUniqueId();
         }
@@ -80,23 +67,6 @@ namespace Sgr.Domain.Repositories
         {
             return _context;
         }
-
-
-        #region IOrganizationRepository
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="exclude_orgId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<bool> ExistAsync(string code, long exclude_orgId = 0, CancellationToken cancellationToken = default)
-        {
-            return await base.GetQueryable().CountAsync(f => f.Code == code && f.Id != exclude_orgId, cancellationToken) > 0;
-        }
-
-        #endregion
 
     }
 

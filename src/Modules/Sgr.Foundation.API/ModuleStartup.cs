@@ -24,6 +24,11 @@ using Sgr.Foundation.API.Services;
 using Sgr.OrganizationAggregate;
 using Sgr.Services;
 using Sgr.AspNetCore.Modules;
+using Sgr.AuditLogAggregate;
+using Sgr.DepartmentAggregate;
+using Sgr.DutyAggregate;
+using Sgr.RoleAggregate;
+using Sgr.UserAggregate;
 
 namespace Sgr.Foundation.API
 {
@@ -49,13 +54,18 @@ namespace Sgr.Foundation.API
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-            services.AddScoped<IOrganizationManage, OrganizationManage>();
+            services.AddScoped<ILogLoginRepository, LogLoginRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IDutyRepository, DutyRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-            //services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
+            services.AddScoped<IOrganizationManage, OrganizationManage>();
+            services.AddScoped<IDutyManage, DutyManage>();
 
             EntityFrameworkTypeRegistrar.Instance.Register<FoundationEntityFrameworkTypeProvider>();
-            //services.AddSingleton<IEntityFrameworkTypeProvider, FoundationEntityFrameworkTypeProvider>();
 
+            //services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
             //services.AddScoped<IEndpoint, OrgGetByIdEndpoint>();
         }
     }

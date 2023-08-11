@@ -78,6 +78,8 @@ namespace Sgr.EntityConfigurations
                 .IsRequired()
                 .HasComment("组织机构状态");
 
+            //设置索引
+            builder.HasIndex(f => f.Code);
         }
     }
 }

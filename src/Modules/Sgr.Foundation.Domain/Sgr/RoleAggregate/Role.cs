@@ -69,11 +69,11 @@ namespace Sgr.RoleAggregate
         /// </summary>
         public int OrderNumber { get; set; } = 0;
         /// <summary>
-        /// 职务备注
+        /// 备注
         /// </summary>
         public string? Remarks { get; set; }
         /// <summary>
-        /// 职务状态
+        /// 状态
         /// </summary>
         public EntityStates State { get; internal protected set; } = EntityStates.Normal;
 

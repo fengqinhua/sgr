@@ -36,27 +36,27 @@ namespace Sgr.AspNetCore.ActionFilters
         /// <summary>
         /// 是否启用
         /// </summary>
-        public bool IsEnabled { get; set; } = true;
+        public virtual bool IsEnabled { get; set; } = true;
         /// <summary>
         /// 是否忽略匿名用户的请求
         /// </summary>
-        public bool IsIgnoreAnonymousUsers { get; set; } = true;
+        public virtual bool IsIgnoreAnonymousUsers { get; set; } = true;
         /// <summary>
         /// 是否忽略HTTP GET请求
         /// </summary>
-        public bool IsIgnoreGetRequests { get; set; } = true;
+        public virtual bool IsIgnoreGetRequests { get; set; } = true;
 
         /// <summary>
         /// 审计信息构建者
         /// </summary>
-        public IAuditLogContributor Contributor { get; private set; }
+        public virtual IAuditLogContributor Contributor { get; private set; }
 
         /// <summary>
         /// 是否需要执行PageFilter
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public bool IsNeedAudit(PageHandlerExecutingContext context)
+        public virtual bool IsNeedAudit(PageHandlerExecutingContext context)
         {
             if (context.HttpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
                 return false;
@@ -83,7 +83,7 @@ namespace Sgr.AspNetCore.ActionFilters
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public bool IsNeedAudit(ActionExecutingContext context)
+        public virtual bool IsNeedAudit(ActionExecutingContext context)
         {
             if (context.HttpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
                 return false;

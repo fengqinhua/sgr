@@ -89,3 +89,13 @@
 > [ASP.NET core中使用UseExceptionHandler进行全局异常处理的实现](https://www.duidaima.com/Group/Topic/ASP.NET/2040)
 
 
+### 07. 数据库索引
+
+
+
+
+参考： 
+> [mysql有哪些索引类型](https://m.php.cn/faq/493277.html)
+> [efcore 关系中的外键和主键](https://learn.microsoft.com/zh-cn/ef/core/modeling/relationships/foreign-and-principal-keys?source=recommendations)
+> [Entity Framework Core Override Conventions](https://giridharprakash.me/2020/02/12/entity-framework-core-override-conventions/)
+

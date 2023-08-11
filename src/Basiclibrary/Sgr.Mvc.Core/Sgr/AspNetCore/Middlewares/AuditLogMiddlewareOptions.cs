@@ -42,26 +42,26 @@ namespace Sgr.AspNetCore.Middlewares
         /// <summary>
         /// 是否启用
         /// </summary>
-        public bool IsEnabled { get; set; } = true;
+        public virtual bool IsEnabled { get; set; } = true;
 
         /// <summary>
         /// 是否忽略匿名用户的请求
         /// </summary>
-        public bool IsIgnoreAnonymousUsers { get; set; } = true;
+        public virtual bool IsIgnoreAnonymousUsers { get; set; } = true;
         /// <summary>
         /// 是否忽略HTTP GET请求
         /// </summary>
-        public bool IsIgnoreGetRequests { get; set; } = true;
+        public virtual bool IsIgnoreGetRequests { get; set; } = true;
         /// <summary>
         /// 审计信息构建者
         /// </summary>
-        public IAuditLogContributor Contributor { get; private set; }
+        public virtual IAuditLogContributor Contributor { get; private set; }
 
         /// <summary>
         /// 添加可忽略的请求地址
         /// </summary>
         /// <param name="url"></param>
-        public void AddIgnoredUrl(string url)
+        public virtual void AddIgnoredUrl(string url)
         {
             if (!_ignoredUrls.Contains(url))
                 _ignoredUrls.Add(url);
@@ -69,7 +69,7 @@ namespace Sgr.AspNetCore.Middlewares
         /// <summary>
         /// 清空可忽略的请求地址
         /// </summary>
-        public void ClearIgnoredUrls()
+        public virtual void ClearIgnoredUrls()
         {
             _ignoredUrls.Clear();
             initDefaultIgnoredUrls();
@@ -89,7 +89,7 @@ namespace Sgr.AspNetCore.Middlewares
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public bool IsNeedAudit(HttpContext context)
+        public virtual bool IsNeedAudit(HttpContext context)
         {
             if (context.Request.Path.Value == null || context.Request.Path.Value == "/")
                 return false;

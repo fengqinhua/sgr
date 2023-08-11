@@ -23,6 +23,17 @@ namespace Sgr.DutyAggregate
     /// </summary>
     public class Duty : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock,IMustHaveOrg<long>
     {
+
+        private Duty() { }
+
+        /// <summary>
+        /// 职务
+        /// </summary>
+        internal protected Duty(string core)
+        {
+            Code = core;
+        }
+
         /// <summary>
         /// 职务编码
         /// </summary>
