@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Sgr.RoleAggregate
     /// <summary>
     /// 角色资源
     /// </summary>
-    public class RoleResource : CreationAuditedEntity<long, long>
+    public class RoleResource : EntityBase
     {
         /// <summary>
         /// 角色资源

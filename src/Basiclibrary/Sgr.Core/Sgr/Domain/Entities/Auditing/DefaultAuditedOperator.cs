@@ -41,11 +41,13 @@ namespace Sgr.Domain.Entities.Auditing
         {
             if (targetObject is ICreationAudited<long> creationAuditedEntity)
             {
-                if (!long.TryParse(_currentUser.Id, out long userId))
-                    userId = Constant.DEFAULT_USERID;
-
                 if (creationAuditedEntity.CreatorUserId == 0)
+                {
+                    if (!long.TryParse(_currentUser.Id, out long userId))
+                        userId = Constant.DEFAULT_USERID;
+
                     creationAuditedEntity.CreatorUserId = userId;
+                }
 
                 if (creationAuditedEntity.CreationTime == default)
                     creationAuditedEntity.CreationTime = DateTimeOffset.Now;
@@ -67,6 +69,9 @@ namespace Sgr.Domain.Entities.Auditing
 
                 creationAndModifyAuditedEntity.LastModifierUserId = userId;
             }
+
+            if (targetObject is IOptimisticLock optimisticLock)
+                optimisticLock.RowVersion += 1;
         }
         /// <summary>
         /// 更新实体删除相关审计信息

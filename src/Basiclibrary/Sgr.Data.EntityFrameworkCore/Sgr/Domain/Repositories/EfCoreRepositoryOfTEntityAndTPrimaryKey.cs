@@ -176,7 +176,6 @@ namespace Sgr.Domain.Repositories
             this.UpdateModifyAudited(entity);
 
             var dbContext = GetDbContext();
-
             dbContext.Entry(entity).State = EntityState.Modified;
             return entity;
 

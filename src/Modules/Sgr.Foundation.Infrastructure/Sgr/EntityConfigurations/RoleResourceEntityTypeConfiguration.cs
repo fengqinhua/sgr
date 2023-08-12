@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Sgr.DepartmentAggregate;
 using Sgr.EntityFrameworkCore.EntityConfigurations;
 using Sgr.RoleAggregate;
@@ -11,11 +13,13 @@ using System.Threading.Tasks;
 
 namespace Sgr.EntityConfigurations
 {
-    internal class RoleResourceEntityTypeConfiguration : EntityTypeConfigurationBase<RoleResource, long>
+    internal class RoleResourceEntityTypeConfiguration : EntityTypeConfigurationBase<RoleResource, string>
     {
         public override void Configure(EntityTypeBuilder<RoleResource> builder)
         {
             builder.ToTable("sgr_role_resource");
+
+            builder.Property(f => f.Id).HasValueGenerator<StringValueGenerator>();
 
             base.Configure(builder);
 
@@ -32,8 +36,10 @@ namespace Sgr.EntityConfigurations
                 .IsRequired()
                 .HasComment("角色标识");
 
+            //设置索引
+            builder.HasIndex("RoleId");
         }
 
-         
+
     }
 }

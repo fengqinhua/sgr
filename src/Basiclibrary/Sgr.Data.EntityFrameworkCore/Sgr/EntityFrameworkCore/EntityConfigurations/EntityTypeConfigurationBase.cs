@@ -51,14 +51,12 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
         /// <exception cref="NotImplementedException"></exception>
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
-
             var entityType = typeof(TEntity);
 
             builder.HasKey(b => b.Id);
-            builder.PropertyAndHasColumnName("Id", GetColumnNameCase(), "sgr")
-                .ValueGeneratedNever()
-                .HasComment("主键");
 
+            builder.PropertyAndHasColumnName("Id", GetColumnNameCase(), "sgr")
+                .HasComment("主键");
 
             if (typeof(ITreeNode<TPrimaryKey>).IsAssignableFrom(entityType))
             {
@@ -88,7 +86,7 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
                 builder.PropertyAndHasColumnName("RowVersion", GetColumnNameCase(), "sgr")
                     .IsConcurrencyToken()
                     .IsRequired()
-                    .HasValueGenerator<LongValueGenerator>()
+                    //.HasValueGenerator<LongRowVersionValueGenerator>()
                     //.ValueGeneratedOnAddOrUpdate()
                     .HasComment("行版本");
             }
@@ -142,7 +140,7 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
             }
         }
 
-        private bool IsAssignableToOpenGenericType(Type givenType, Type genericType)
+        private static bool IsAssignableToOpenGenericType(Type givenType, Type genericType)
         {
             return Array.Exists(givenType.GetInterfaces(), t => t.IsGenericType && t.GetGenericTypeDefinition() == genericType);
             

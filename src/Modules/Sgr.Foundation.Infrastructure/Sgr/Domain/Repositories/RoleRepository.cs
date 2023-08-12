@@ -47,7 +47,8 @@ namespace Sgr.Domain.Repositories
         /// <param name="entity"></param>
         protected override void CheckAndSetId(Role entity)
         {
-            entity.Id = _numberIdGenerator.GenerateUniqueId();
+            if (entity.Id == 0)
+                entity.Id = _numberIdGenerator.GenerateUniqueId();
         }
 
         /// <summary>

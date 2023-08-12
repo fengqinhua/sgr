@@ -24,7 +24,9 @@ namespace Sgr.Domain.Entities
         /// <summary>
         /// ID ，实体的唯一标识符
         /// </summary>
-        public override string Id { get; set; } = "";
+#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
+        public override string Id { get; set; }
+#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
 
         /// <summary>
         ///  检查此实体是否是暂时的

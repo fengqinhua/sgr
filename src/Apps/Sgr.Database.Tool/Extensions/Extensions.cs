@@ -10,10 +10,13 @@
  * 
  **************************************************************/
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Sgr.EntityFrameworkCore;
 using System;
@@ -28,6 +31,10 @@ namespace Sgr.Database.Tool.Extensions
         /// <summary>
         /// 
         /// </summary>
+        public static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
@@ -35,6 +42,10 @@ namespace Sgr.Database.Tool.Extensions
         {
             static void ConfigureSqlOptions(MySqlDbContextOptionsBuilder sqlOptions)
             {
+                sqlOptions
+                    .MinBatchSize(1)
+                    .MaxBatchSize(1000);
+
                 //sqlOptions.CharSet(CharSet.Utf8);
 
                 //sqlOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
@@ -49,7 +60,13 @@ namespace Sgr.Database.Tool.Extensions
                 //Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql")
                 var serverVersion = new MySqlServerVersion(new Version(5, 7, 10));
                 options.UseMySql("server=localhost;port=3306;database=map_sam;uid=root;pwd=1qaz@WSX;", serverVersion, ConfigureSqlOptions);
-
+        
+                //if (webHostEnvironment.IsDevelopment())
+                //{
+                //    var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+                //    // sql 日志写入控制台
+                //    optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+                //}
             });
 
             //services.AddDbContext<SgrDbContext>((sp,options) =>

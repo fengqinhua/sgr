@@ -89,7 +89,7 @@
 > [ASP.NET core中使用UseExceptionHandler进行全局异常处理的实现](https://www.duidaima.com/Group/Topic/ASP.NET/2040)
 
 
-### 07. 数据库索引
+### 07. 数据库 
 
 
 
@@ -98,4 +98,9 @@
 > [mysql有哪些索引类型](https://m.php.cn/faq/493277.html)
 > [efcore 关系中的外键和主键](https://learn.microsoft.com/zh-cn/ef/core/modeling/relationships/foreign-and-principal-keys?source=recommendations)
 > [Entity Framework Core Override Conventions](https://giridharprakash.me/2020/02/12/entity-framework-core-override-conventions/)
+> [查看EFCore生成的语句的四种方式](https://blog.csdn.net/m0_66746443/article/details/124058262)
+> [EF Core Like 模糊查询](https://www.cnblogs.com/xjxue/p/17558826.html)
+> [EF Core 6 新功能汇总](https://mp.weixin.qq.com/s/VpqEWQPdEJUw_HHNeqBPdg)
+> [EFCORE性能优化方案](https://www.cnblogs.com/lbonet/p/14608870.html)
+
 
