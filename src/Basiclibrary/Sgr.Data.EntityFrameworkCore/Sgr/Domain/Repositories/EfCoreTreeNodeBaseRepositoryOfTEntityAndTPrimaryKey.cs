@@ -100,7 +100,8 @@ namespace Sgr.Domain.Repositories
             CancellationToken cancellationToken = default)
         {
             return await GetQueryable()
-                .Where(f => f.NodePath.StartsWith(entity.NodePath))
+                .Where(f=>EF.Functions.Like(f.NodePath, $"{entity.NodePath}%"))
+                //.Where(f => f.NodePath.StartsWith(entity.NodePath))
                 .OrderBy(f => f.Id)
                 .ToArrayAsync(cancellationToken);
         }
@@ -117,7 +118,8 @@ namespace Sgr.Domain.Repositories
             CancellationToken cancellationToken = default)
         {
             return await GetQueryable(propertiesToInclude)
-                .Where(f => f.NodePath.StartsWith(entity.NodePath))
+                .Where(f => EF.Functions.Like(f.NodePath, $"{entity.NodePath}%"))
+                //.Where(f => f.NodePath.StartsWith(entity.NodePath))
                 .OrderBy(f => f.Id)
                 .ToArrayAsync(cancellationToken);
 

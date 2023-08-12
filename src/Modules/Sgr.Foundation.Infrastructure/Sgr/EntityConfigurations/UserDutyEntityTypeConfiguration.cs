@@ -11,13 +11,15 @@ using System.Threading.Tasks;
 
 namespace Sgr.EntityConfigurations
 {
-    internal class UserDutyEntityTypeConfiguration : EntityTypeConfigurationBase<UserDuty, long>
+    internal class UserDutyEntityTypeConfiguration : EntityTypeConfigurationBase<UserDuty, string>
     {
         public override void Configure(EntityTypeBuilder<UserDuty> builder)
         {
             builder.ToTable("sgr_user_duty");
 
             base.Configure(builder);
+
+            builder.Property(f => f.Id).ValueGeneratedOnAdd();
 
             builder.PropertyAndHasColumnName(b => b.DutyId, GetColumnNameCase())
                 .IsRequired()
@@ -26,6 +28,9 @@ namespace Sgr.EntityConfigurations
             builder.PropertyAndHasColumnName<long>("UserId")
                 .IsRequired()
                 .HasComment("用户标识");
+
+            //设置索引
+            builder.HasIndex("UserId");
         }
     }
 }

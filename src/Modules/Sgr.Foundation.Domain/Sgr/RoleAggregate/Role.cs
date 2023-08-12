@@ -46,7 +46,8 @@ namespace Sgr.RoleAggregate
         /// <param name="orgId"></param>
         /// <param name="orderNumber"></param>
         /// <param name="remarks"></param>
-        protected Role(string code, string roleName, long orgId,int orderNumber = 0, string? remarks = null) : this()
+        public Role(string code, string roleName, long orgId,int orderNumber = 0, string? remarks = null) 
+            : this()
         {
             this.Code = code;
             this.RoleName = roleName;

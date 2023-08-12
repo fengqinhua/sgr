@@ -42,12 +42,12 @@ namespace Sgr.EntityFrameworkCore
             static Nested()
             {
             }
-            internal static readonly EntityFrameworkTypeRegistrar instance = new EntityFrameworkTypeRegistrar();
+            internal static readonly EntityFrameworkTypeRegistrar instance = new();
         }
 
         #endregion
 
-        private ConcurrentDictionary<string, Type> _types = new ConcurrentDictionary<string, Type>();
+        private ConcurrentDictionary<string, Type> _types = new ();
 
         /// <summary>
         /// 执行注册

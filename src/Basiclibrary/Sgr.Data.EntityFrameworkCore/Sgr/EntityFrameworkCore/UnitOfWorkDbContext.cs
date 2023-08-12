@@ -81,6 +81,8 @@ namespace Sgr.EntityFrameworkCore
             // You will need to handle eventual consistency and compensatory actions in case of failures in any of the Handlers. 
             await _mediator.DispatchDomainEventsAsync(this);
 
+            //this.ChangeTracker.DetectChanges();
+
             // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
             // performed through the DbContext will be committed
             await base.SaveChangesAsync(cancellationToken);

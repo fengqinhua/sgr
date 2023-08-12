@@ -48,7 +48,8 @@ namespace Sgr.Domain.Repositories
         /// <param name="entity"></param>
         protected override void CheckAndSetId(Department entity)
         {
-            entity.Id = _numberIdGenerator.GenerateUniqueId();
+            if (entity.Id == 0)
+                entity.Id = _numberIdGenerator.GenerateUniqueId();
         }
 
         /// <summary>

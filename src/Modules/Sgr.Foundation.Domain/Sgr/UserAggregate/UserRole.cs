@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.DutyAggregate;
 using System;
@@ -21,7 +22,7 @@ namespace Sgr.UserAggregate
     /// <summary>
     /// 用户角色
     /// </summary>
-    public class UserRole : CreationAuditedEntity<long, long>
+    public class UserRole : EntityBase
     {
         /// <summary>
         /// 用户角色

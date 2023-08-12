@@ -48,7 +48,8 @@ namespace Sgr.Domain.Repositories
         /// <param name="entity"></param>
         protected override void CheckAndSetId(Duty entity)
         {
-            entity.Id = _numberIdGenerator.GenerateUniqueId();
+            if (entity.Id == 0)
+                entity.Id = _numberIdGenerator.GenerateUniqueId();
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace Sgr.Domain.Repositories
         /// <returns></returns>
         public async Task<bool> ExistAsync(string code, long exclude_dutyId = 0, long orgId = 0, CancellationToken cancellationToken = default)
         {
-            return await base.GetQueryable().CountAsync(f => f.Code == code && f.OrgId == orgId && f.Id != exclude_dutyId, cancellationToken) > 0;
+            return await base.GetQueryable().AnyAsync(f => f.Code == code && f.OrgId == orgId && f.Id != exclude_dutyId, cancellationToken);
         }
 
         #endregion

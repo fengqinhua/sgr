@@ -38,7 +38,7 @@ namespace Sgr.EntityFrameworkCore
         /// <param name="options"></param>
         /// <param name="mediator"></param>
         public SgrDbContext(DbContextOptions<SgrDbContext> options, IMediator mediator) : base(options, mediator)
-        {
+        { 
 
         }
 
