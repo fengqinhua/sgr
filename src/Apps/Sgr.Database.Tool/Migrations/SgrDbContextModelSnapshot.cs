@@ -16,12 +16,13 @@ namespace Sgr.Database.Tool.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Sgr.AuditLogAggregate.LogLogin", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -67,6 +68,11 @@ namespace Sgr.Database.Tool.Migrations
                         .HasColumnName("m_loginname")
                         .HasComment("登录账号");
 
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("m_loginprovider");
+
                     b.Property<DateTimeOffset>("LoginTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("m_logintime")
@@ -82,6 +88,16 @@ namespace Sgr.Database.Tool.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_orgid")
                         .HasComment("所在组织ID");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("m_providerdisplayname");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("m_providerkey");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(200)
@@ -110,6 +126,7 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.AuditLogAggregate.LogOperate", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -230,6 +247,7 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.DepartmentAggregate.Department", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -339,6 +357,7 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.DutyAggregate.Duty", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -414,6 +433,7 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.OrganizationAggregate.Organization", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -550,6 +570,7 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.RoleAggregate.Role", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -625,7 +646,6 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.RoleAggregate.RoleResource", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -657,6 +677,7 @@ namespace Sgr.Database.Tool.Migrations
             modelBuilder.Entity("Sgr.UserAggregate.User", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("sgr_id")
                         .HasComment("主键");
@@ -707,10 +728,10 @@ namespace Sgr.Database.Tool.Migrations
                         .HasColumnName("sgr_lastmodifieruserid")
                         .HasComment("修改的用户ID");
 
-                    b.Property<int>("LoginCount")
+                    b.Property<int>("LoginFailCount")
                         .HasColumnType("int")
-                        .HasColumnName("m_logincount")
-                        .HasComment("登录次数");
+                        .HasColumnName("m_loginfailcount")
+                        .HasComment("登录失败次数");
 
                     b.Property<string>("LoginName")
                         .IsRequired()
@@ -725,6 +746,11 @@ namespace Sgr.Database.Tool.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("m_loginpassword")
                         .HasComment("登录密码");
+
+                    b.Property<int>("LoginSuccessCount")
+                        .HasColumnType("int")
+                        .HasColumnName("m_loginsuccesscount")
+                        .HasComment("登录成功次数");
 
                     b.Property<long>("OrgId")
                         .HasColumnType("bigint")

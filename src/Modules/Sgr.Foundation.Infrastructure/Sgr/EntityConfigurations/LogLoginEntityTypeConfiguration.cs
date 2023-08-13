@@ -44,6 +44,15 @@ namespace Sgr.EntityConfigurations
                 .HasMaxLength(20)
                 .HasComment("登录途径");
 
+            builder.PropertyAndHasColumnName(b => b.LoginProvider, GetColumnNameCase())
+                .HasMaxLength(500);
+
+            builder.PropertyAndHasColumnName(b => b.ProviderKey, GetColumnNameCase())
+                .HasMaxLength(500);
+
+            builder.PropertyAndHasColumnName(b => b.ProviderDisplayName, GetColumnNameCase())
+                .HasMaxLength(500);
+
             builder.PropertyAndHasColumnName(b => b.ClientBrowser, GetColumnNameCase())
                 .HasMaxLength(50)
                 .HasComment("客户端浏览器");

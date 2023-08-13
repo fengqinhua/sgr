@@ -68,6 +68,5 @@ namespace Sgr.Domain.Repositories
         {
             return _context;
         }
-
     }
 }

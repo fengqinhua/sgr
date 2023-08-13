@@ -78,9 +78,13 @@ namespace Sgr.UserAggregate
         /// </summary>
         public DateTimeOffset? LastLoginTime { get; private set; }
         /// <summary>
-        /// 登录次数
+        /// 登录成功次数
         /// </summary>
-        public int LoginCount { get; internal protected set; } = 0;
+        public int LoginSuccessCount { get; internal protected set; } = 0;
+        /// <summary>
+        /// 登录失败次数
+        /// </summary>
+        public int LoginFailCount { get; internal protected set; } = 0;
 
         /// <summary>
         /// 用户姓名
@@ -180,18 +184,17 @@ namespace Sgr.UserAggregate
         /// <summary>
         /// 登录成功
         /// </summary>
-        public void LoginComplete()
+        /// <param name="status">是否成功</param>
+        public void LoginComplete(bool status)
         {
             if (this.FirstLoginTime == null)
                 this.FirstLoginTime = DateTimeOffset.Now;
-
             this.LastLoginTime = DateTimeOffset.Now;
-            this.LoginCount += 1;
 
-            //if(this.IsSuperAdmin)
-            //    this.AddDomainEvent(new SuperAdminLoginCompleteEvent(this.LoginName, this.UserName ?? "", ipAddress, loginPlat));
-            //else
-            //    this.AddDomainEvent(new UserLoginCompleteEvent(this.OrgId,this.LoginName, this.UserName ?? "", ipAddress, loginPlat));
+            if (status)
+                this.LoginSuccessCount += 1;
+            else
+                this.LoginFailCount += 1;
         }
 
         /// <summary>

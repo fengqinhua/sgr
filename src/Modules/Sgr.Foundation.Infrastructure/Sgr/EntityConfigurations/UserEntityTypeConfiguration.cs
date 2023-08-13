@@ -36,9 +36,13 @@ namespace Sgr.EntityConfigurations
             builder.PropertyAndHasColumnName(b => b.LastLoginTime, GetColumnNameCase())
                 .HasComment("最近一次登录时间");
 
-            builder.PropertyAndHasColumnName(b => b.LoginCount, GetColumnNameCase())
+            builder.PropertyAndHasColumnName(b => b.LoginSuccessCount, GetColumnNameCase())
                 .IsRequired()
-                .HasComment("登录次数");
+                .HasComment("登录成功次数");
+
+            builder.PropertyAndHasColumnName(b => b.LoginFailCount, GetColumnNameCase())
+                .IsRequired()
+                .HasComment("登录失败次数");
 
             builder.PropertyAndHasColumnName(b => b.UserName, GetColumnNameCase())
                 .HasMaxLength(200)

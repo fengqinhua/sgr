@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -18,7 +19,8 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_department",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_code = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "部门编码")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "部门名称")
@@ -53,7 +55,8 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_duty",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_code = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "职务编码")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "职务名称")
@@ -79,7 +82,8 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_loglogin",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_loginname = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "登录账号")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_username = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "用户姓名")
@@ -90,6 +94,12 @@ namespace Sgr.Database.Tool.Migrations
                     m_location = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "登录地点")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_loginway = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true, comment: "登录途径")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    m_loginprovider = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    m_providerkey = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    m_providerdisplayname = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_clientbrowser = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true, comment: "客户端浏览器")
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -112,7 +122,8 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_logoperate",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_loginname = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "登录账号")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_username = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "用户姓名")
@@ -154,7 +165,8 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_organization",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_code = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "组织机构编码")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "组织机构名称")
@@ -198,7 +210,8 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_role",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_code = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "角色编码")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_rolename = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "角色名称")
@@ -224,14 +237,16 @@ namespace Sgr.Database.Tool.Migrations
                 name: "sgr_user",
                 columns: table => new
                 {
-                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
+                    sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     m_loginname = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "登录名称")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_loginpassword = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false, comment: "登录密码")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_firstlogintime = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true, comment: "首次登录时间"),
                     m_lastlogintime = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true, comment: "最近一次登录时间"),
-                    m_logincount = table.Column<int>(type: "int", nullable: false, comment: "登录次数"),
+                    m_loginsuccesscount = table.Column<int>(type: "int", nullable: false, comment: "登录成功次数"),
+                    m_loginfailcount = table.Column<int>(type: "int", nullable: false, comment: "登录失败次数"),
                     m_username = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "用户姓名")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_userphone = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true, comment: "用户绑定的手机号码")

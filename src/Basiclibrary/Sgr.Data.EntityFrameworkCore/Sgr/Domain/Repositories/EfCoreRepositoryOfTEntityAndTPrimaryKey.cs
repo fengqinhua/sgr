@@ -20,6 +20,8 @@ using Sgr.Domain.Entities.Auditing;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using Sgr.Domain.Uow;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Sgr.Domain.Repositories
 {
@@ -359,6 +361,98 @@ namespace Sgr.Domain.Repositories
                 .ToArrayAsync(cancellationToken);
 
         }
+
+        #region  related-data/explicit
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task CollectionAsync<TProperty>(TEntity entity,
+            Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression,
+            CancellationToken cancellationToken = default) where TProperty : class
+        {
+            var dbContext = GetDbContext();
+            EntityEntry<TEntity> entityEntry = GetExplicitEntityEntry(entity, dbContext);
+            await entityEntry.Collection(propertyExpression).LoadAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task CollectionAsync(TEntity entity,
+            string propertyName,
+            CancellationToken cancellationToken = default)
+        {
+            var dbContext = GetDbContext(); 
+            var navigation = dbContext.Entry(entity).Metadata.FindNavigation(propertyName);
+
+            if (navigation != null)
+            {
+                EntityEntry<TEntity> entityEntry = GetExplicitEntityEntry(entity, dbContext);
+                await entityEntry.Collection(navigation).LoadAsync(cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task ReferenceAsync<TProperty>(TEntity entity,
+            Expression<Func<TEntity, TProperty?>> propertyExpression,
+            CancellationToken cancellationToken = default) where TProperty : class
+        {
+            var dbContext = GetDbContext();
+            EntityEntry<TEntity> entityEntry = GetExplicitEntityEntry(entity, dbContext);
+            await entityEntry.Reference(propertyExpression).LoadAsync(cancellationToken);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task ReferenceAsync(TEntity entity,
+            string propertyName,
+            CancellationToken cancellationToken = default)
+        {
+            var dbContext = GetDbContext();
+            var navigation = dbContext.Entry(entity).Metadata.FindNavigation(propertyName);
+            if (navigation != null)
+            {
+                EntityEntry<TEntity> entityEntry = GetExplicitEntityEntry(entity, dbContext);
+                await entityEntry.Reference(navigation).LoadAsync(cancellationToken);
+            }
+
+        }
+
+
+        protected virtual EntityEntry<TEntity> GetExplicitEntityEntry(TEntity entity, DbContext dbContext)
+        {
+            var entityEntry = dbContext.Entry(entity);
+            if (entityEntry.State == EntityState.Detached)
+                entityEntry.State = EntityState.Unchanged;
+            return entityEntry;
+        }
+
+
+        #endregion
+
 
         #endregion
 

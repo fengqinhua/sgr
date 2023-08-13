@@ -11,7 +11,7 @@
 		<!--JSON序列化和反序列化库-->
 		<SystenTextJsonVersion>7.0.3</SystenTextJsonVersion>
 		<!--Microsoft.EntityFrameworkCore-->
-		<MicrosoftEntityFrameworkCoreVersion>7.0.9</MicrosoftEntityFrameworkCoreVersion>
+		<MicrosoftEntityFrameworkCoreVersion>7.0.10</MicrosoftEntityFrameworkCoreVersion>
 		<EFCoreNamingConventionsVersion>7.0.2</EFCoreNamingConventionsVersion>
 		<PomeloEntityFrameworkCoreMySqlVersion>7.0.0</PomeloEntityFrameworkCoreMySqlVersion>
 		<!--MediatR 中介者 -->

@@ -60,15 +60,12 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
             var sgrDbContext = new SgrDbContext(_dbOptions, _mediator.Object);
             sgrDbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             //sgrDbContext.ChangeTracker.AutoDetectChangesEnabled = false;
-            //sgrDbContext.ChangeTracker.LazyLoadingEnabled = true;
-
+     
             var auditedOperator = new DefaultAuditedOperator(_currentUser.Object);
             var numberIdGenerator = new DefaultNumberIdGenerator(new SnowflakeSettings());
             return new RoleRepository(sgrDbContext, auditedOperator, numberIdGenerator);
         }
 
-
-         
         /// <summary>
         /// 
         /// </summary>
@@ -106,11 +103,34 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
             Assert.IsNull(deleteRole);
         }
 
-
+        /// <summary>
+        /// 显式加载
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
-        public async Task Query_Role_Success()
+        public async Task Query_Eager_Role_Success()
         {
             long id = 1024;
+
+            //await ensureCreateAsync(id);
+
+            var repository = CreateRepository();
+            var role = await repository.GetAsync(id);
+            Assert.IsNotNull(role);
+
+            await repository.CollectionAsync(role, f => f.Resources);
+            Assert.AreEqual(role.Resources.Count(), 2);
+        }
+
+        /// <summary>
+        /// 预先加载
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task Query_Explicit_Role_Success()
+        {
+            long id = 1024;
+
             //await ensureCreateAsync(id);
 
             var repository = CreateRepository();
@@ -118,9 +138,9 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
 
             Assert.IsNotNull(role);
             Assert.AreEqual(role.Resources.Count(), 2);
-
-
         }
+
+
 
         private async Task ensureCreateAsync(long id)
         {

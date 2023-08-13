@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq.Expressions;
 
 namespace Sgr.Domain.Repositories
 {
@@ -92,6 +93,57 @@ namespace Sgr.Domain.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync(
             string[] propertiesToInclude,
             CancellationToken cancellationToken = default);
+
+
+        #region  related-data/explicit
+
+        /// <summary>
+        /// 显示加载（1:N）
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task CollectionAsync<TProperty>(TEntity entity, 
+            Expression<Func<TEntity, IEnumerable<TProperty>>> propertyExpression,
+            CancellationToken cancellationToken = default) where TProperty : class;
+
+        /// <summary>
+        /// 显示加载（1:N）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task CollectionAsync(TEntity entity,
+            string propertyName,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 显示加载（1:1）
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ReferenceAsync<TProperty>(TEntity entity, 
+            Expression<Func<TEntity, TProperty?>> propertyExpression,
+            CancellationToken cancellationToken = default) where TProperty : class;
+
+        /// <summary>
+        /// 显示加载（1:1）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ReferenceAsync(TEntity entity,
+            string propertyName,
+            CancellationToken cancellationToken = default);
+
+        #endregion
     }
 
 

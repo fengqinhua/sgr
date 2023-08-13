@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.Collections.Generic;
 
 namespace Sgr.RoleAggregate
 {
@@ -37,6 +38,7 @@ namespace Sgr.RoleAggregate
         {
             _resources = new List<RoleResource>();
         }
+
 
         /// <summary>
         /// 
@@ -78,13 +80,6 @@ namespace Sgr.RoleAggregate
         /// </summary>
         public EntityStates State { get; internal protected set; } = EntityStates.Normal;
 
-        /// <summary>
-        /// 重置所有资源
-        /// </summary>
-        public void ResetPermission()
-        {
-            _resources.Clear();
-        }
 
         /// <summary>
         /// 重置指定类型的资源清单
@@ -109,7 +104,6 @@ namespace Sgr.RoleAggregate
                 _resources.Add(roleResource);
             }
         }
-
 
         #region IOptimisticLock (乐观锁)
 

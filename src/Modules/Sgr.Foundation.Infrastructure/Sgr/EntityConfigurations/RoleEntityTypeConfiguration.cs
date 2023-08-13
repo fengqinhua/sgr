@@ -50,6 +50,8 @@ namespace Sgr.EntityConfigurations
             builder.Metadata
                 .FindNavigation(nameof(Role.Resources))
                 ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+
         }
     }
 }

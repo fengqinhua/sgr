@@ -13,6 +13,7 @@
 	<ItemGroup>
 		<!--<PackageReference Include="EFCore.NamingConventions" Version="$(EFCoreNamingConventionsVersion)" />-->
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(MicrosoftEntityFrameworkCoreVersion)" />
+		<!--<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="$(MicrosoftEntityFrameworkCoreVersion)" />-->
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="$(MicrosoftEntityFrameworkCoreVersion)" />
 	</ItemGroup>
 	
