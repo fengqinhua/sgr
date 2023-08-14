@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Sgr.Admin.WebHost.Extensions;
 using Sgr.AspNetCore.AuditLog;
 using Sgr.Foundation.API.OrgEndpoints;
+using System.Linq;
 
 namespace Sgr.Admin.WebHost
 {
@@ -44,7 +45,7 @@ namespace Sgr.Admin.WebHost
             builder.Services.AddSgrEndpoints();
             builder.Services.AddControllers();
             //builder.Services.AddProblemDetails();
-
+ 
             var app = builder.Build();
 
             //// Configure the HTTP request pipeline.

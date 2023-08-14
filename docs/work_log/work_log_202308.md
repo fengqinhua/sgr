@@ -7,8 +7,9 @@
 
 ##### 迁移
 
-1.Add-Migration NewMigration  生成已有数据库初始化代码
-2.Script-Migration 生成sql语句
+1.Add-Migration -Name Sgr0815 -OutputDir Infrastructure/Migrations  生成已有数据库初始化代码
+2.Script-Migration -Output DataBase/mysql_sgr0815.sql  生成sql语句
+3.Remove-Migration
 3.Update-Database 
 
 参考： 
@@ -16,6 +17,8 @@
 > [.net如何优雅的使用EFCore ](https://www.cnblogs.com/qwqwQAQ/p/16932139.html)
 > [EF7创建模型值生成篇 ](https://www.cnblogs.com/YataoFeng/p/17187786.html)
 > [asp.net core EFCore 属性配置与DbContext]( https://juejin.cn/post/7095288086480814116#heading-8)
+> [Entity Framework Core 工具参考](https://learn.microsoft.com/zh-cn/ef/core/cli/powershell#add-migration)
+
 
 
 ### 02. 程序集

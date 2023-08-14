@@ -61,6 +61,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Admin.WebHost.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.Tests", "tests\Sgr.Foundation.Tests\Sgr.Foundation.Tests.csproj", "{1156ED97-8FCC-4E88-B7EB-916DE4296FB0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{FAC86392-27B2-4A08-B49D-82BB92808A8F}"
+	ProjectSection(SolutionItems) = preProject
+		DataBase\mysql_sgr0815.sql = DataBase\mysql_sgr0815.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +149,7 @@ Global
 		{946FCE29-4A71-43FB-8E65-86A5A2ACEBDF} = {ED753626-3B74-49BB-9D98-773EEA82A2E9}
 		{5AFCBC76-7304-4304-B588-816B2EA0B65D} = {F99F833F-BC49-4837-931D-1D02B66B4C84}
 		{1156ED97-8FCC-4E88-B7EB-916DE4296FB0} = {F99F833F-BC49-4837-931D-1D02B66B4C84}
+		{FAC86392-27B2-4A08-B49D-82BB92808A8F} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F860D220-ECF0-4466-AA85-30D0B2FCD69D}

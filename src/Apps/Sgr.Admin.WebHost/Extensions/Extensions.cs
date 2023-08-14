@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -34,36 +35,23 @@ namespace Sgr.Admin.WebHost.Extensions
         {
             static void ConfigureSqlOptions(MySqlDbContextOptionsBuilder sqlOptions)
             {
+                sqlOptions
+                    .MinBatchSize(1)
+                    .MaxBatchSize(1000);
+
                 //sqlOptions.CharSet(CharSet.Utf8);
-
                 //sqlOptions.MigrationsAssembly(typeof(Program).Assembly.FullName);
-
                 //// Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-
                 //sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
             };
 
             services.AddDbContext<SgrDbContext>(options =>
             {
-                //Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql")
-                var serverVersion = new MySqlServerVersion(new Version(5, 7, 10));
-                options.UseMySql("server=localhost;port=3306;database=map_sam;uid=root;pwd=1qaz@WSX;", serverVersion, ConfigureSqlOptions);
+                var serverVersion = ServerVersion.Parse(configuration.GetRequiredString("ConnectionStrings:SgrDBVersion"));
+
+                options.UseMySql(configuration.GetRequiredString("ConnectionStrings:SgrDB"), serverVersion, ConfigureSqlOptions);
 
             });
-
-            //services.AddDbContext<SgrDbContext>((sp,options) =>
-            //{
-            //    var serverVersion = new MySqlServerVersion(new Version(5, 7, 10));
-
-            //    options.UseMySql("server=localhost;port=3306;database=map_sam;uid=root;pwd=root;CharSet=utf8;", serverVersion, ConfigureSqlOptions)
-            //        .UseInternalServiceProvider(sp);
-            //    //options.UseMySql(configuration.GetRequiredConnectionString("OrderingDB"), ConfigureSqlOptions);
-            //});
-
-            //services.AddDbContext<IntegrationEventLogContext>(options =>
-            //{
-            //    options.UseSqlServer(configuration.GetRequiredConnectionString("OrderingDB"), ConfigureSqlOptions);
-            //});
 
             return services;
         }
