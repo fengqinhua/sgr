@@ -22,17 +22,22 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configure"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddSgrMvcCore(this IServiceCollection services, Action<IServiceCollection>? configure = null)
+        
+        public static IServiceCollection AddSgrMvcCore(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment, Action<IServiceCollection>? configure = null)
         {
+            services.AddSgrCore(configuration);
+
             AddUserIdentity(services);
             AddSgrPoweredBy(services);
             AddSgrAuditLog(services);
+            AddSgrExceptionHandling(services);
+
+            AddModules(services, environment);
+            AddSgrEndpoints(services);
+
+            services.AddControllers();
+
+            //services.AddProblemDetails();
 
             configure?.Invoke(services);
 
@@ -68,7 +73,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
          
             services.AddTransient<AuditLogMiddleware>();
-            services.AddTransient<ExceptionHandlingMiddleware>();
 
             services.AddTransient<AuditLogActionFilterAttribute>();
             services.AddTransient<AuditLogPageFilterAttribute>();
@@ -79,7 +83,17 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        
+        /// <summary>
+        /// 添加异常
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSgrExceptionHandling(this IServiceCollection services)
+        {
+            services.AddTransient<ExceptionHandlingMiddleware>();
+
+            return services;
+        }
 
         /// <summary>
         /// 

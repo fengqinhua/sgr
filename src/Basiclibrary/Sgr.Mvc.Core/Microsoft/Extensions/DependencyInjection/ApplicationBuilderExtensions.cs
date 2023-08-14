@@ -1,12 +1,14 @@
 ﻿using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using Sgr.AspNetCore.ActionFilters;
 using Sgr.AspNetCore.Middlewares;
 using Sgr.AspNetCore.Modules;
 using System;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,6 +17,51 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseSgrMvcCore(this IApplicationBuilder app, Action<IApplicationBuilder>? configure = null)
+        {
+            app.UseAuditLog((options) =>
+            {
+                options.IsEnabled = false;
+                options.IsIgnoreGetRequests = false;
+                options.IsIgnoreAnonymousUsers = false;
+                //options.AddIgnoredUrl("/");
+            }); //"/WeatherForecast"
+
+            app.UseAuditLogFilters((options) =>
+            {
+                options.IsEnabled = true;
+                options.IsIgnoreGetRequests = false;
+                options.IsIgnoreAnonymousUsers = false;
+            }); //"/WeatherForecast"
+
+            app.UseModules();
+
+
+            app.UseSgrExceptionHandler();
+            app.UsePoweredBy(true);
+
+            app.UseHttpsRedirection();
+            //app.UseAuthorization();
+
+            if (app is IEndpointRouteBuilder builder)
+            {
+                builder.MapControllers();
+            }
+
+            configure?.Invoke(app);
+
+            app.UseDefaultExceptionHandler(); //add this
+            app.UseEndpoints();
+
+            return app;
+        }
+
         /// <summary>
         /// 开启自定义移除处理中间件
         /// </summary>

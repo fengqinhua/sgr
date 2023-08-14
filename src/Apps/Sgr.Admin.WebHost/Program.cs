@@ -1,5 +1,6 @@
 using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -28,60 +29,33 @@ namespace Sgr.Admin.WebHost
             //builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
             builder.Host.UseNLogWeb();
 
-            builder.Services.AddSgrCore(builder.Configuration);
-            builder.Services.AddSgrMvcCore((services) =>
+            builder.Services.AddSgrMvcCore(builder.Configuration,builder.Environment ,(services) =>
             {
                 services.Replace(ServiceDescriptor.Singleton<IAuditLogContributor, AuditLogContributorAll>());
             });
 
             builder.Services.AddDbContexts(builder.Configuration);
-            builder.Services.AddModules(builder.Environment);
             builder.Services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
             });
 
-
-            builder.Services.AddSgrEndpoints();
-            builder.Services.AddControllers();
-            //builder.Services.AddProblemDetails();
+            
  
             var app = builder.Build();
 
-            //// Configure the HTTP request pipeline.
-            //if (!app.Environment.IsDevelopment())
-            //{
-            //    app.UseExceptionHandler("/Error");
-            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //    app.UseHsts();
-            //}
-
-            app.UseSgrExceptionHandler();
-            app.UseAuditLog((options) =>
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
             {
-                options.IsEnabled = false;
-                options.IsIgnoreGetRequests = false;
-                options.IsIgnoreAnonymousUsers = false;
-                //options.AddIgnoredUrl("/");
-            }); //"/WeatherForecast"
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
-            app.UseAuditLogFilters((options) =>
+            app.UseSgrMvcCore((appBuilder) =>
             {
-                options.IsEnabled = true;
-                options.IsIgnoreGetRequests = false;
-                options.IsIgnoreAnonymousUsers = false;
-            }); //"/WeatherForecast"
-
-
-            app.UsePoweredBy(true);
-            app.UseModules();
-
-            app.UseHttpsRedirection();
-            //app.UseAuthorization();
-            app.MapControllers();
-            app.UseDefaultExceptionHandler(); //add this
-
-            app.UseEndpoints(); 
+   
+            });
 
             app.Run();
         }
