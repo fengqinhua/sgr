@@ -42,11 +42,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Logging.NLog", "src\Bas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.Domain", "src\Modules\Sgr.Foundation.Domain\Sgr.Foundation.Domain.csproj", "{0C720308-585E-4654-8893-4CD6084B416D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sgr.Foundation", "Sgr.Foundation", "{ABE2D800-DA65-4165-B5CC-DEE29A6BCA37}"
-	ProjectSection(SolutionItems) = preProject
-		docs\Sgr.Foundation\domain.md = docs\Sgr.Foundation\domain.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.Infrastructure", "src\Modules\Sgr.Foundation.Infrastructure\Sgr.Foundation.Infrastructure.csproj", "{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "work_logs", "work_logs", "{A4B5551C-FA0E-404D-A632-26CD2715C6E5}"
@@ -60,6 +55,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Admin.WebHost.Tests", "tests\Sgr.Admin.WebHost.Tests\Sgr.Admin.WebHost.Tests.csproj", "{5AFCBC76-7304-4304-B588-816B2EA0B65D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Foundation.Tests", "tests\Sgr.Foundation.Tests\Sgr.Foundation.Tests.csproj", "{1156ED97-8FCC-4E88-B7EB-916DE4296FB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{FAC86392-27B2-4A08-B49D-82BB92808A8F}"
+	ProjectSection(SolutionItems) = preProject
+		DataBase\mysql_sgr0815.sql = DataBase\mysql_sgr0815.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sgr.foundation", "sgr.foundation", "{342A372E-B6C9-488E-839B-A86C2B46C63D}"
+	ProjectSection(SolutionItems) = preProject
+		docs\sgr.foundation\domain.md = docs\sgr.foundation\domain.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,12 +143,13 @@ Global
 		{D48A3F1C-7629-4B82-B796-157811C3BAF2} = {FA5DD2E2-802E-4462-83BF-1D78B3355FB2}
 		{2E655CA8-16BF-4A26-AFDB-CC3C0BD78CBC} = {DCB118B9-0060-46FD-9E6B-3772E384D059}
 		{0C720308-585E-4654-8893-4CD6084B416D} = {FA5DD2E2-802E-4462-83BF-1D78B3355FB2}
-		{ABE2D800-DA65-4165-B5CC-DEE29A6BCA37} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
 		{F4C2B1CF-7EE2-49A2-A71A-EFC1B045E3CE} = {FA5DD2E2-802E-4462-83BF-1D78B3355FB2}
 		{A4B5551C-FA0E-404D-A632-26CD2715C6E5} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
 		{946FCE29-4A71-43FB-8E65-86A5A2ACEBDF} = {ED753626-3B74-49BB-9D98-773EEA82A2E9}
 		{5AFCBC76-7304-4304-B588-816B2EA0B65D} = {F99F833F-BC49-4837-931D-1D02B66B4C84}
 		{1156ED97-8FCC-4E88-B7EB-916DE4296FB0} = {F99F833F-BC49-4837-931D-1D02B66B4C84}
+		{FAC86392-27B2-4A08-B49D-82BB92808A8F} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
+		{342A372E-B6C9-488E-839B-A86C2B46C63D} = {ECE7ECAA-49E9-483D-BCC9-D4D055C8860E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F860D220-ECF0-4466-AA85-30D0B2FCD69D}
