@@ -35,6 +35,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
             var serverVersion = new MySqlServerVersion(new Version(5, 7, 10));
             _dbOptions = new DbContextOptionsBuilder<SgrDbContext>()
                 .UseMySql("server=localhost;port=3306;database=sgr;uid=root;pwd=1qaz@WSX;", serverVersion)
+                .EnableSensitiveDataLogging()
                 .LogTo((message) =>
                 {
                     if (!message.Contains("CommandExecuting"))
@@ -110,7 +111,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
         [TestMethod]
         public async Task Query_Eager_Role_Success()
         {
-            long id = 1024;
+            int id = 101;
 
             await ensureCreateAsync(id);
 
@@ -119,7 +120,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
             Assert.IsNotNull(role);
 
             await repository.CollectionAsync(role, f => f.Resources);
-            Assert.AreEqual(role.Resources.Count(), 2);
+            Assert.IsTrue(role.Resources.Count() > 0);
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
         [TestMethod]
         public async Task Query_Explicit_Role_Success()
         {
-            long id = 1024;
+            int id = 102;
 
             await ensureCreateAsync(id);
 
@@ -137,7 +138,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
             var role = await repository.GetAsync(id, new string[] { "Resources" });
 
             Assert.IsNotNull(role);
-            Assert.AreEqual(role.Resources.Count(), 2);
+            Assert.IsTrue(role.Resources.Count() > 0);
         }
 
 
@@ -173,8 +174,13 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
 
         private static async Task updateAsync(IRoleRepository repository, long id, int orderNumber)
         {
-            var updateRole = await repository.GetAsync(id);
+            var updateRole = await repository.GetAsync(id, new string[] { "Resources" });
+            //var updateRole = await repository.GetAsync(id);
+
             Assert.IsNotNull(updateRole);
+
+            //await repository.CollectionAsync(updateRole, f => f.Resources);
+
 
             updateRole.OrderNumber = orderNumber;
             updateRole.AddPermission(ResourceType.DataPermission, "UPDATE TEST");

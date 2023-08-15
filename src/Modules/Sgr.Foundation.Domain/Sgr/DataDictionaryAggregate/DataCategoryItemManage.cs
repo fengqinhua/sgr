@@ -28,6 +28,7 @@ namespace Sgr.DataDictionaryAggregate
         public virtual async Task<DataCategoryItem> CreateNewAsync(
             string name,
             string value,
+            string? remarks,
             string categoryTypeCode,
             int orderNumber,
             long parentId = 0)
@@ -60,6 +61,7 @@ namespace Sgr.DataDictionaryAggregate
                 OrderNumber = orderNumber,
                 ParentId = parentId,
                 NodePath = nodePath,
+                Remarks = remarks,
                 State = EntityStates.Normal
             };
         }

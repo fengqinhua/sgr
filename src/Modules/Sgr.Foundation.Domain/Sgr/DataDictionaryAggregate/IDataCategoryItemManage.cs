@@ -10,6 +10,7 @@ namespace Sgr.DataDictionaryAggregate
         Task<DataCategoryItem> CreateNewAsync(
             string name,
             string value,
+            string? remarks,
             string categoryTypeCode,
             int orderNumber,
             long parentId = 0);

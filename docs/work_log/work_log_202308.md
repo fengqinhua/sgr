@@ -105,6 +105,7 @@
 > [EF Core Like 模糊查询](https://www.cnblogs.com/xjxue/p/17558826.html)
 > [EF Core 6 新功能汇总](https://mp.weixin.qq.com/s/VpqEWQPdEJUw_HHNeqBPdg)
 > [EFCORE性能优化方案](https://www.cnblogs.com/lbonet/p/14608870.html)
+> [关于Entity Framework中的Attached报错的完美解决方案](http://www.hzhcontrols.com/new-1080210.html)
 
 
 ### 08. 领域建模

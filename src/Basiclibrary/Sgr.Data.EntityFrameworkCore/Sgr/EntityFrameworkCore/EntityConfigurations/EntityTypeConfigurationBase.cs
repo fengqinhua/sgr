@@ -97,6 +97,7 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
                     .IsRequired()
                     //.HasValueGenerator<LongRowVersionValueGenerator>()
                     //.ValueGeneratedOnAddOrUpdate()
+                    //.IsRowVersion()
                     .HasComment("行版本");
             }
 

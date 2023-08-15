@@ -52,10 +52,10 @@ namespace Sgr.Database
                             list.Add(new NameValue(items[1], items[0]) { Description = items[2] });
                     }
 
-                    for(int i=0;i < list.Count; i++)
+                    for (int i = 0; i < list.Count; i++)
                     {
                         var item = list[i];
-                        var dataCategoryItem = await this._dataCategoryItemManage.CreateNewAsync(item.Name, item.Value, categoryTypeCode, i, 0);
+                        var dataCategoryItem = await this._dataCategoryItemManage.CreateNewAsync(item.Name, item.Value, item.Description, categoryTypeCode, i, 0);
                         dataCategoryItem.CreationTime = DateTimeOffset.Now;
                         await _context.Set<DataCategoryItem>().AddAsync(dataCategoryItem);
                     }

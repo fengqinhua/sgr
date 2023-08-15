@@ -109,7 +109,8 @@ namespace Sgr.Domain.Repositories
         /// <returns></returns>
         protected virtual IQueryable<TEntity> GetQueryable(string[] propertiesToInclude)
         {
-            IQueryable<TEntity> queryable = GetQueryable();
+            IQueryable<TEntity> queryable = GetQueryable().AsTracking();
+
             if (propertiesToInclude != null)
             {
                 foreach (var property in propertiesToInclude)
@@ -120,7 +121,23 @@ namespace Sgr.Domain.Repositories
 
             return queryable;
         }
-        
+
+        /// <summary>
+        /// 判断entity是否已经Attached
+        /// </summary>
+        /// <param name="dbContext"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        protected virtual bool IsAttached(DbContext dbContext, TEntity entity)
+        {
+            TEntity? localEntity = dbContext.Set<TEntity>().Local.Where(t => t.Id!.Equals(entity.Id)).FirstOrDefault();
+            if (localEntity != null)
+            {
+                if (dbContext.Entry(localEntity).State != EntityState.Detached)
+                    return true;
+            }
+            return false;
+        }
 
         #endregion
 
@@ -175,10 +192,10 @@ namespace Sgr.Domain.Repositories
         {
             Check.NotNull(entity, nameof(entity));
 
-            this.UpdateModifyAudited(entity);
-
             var dbContext = GetDbContext();
             dbContext.Entry(entity).State = EntityState.Modified;
+            this.UpdateModifyAudited(entity);
+
             return entity;
 
             //dbContext.Attach(entity);
@@ -457,6 +474,8 @@ namespace Sgr.Domain.Repositories
         #endregion
 
         #endregion
+
+
 
     }
 }
