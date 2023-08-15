@@ -41,6 +41,10 @@ namespace Sgr.EntityConfigurations
                 .IsRequired()
                 .HasComment("组织机构类型编码");
 
+            builder.PropertyAndHasColumnName(b => b.StaffSizeCode, GetColumnNameCase())
+                .HasMaxLength(50)
+                .HasComment("人员规模编码");
+
             builder.PropertyAndHasColumnName(b => b.AreaCode, GetColumnNameCase())
                 .HasMaxLength(50)
                 .IsRequired()
@@ -73,6 +77,15 @@ namespace Sgr.EntityConfigurations
             builder.PropertyAndHasColumnName(b => b.Remarks, GetColumnNameCase())
                 .HasMaxLength(500)
                 .HasComment("描述");
+
+
+            builder.PropertyAndHasColumnName(b => b.BusinessLicensePath, GetColumnNameCase())
+                .HasMaxLength(200)
+                .HasComment("营业执照路径");
+
+            builder.PropertyAndHasColumnName(b => b.IsConfirmed, GetColumnNameCase())
+                .IsRequired()
+                .HasComment("是否已完成认证");
 
             builder.PropertyAndHasColumnName(b => b.State, GetColumnNameCase())
                 .IsRequired()

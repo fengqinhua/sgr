@@ -81,24 +81,6 @@ namespace Sgr.Domain.Repositories
         {
             return _context;
         }
-
-
-        #region IOrganizationRepository
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="exclude_orgId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<bool> ExistAsync(string code, long exclude_orgId = 0, CancellationToken cancellationToken = default)
-        {
-            return await base.GetQueryable().AnyAsync(f => f.Code == code && f.Id != exclude_orgId, cancellationToken);
-        }
-
-        #endregion
-
     }
 
 }

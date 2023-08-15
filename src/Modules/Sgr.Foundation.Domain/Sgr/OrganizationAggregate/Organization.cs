@@ -12,6 +12,7 @@
 
 using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Sgr.OrganizationAggregate
     /// </summary>
     public class Organization : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>
     {
-
+        
         private Organization() { }
 
         /// <summary>
@@ -34,7 +35,6 @@ namespace Sgr.OrganizationAggregate
             Code = core;
         }
     
-
         /// <summary>
         /// 组织机构编码（默认情况下，选用统一社会信用代码）
         /// </summary>
@@ -43,6 +43,7 @@ namespace Sgr.OrganizationAggregate
         /// 组织机构名称
         /// </summary>
         public string Name { get; set; } = string.Empty;
+
         /// <summary>
         /// 组织机构类型编码
         /// </summary>
@@ -51,11 +52,24 @@ namespace Sgr.OrganizationAggregate
         /// 所属行政区划编码（默认情况下，选用邮政编码）
         /// </summary>
         public string AreaCode { get; internal protected set; } = string.Empty;
+        /// <summary>
+        /// 人员规模编码
+        /// </summary>
+        public string StaffSizeCode { get; set; } = string.Empty;
 
         /// <summary>
         /// 组织机构排序号
         /// </summary>
         public int OrderNumber { get; set; } = 0;
+        /// <summary>
+        /// Logo地址
+        /// </summary>
+        public string? LogoUrl { get; set; }
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string? Remarks { get; set; }
+
         /// <summary>
         /// 机构负责人/联系人
         /// </summary>
@@ -72,14 +86,15 @@ namespace Sgr.OrganizationAggregate
         /// 所在地址
         /// </summary>
         public string? Address { get; set; }
+
         /// <summary>
-        /// Logo地址
+        /// 营业执照路径
         /// </summary>
-        public string? LogoUrl { get; set; }
+        public string? BusinessLicensePath { get; set; }
         /// <summary>
-        /// 描述
+        /// 组织机构是否已完成认证
         /// </summary>
-        public string? Remarks { get; set; }
+        public bool IsConfirmed { get; private set; } = false;
 
         /// <summary>
         /// 组织机构状态

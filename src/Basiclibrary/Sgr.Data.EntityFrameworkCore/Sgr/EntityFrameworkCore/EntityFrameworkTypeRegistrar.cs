@@ -47,7 +47,7 @@ namespace Sgr.EntityFrameworkCore
 
         #endregion
 
-        private ConcurrentDictionary<string, Type> _types = new ();
+        private ConcurrentDictionary<string, Type> _types = new();
 
         /// <summary>
         /// 执行注册

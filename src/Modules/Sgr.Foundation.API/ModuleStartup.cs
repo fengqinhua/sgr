@@ -29,6 +29,7 @@ using Sgr.DepartmentAggregate;
 using Sgr.DutyAggregate;
 using Sgr.RoleAggregate;
 using Sgr.UserAggregate;
+using Sgr.Domain.Checkers;
 
 namespace Sgr.Foundation.API
 {
@@ -53,6 +54,8 @@ namespace Sgr.Foundation.API
         /// <param name="services"></param>
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ICategoryTypeProvider, FoundationCategoryTypeProvider>();
+
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<ILogLoginRepository, LogLoginRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
@@ -60,6 +63,7 @@ namespace Sgr.Foundation.API
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddScoped<IOrganizationChecker, OrganizationChecker>();
             services.AddScoped<IOrganizationManage, OrganizationManage>();
             services.AddScoped<IDutyManage, DutyManage>();
 

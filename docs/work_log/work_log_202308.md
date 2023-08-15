@@ -107,3 +107,9 @@
 > [EFCORE性能优化方案](https://www.cnblogs.com/lbonet/p/14608870.html)
 
 
+### 08. 领域建模
+
+
+参考： 
+
+> [领域模型验证](https://blog.csdn.net/yan_yu_lv_ji/article/details/128753978)

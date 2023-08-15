@@ -11,6 +11,7 @@
  **************************************************************/
 
 using Sgr.Domain.Entities;
+using Sgr.Domain.Managers;
 using Sgr.Exceptions;
 using Sgr.Generator;
 using System;
@@ -24,24 +25,27 @@ namespace Sgr.OrganizationAggregate
     /// <summary>
     /// 组织编码检查
     /// </summary>
-    public class OrganizationManage : IOrganizationManage
+    public class OrganizationManage : TreeNodeManageBase<Organization, long>,IOrganizationManage
     {
         private readonly IOrganizationRepository _organizationRepository;
+        private readonly IOrganizationChecker _organizationChecker;
         private readonly INumberIdGenerator _numberIdGenerator;
 
         /// <summary>
-        /// 组织编码检查
+        /// 
         /// </summary>
         /// <param name="organizationRepository"></param>
+        /// <param name="organizationChecker"></param>
         /// <param name="numberIdGenerator"></param>
         public OrganizationManage(IOrganizationRepository organizationRepository,
+            IOrganizationChecker organizationChecker,
             INumberIdGenerator numberIdGenerator)
+            : base(organizationRepository)
         {
             _organizationRepository = organizationRepository;
+            _organizationChecker = organizationChecker;
             _numberIdGenerator = numberIdGenerator;
         }
-
-
 
         /// <summary>
         /// 创建一个新的组织机构
@@ -67,11 +71,12 @@ namespace Sgr.OrganizationAggregate
             Check.StringNotNullOrWhiteSpace(areaCode, nameof(areaCode));
 
             //检查组织机构编码是否符合规范
-            (await IsUniqueAsync(code)).HandleRule();
+            if (await _organizationChecker.OrgCodeIsUniqueAsync(code))
+                throw new BusinessException("组织机构编码已存在");
 
             //获取Id及Id-Path
             var id = _numberIdGenerator.GenerateUniqueId();
-            string nodePath = await getNodePath(parentId, id);
+            string nodePath = await base.GetNodePath(parentId, id, 5);
 
             //返回
             return new Organization(code)
@@ -86,65 +91,9 @@ namespace Sgr.OrganizationAggregate
             };
         }
 
-        /// <summary>
-        /// 调整组织机构的父节点
-        /// </summary>
-        /// <param name="org"></param>
-        /// <param name="newParentId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task ChangeParentIdAsync(
-            Organization org,
-            long newParentId,
-            CancellationToken cancellationToken = default)
+        protected override void ChangeTreeNodePath(Organization entity, string nodePath)
         {
-            string oldNodePath = org.NodePath;
-            string newNodePath = await getNodePath(newParentId, org.Id, cancellationToken);
-
-            var orgs = await _organizationRepository.GetChildNodesRecursionAsync(org, cancellationToken);
-
-            foreach (var item in orgs)
-            {
-                item.NodePath = item.NodePath.Replace(oldNodePath, newNodePath);
-
-                await _organizationRepository.UpdateAsync(item);
-            }
-
-            org.ParentId = newParentId;
-            await _organizationRepository.UpdateAsync(org);
-        }
-
-
-        /// <summary>
-        /// 是否符合组织编码规范要求
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<BusinessCheckResult> IsUniqueAsync(string code, long id = 0, CancellationToken cancellationToken = default)
-        {
-            if (await _organizationRepository.ExistAsync(code, id, cancellationToken))
-                return BusinessCheckResult.Fail("组织机构编码已存在");
-
-            return BusinessCheckResult.Ok();
-        }
-
-        private async Task<string> getNodePath(long parentId, long thisId, CancellationToken cancellationToken = default)
-        {
-            string nodePath;
-            if (parentId > 0)
-            {
-                var org = (await _organizationRepository.GetAsync(parentId, cancellationToken)) ?? throw new BusinessException($"上级组织(Id：{parentId})不存在");
-
-                if (org.NodePath.Split('#').Length >= 5)
-                    throw new BusinessException($"组织机构目录层级不允许超过5层！");
-
-                nodePath = $"{org.NodePath}#{thisId}";
-            }
-            else
-                nodePath = $"{thisId}";
-            return nodePath;
+            entity.NodePath = nodePath;
         }
     }
 }

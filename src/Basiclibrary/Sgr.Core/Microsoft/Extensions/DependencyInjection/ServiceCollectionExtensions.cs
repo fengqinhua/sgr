@@ -43,11 +43,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IDatabaseSourceInfoProvider, DefaultDatabaseSourceInfoProvider>();
             services.AddSingleton<IDatabaseSourceInfoManager, DefaultDatabaseSourceInfoManager>();
 
+            //数据字典
+            services.AddSingleton<ICategoryTypeService, DefaultCategoryTypeService>();
+
             //配置审计接口
             services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
             services.AddTransient<IAuditLogService, DefaultAuditLogService>();
-
-
 
             return services;
         }

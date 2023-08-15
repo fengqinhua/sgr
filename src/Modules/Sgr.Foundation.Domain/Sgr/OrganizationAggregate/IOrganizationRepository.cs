@@ -25,13 +25,5 @@ namespace Sgr.OrganizationAggregate
     /// </summary>
     public interface IOrganizationRepository : ITreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<Organization, long>
     {
-        /// <summary>
-        /// 是否已存在某组织机构编码
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="exclude_orgId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public Task<bool> ExistAsync(string code, long exclude_orgId = 0,CancellationToken cancellationToken = default);
     }
 }

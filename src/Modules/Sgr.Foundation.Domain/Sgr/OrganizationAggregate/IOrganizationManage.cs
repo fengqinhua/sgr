@@ -24,7 +24,7 @@ namespace Sgr.OrganizationAggregate
     /// <summary>
     /// 领域服务：组织机构管理
     /// </summary>
-    public interface IOrganizationManage : IDomainManager
+    public interface IOrganizationManage : ITreeNodeManage<Organization, long>
     {
         /// <summary>
         /// 创建一个新的组织机构
@@ -41,32 +41,5 @@ namespace Sgr.OrganizationAggregate
             string orgTypeCode,
             string areaCode,
             long ParentId = 0);
-
-        /// <summary>
-        /// 调整组织机构的父节点
-        /// </summary>
-        /// <param name="org"></param>
-        /// <param name="newParentId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task ChangeParentIdAsync(
-            Organization org,
-            long newParentId,
-            CancellationToken cancellationToken = default);
-
-
-        /// <summary>
-        /// 是否符合组织编码规范要求
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<BusinessCheckResult> IsUniqueAsync(
-            string code,
-            long id = 0,
-            CancellationToken cancellationToken = default);
-
-
     }
 }

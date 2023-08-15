@@ -112,7 +112,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
         {
             long id = 1024;
 
-            //await ensureCreateAsync(id);
+            await ensureCreateAsync(id);
 
             var repository = CreateRepository();
             var role = await repository.GetAsync(id);
@@ -131,7 +131,7 @@ namespace Sgr.Foundation.Tests.Sgr.Domain.Repositories
         {
             long id = 1024;
 
-            //await ensureCreateAsync(id);
+            await ensureCreateAsync(id);
 
             var repository = CreateRepository();
             var role = await repository.GetAsync(id, new string[] { "Resources" });

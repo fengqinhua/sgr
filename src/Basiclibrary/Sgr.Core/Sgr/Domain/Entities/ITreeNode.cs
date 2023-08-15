@@ -28,6 +28,6 @@ namespace Sgr.Domain.Entities
         /// <summary>
         /// 树节点层次目录
         /// </summary>
-        string NodePath { get; }
+        string NodePath { get;}
     }
 }
