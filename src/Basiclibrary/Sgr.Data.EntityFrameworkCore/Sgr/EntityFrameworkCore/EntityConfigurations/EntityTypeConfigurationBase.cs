@@ -56,7 +56,16 @@ namespace Sgr.EntityFrameworkCore.EntityConfigurations
             builder.HasKey(b => b.Id);
 
             builder.PropertyAndHasColumnName("Id", GetColumnNameCase(), "sgr")
+                .ValueGeneratedNever()
                 .HasComment("主键");
+
+            if(typeof(IAggregateRoot).IsAssignableFrom(entityType))
+                builder.PropertyAndHasColumnName("Id", GetColumnNameCase(), "sgr")
+                    .ValueGeneratedNever()
+                    .HasComment("主键");
+            else
+                builder.PropertyAndHasColumnName("Id", GetColumnNameCase(), "sgr")
+                    .HasComment("主键");
 
             if (typeof(ITreeNode<TPrimaryKey>).IsAssignableFrom(entityType))
             {

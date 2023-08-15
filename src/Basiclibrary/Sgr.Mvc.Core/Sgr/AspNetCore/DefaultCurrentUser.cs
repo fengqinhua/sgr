@@ -34,29 +34,24 @@ namespace Sgr.AspNetCore
         public DefaultCurrentUser(IHttpContextAccessor context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-
-            if (_context.HttpContext == null)
-                throw new ArgumentNullException(nameof(context));
         }
 
         /// <summary>
         /// 当前用户标识
         /// </summary>
-        public string Id => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_ID, "");
-
+        public string Id => _context.HttpContext == null ? $"{Constant.DEFAULT_USERID}" : _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_ID, $"{Constant.DEFAULT_USERID}");
         /// <summary>
         /// 当前用户登录名称
         /// </summary>
-        public string LoginName => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_LOGIN_NAME, "unset");
+        public string LoginName => _context.HttpContext == null ? "" : _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_LOGIN_NAME, "");
         /// <summary>
         /// 当前用户姓名
         /// </summary>
-        public string UserName => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_NAME, "");
-
+        public string UserName => _context.HttpContext == null ? "" : _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_NAME, "");
         /// <summary>
         /// 当前用户所在组织
         /// </summary>
-        public string OrgId => _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_ORGID, "0");
+        public string OrgId => _context.HttpContext == null ? $"{Constant.DEFAULT_ORGID}" : _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_ORGID, $"{Constant.DEFAULT_ORGID}");
 
     }
 }

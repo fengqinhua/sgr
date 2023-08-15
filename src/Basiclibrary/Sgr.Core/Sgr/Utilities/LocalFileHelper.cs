@@ -140,12 +140,10 @@ namespace Sgr.Utilities
         /// <returns></returns>
         public static async Task<byte[]> ReadFileContentToBytesAsync(string path)
         {
-            using (var stream = File.Open(path, FileMode.Open))
-            {
-                var result = new byte[stream.Length];
-                await stream.ReadAsync(result, 0, (int)stream.Length);
-                return result;
-            }
+            using var stream = File.Open(path, FileMode.Open);
+            var result = new byte[stream.Length];
+            await stream.ReadAsync(result, 0, (int)stream.Length);
+            return result;
         }
 
         /// <summary>
@@ -157,8 +155,7 @@ namespace Sgr.Utilities
         /// <param name="encoding"></param>
         public static void WriteStringToFileAsync(string path, string content, bool overwrite = true, Encoding? encoding = null)
         {
-            if (encoding == null)
-                encoding = Encoding.UTF8;
+            encoding ??= Encoding.UTF8;
 
             //检查文件是否存在
             if (File.Exists(path))

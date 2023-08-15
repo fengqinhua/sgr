@@ -17,7 +17,7 @@ namespace Sgr.Admin.WebHost.Infrastructure.Factories
         /// <returns></returns>
         public SgrDbContext CreateDbContext(string[] args)
         {
-            //Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
 
             var config = new ConfigurationBuilder()
                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))

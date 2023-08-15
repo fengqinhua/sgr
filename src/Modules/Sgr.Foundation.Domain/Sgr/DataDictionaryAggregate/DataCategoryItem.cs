@@ -1,31 +1,40 @@
 ﻿using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sgr.DataDictionaryAggregate
 {
-    public class DataCategoryItem : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock
+    public class DataCategoryItem : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, ITreeNode<long>
     {
-        private DataCategoryItem() { }
+        internal DataCategoryItem() { }
+
+        //internal DataCategoryItem(string categoryTypeCode,string dcItemValue, bool isEditable = true)
+        //{
+        //    CategoryTypeCode = categoryTypeCode;
+        //    DcItemValue = dcItemValue;
+        //    IsEditable = isEditable;
+        //    State = EntityStates.Normal;
+        //}
 
         /// <summary>
         /// 字典分类标识
         /// </summary>
-        public long CategoryTypeId { get; protected set; }
+        public string CategoryTypeCode { get; internal protected set; } = string.Empty;
         /// <summary>
-        /// 字典项编码
+        /// 字典项名称
         /// </summary>
-        public string DcItemCode { get; protected set; } = string.Empty;
+        public string DcItemName { get; set; } = string.Empty;
         /// <summary>
         /// 字典项值
         /// </summary>
-        public string DcItemValue { get; protected set; } = string.Empty;
+        public string DcItemValue { get; internal protected set; } = string.Empty;
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string? Remarks { get; set; }
         /// <summary>
         /// 是否可编辑
         /// </summary>
-        public bool IsEditable { get; protected set; } = true;
+        public bool IsEditable { get; internal protected set; } = true;
         /// <summary>
         /// 排序号
         /// </summary>
@@ -36,6 +45,18 @@ namespace Sgr.DataDictionaryAggregate
         public EntityStates State { get; internal protected set; } = EntityStates.Normal;
 
 
+        #region  ITreeNode (树形结构)
+
+        /// <summary>
+        /// 上级组织Id
+        /// </summary>
+        public long ParentId { get; internal protected set; } = 0;
+        /// <summary>
+        /// 树节点层次目录
+        /// </summary>
+        public string NodePath { get; internal protected set; } = string.Empty;
+
+        #endregion
 
         #region IOptimisticLock (乐观锁)
 

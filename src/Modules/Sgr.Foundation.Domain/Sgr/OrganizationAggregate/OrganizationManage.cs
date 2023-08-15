@@ -27,7 +27,6 @@ namespace Sgr.OrganizationAggregate
     /// </summary>
     public class OrganizationManage : TreeNodeManageBase<Organization, long>,IOrganizationManage
     {
-        private readonly IOrganizationRepository _organizationRepository;
         private readonly IOrganizationChecker _organizationChecker;
         private readonly INumberIdGenerator _numberIdGenerator;
 
@@ -42,7 +41,6 @@ namespace Sgr.OrganizationAggregate
             INumberIdGenerator numberIdGenerator)
             : base(organizationRepository)
         {
-            _organizationRepository = organizationRepository;
             _organizationChecker = organizationChecker;
             _numberIdGenerator = numberIdGenerator;
         }

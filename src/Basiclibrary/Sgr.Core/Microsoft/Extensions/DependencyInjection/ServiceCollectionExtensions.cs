@@ -39,10 +39,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<IStringIdGenerator, DefaultStringIdGenerator>();
             services.AddSingleton<INumberIdGenerator, DefaultNumberIdGenerator>();
 
-            //数据源信息
-            services.AddSingleton<IDatabaseSourceInfoProvider, DefaultDatabaseSourceInfoProvider>();
-            services.AddSingleton<IDatabaseSourceInfoManager, DefaultDatabaseSourceInfoManager>();
-
+            //数据源相关
+            //services.AddSingleton<IDatabaseSourceInfoProvider, DefaultDatabaseSourceInfoProvider>();
+            //services.AddSingleton<IDatabaseSourceInfoManager, DefaultDatabaseSourceInfoManager>();
+            services.AddTransient<IDatabaseSeed, DefaultDatabaseSeed>();
+            
             //数据字典
             services.AddSingleton<ICategoryTypeService, DefaultCategoryTypeService>();
 

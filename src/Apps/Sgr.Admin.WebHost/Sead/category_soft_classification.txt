@@ -1,0 +1,4 @@
+﻿OS,操作系统,
+OFFICE,办公软件,
+ANTIVIRUS,杀毒软件,
+DESIGN,设计软件,

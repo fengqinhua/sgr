@@ -30,6 +30,8 @@ using Sgr.DutyAggregate;
 using Sgr.RoleAggregate;
 using Sgr.UserAggregate;
 using Sgr.Domain.Checkers;
+using Sgr.Database;
+using Sgr.DataDictionaryAggregate;
 
 namespace Sgr.Foundation.API
 {
@@ -54,6 +56,7 @@ namespace Sgr.Foundation.API
         /// <param name="services"></param>
         public override void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddSingleton<ICategoryTypeProvider, FoundationCategoryTypeProvider>();
 
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
@@ -62,11 +65,18 @@ namespace Sgr.Foundation.API
             services.AddScoped<IDutyRepository, DutyRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDataCategoryItemRepository, DataCategoryItemRepository>();
 
             services.AddScoped<IOrganizationChecker, OrganizationChecker>();
+            services.AddScoped<IDataCategoryItemChecker, DataCategoryItemChecker>();
+
             services.AddScoped<IOrganizationManage, OrganizationManage>();
             services.AddScoped<IDutyManage, DutyManage>();
+            services.AddScoped<IDataCategoryItemManage, DataCategoryItemManage>();
 
+            //services.AddTransient<IDataBaseInitialize, DataCategoryItemAreaDataBaseInitialize>();
+            services.AddTransient<IDataBaseInitialize, DataCategoryItemDataBaseInitialize>();
+            
             EntityFrameworkTypeRegistrar.Instance.Register<FoundationEntityFrameworkTypeProvider>();
 
             //services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());

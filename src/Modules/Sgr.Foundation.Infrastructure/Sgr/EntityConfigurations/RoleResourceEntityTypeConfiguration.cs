@@ -19,9 +19,9 @@ namespace Sgr.EntityConfigurations
         {
             builder.ToTable("sgr_role_resource");
 
-            builder.Property(f => f.Id).HasValueGenerator<StringValueGenerator>();
-
             base.Configure(builder);
+
+            builder.Property(f => f.Id).HasValueGenerator<StringValueGenerator>();
 
             builder.PropertyAndHasColumnName(b => b.ResourceCode, GetColumnNameCase())
                 .HasMaxLength(200)

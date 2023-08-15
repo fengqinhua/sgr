@@ -14,6 +14,7 @@ namespace Sgr
         }
         public N Name { get; set; }
         public V Value { get; set; }
+        public string? Description { get; set; }
     }
 
     [Serializable]

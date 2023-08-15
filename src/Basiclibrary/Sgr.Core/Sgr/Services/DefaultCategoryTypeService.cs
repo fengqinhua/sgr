@@ -30,14 +30,14 @@ namespace Sgr.Services
         {
             NameValue? result = null;
             var item = (await GetAllAsync()).FirstOrDefault(f => f.Value == value);
-            if(item != null)
+            if (item != null)
                 result = new NameValue(item!.Name, item!.Value);
             return result;
         }
 
         private void EnsureInitialized()
         {
-            if(_datas == null)
+            if (_datas == null)
             {
                 lock (_initLock)
                 {
@@ -49,7 +49,7 @@ namespace Sgr.Services
 
         public List<NameValue> GetList()
         {
-            List<NameValue> result = new List<NameValue>();
+            List<NameValue> result = new();
 
             foreach (var item in _providers)
             {

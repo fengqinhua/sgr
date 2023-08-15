@@ -44,20 +44,21 @@ namespace Sgr.Domain.Managers
         {
             string nodePath;
             if (parentId!.Equals(default(TPrimaryKey)))
-            {
-                var parentNode = (await _repository.GetAsync(parentId, cancellationToken)) ?? throw new BusinessException($"上级节点(Id：{parentId})不存在");
-
-                if (parentNode.NodePath.Split('#').Length >= maxLevel)
-                    throw new BusinessException($"层级不允许超过{maxLevel}层！");
-
-                nodePath = $"{parentNode.NodePath}#{thisId}";
-            }
+                nodePath = $"0";
             else
-                nodePath = $"{thisId}";
+            {
+                var parentNode = (await _repository.GetAsync(parentId, cancellationToken));// ?? throw new BusinessException($"上级节点(Id：{parentId})不存在");
+                if (parentNode == null)
+                    nodePath = $"0";
+                else
+                {
+                    if (parentNode.NodePath.Split('#').Length >= maxLevel)
+                        throw new BusinessException($"层级不允许超过{maxLevel}层！");
+                    nodePath = $"{parentNode.NodePath}#{thisId}";
+                }
+            }
 
             return nodePath;
         }
-
-
     }
 }

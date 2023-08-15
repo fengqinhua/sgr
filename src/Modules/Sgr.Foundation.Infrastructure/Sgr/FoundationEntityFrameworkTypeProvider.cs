@@ -12,6 +12,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Sgr.AuditLogAggregate;
+using Sgr.DataDictionaryAggregate;
 using Sgr.DepartmentAggregate;
 using Sgr.DutyAggregate;
 using Sgr.EntityConfigurations;
@@ -53,6 +54,7 @@ namespace Sgr
             modelBuilder.Entity<UserDuty>();
             modelBuilder.Entity<UserRole>();
 
+            modelBuilder.Entity<DataCategoryItem>();
 
         }
 
@@ -75,6 +77,8 @@ namespace Sgr
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserDutyEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new DataCategoryItemConfiguration());
         }
     }
 }
