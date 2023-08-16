@@ -83,7 +83,7 @@ namespace Sgr.Database
             {
                 _ = int.TryParse(son.Value, out int orderNumber);
                 var dataCategoryItem = await this._dataCategoryItemManage.CreateNewAsync(son.Name, son.Value,"", FoundationCategoryTypeProvider.CategoryType_Area_Code, orderNumber, pid);
-                dataCategoryItem.CreationTime = DateTimeOffset.Now;
+                dataCategoryItem.CreationTime = DateTimeOffset.UtcNow;
 
                 await _context.Set<DataCategoryItem>().AddAsync(dataCategoryItem);
 

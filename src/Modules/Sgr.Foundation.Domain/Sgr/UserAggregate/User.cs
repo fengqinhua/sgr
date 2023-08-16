@@ -188,8 +188,8 @@ namespace Sgr.UserAggregate
         public void LoginComplete(bool status)
         {
             if (this.FirstLoginTime == null)
-                this.FirstLoginTime = DateTimeOffset.Now;
-            this.LastLoginTime = DateTimeOffset.Now;
+                this.FirstLoginTime = DateTimeOffset.UtcNow;
+            this.LastLoginTime = DateTimeOffset.UtcNow;
 
             if (status)
                 this.LoginSuccessCount += 1;

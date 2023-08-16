@@ -80,33 +80,7 @@ namespace Microsoft.AspNetCore.Http
                 return claim.Value;
             return defaultValue;
         }
-    
-        /// <summary>
-        /// 获取请求体内容
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static async Task<string> GetHttpBodyAsync(this HttpContext context)
-        {
-            if (context.Request.ContentType == null || context.Request.ContentType.Contains("multipart/form-data"))
-                return "";
 
-            if (context.Request.ContentLength == null || context.Request.ContentLength == 0)
-                return "";
-
-            string result = "";
-            try
-            {
-                context.Request.EnableBuffering();                              //可以实现多次读取Body
-
-                using var sr = new StreamReader(context.Request.Body);
-                result = await sr.ReadToEndAsync();
-                context.Request.Body.Seek(0, SeekOrigin.Begin);
-            }
-            catch { }
-
-            return result;
-        }
 
         /// <summary>
         /// 获取请求表单信息

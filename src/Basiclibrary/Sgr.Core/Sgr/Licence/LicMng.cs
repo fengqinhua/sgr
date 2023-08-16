@@ -138,7 +138,7 @@ namespace Sgr.Licence
             refrashProductLastVisitDate();
 
             //当前时间
-            DateTimeOffset thisTime = DateTimeOffset.Now;// (DateTime.Now > _productLastVisitDate) ? DateTime.Now : _productLastVisitDate;
+            DateTimeOffset thisTime = DateTimeOffset.UtcNow;// (DateTime.Now > _productLastVisitDate) ? DateTime.Now : _productLastVisitDate;
 
             if (_startTime <= thisTime && thisTime <= _endTime)
             {
@@ -194,8 +194,8 @@ namespace Sgr.Licence
                 }
 
                 if (zcm == activationInfo.RegistrationCode
-                    && activationInfo.StartTime != Constant.MaxDateTime
-                    && activationInfo.EndTime != Constant.MinDateTime)
+                    && activationInfo.StartTime != Constant.MaxDateTimeOffset
+                    && activationInfo.EndTime != Constant.MinDateTimeOffset)
                 {
                     //保存授权文件
                     saveLicFile(sqm);
@@ -224,7 +224,7 @@ namespace Sgr.Licence
         /// </summary>
         private void refrashProductLastVisitDate()
         {
-            DateTimeOffset now = DateTimeOffset.Now;
+            DateTimeOffset now = DateTimeOffset.UtcNow;
 
             double sinceLastRefresh = (now - _productLastVisitDate).TotalHours;
             if (sinceLastRefresh > 1)
@@ -281,7 +281,7 @@ namespace Sgr.Licence
             //500次，第500次调用以后再次重新判断
             if (_isRegistered)
             {
-                double hour = (DateTimeOffset.Now - _lastCheckReistered).TotalHours;
+                double hour = (DateTimeOffset.UtcNow - _lastCheckReistered).TotalHours;
                 //如果此处程序是否已完成注册的状态缓存一个小时，超过一个小时以后再次重新判断
                 if (hour > 1)
                     _isRegistered = false;
@@ -307,13 +307,13 @@ namespace Sgr.Licence
                         {
                             string zcm = GetRegistrationCode();
                             if (zcm == activationInfo.RegistrationCode
-                                && activationInfo.StartTime != Constant.MaxDateTime
-                                && activationInfo.EndTime != Constant.MinDateTime)
+                                && activationInfo.StartTime != Constant.MaxDateTimeOffset
+                                && activationInfo.EndTime != Constant.MinDateTimeOffset)
                             {
                                 _startTime = activationInfo.StartTime;
                                 _endTime = activationInfo.EndTime;
 
-                                _lastCheckReistered = DateTimeOffset.Now;
+                                _lastCheckReistered = DateTimeOffset.UtcNow;
                                 _isRegistered = true;
                             }
                         }
@@ -403,14 +403,14 @@ namespace Sgr.Licence
             return dtResult;
         }
 
-        private long ConvertDataTimeLong(DateTimeOffset dt)
-        {
-            DateTimeOffset dtStart = getBenchmarkDate();
-            TimeSpan toNow = dt.Subtract(dtStart);
-            long timeStamp = toNow.Ticks;
-            timeStamp = long.Parse(timeStamp.ToString().Substring(0, timeStamp.ToString().Length - 4));
-            return timeStamp;
-        }
+        //private long ConvertDataTimeLong(DateTimeOffset dt)
+        //{
+        //    DateTimeOffset dtStart = getBenchmarkDate();
+        //    TimeSpan toNow = dt.Subtract(dtStart);
+        //    long timeStamp = toNow.Ticks;
+        //    timeStamp = long.Parse(timeStamp.ToString().Substring(0, timeStamp.ToString().Length - 4));
+        //    return timeStamp;
+        //}
 
         /// <summary>
         /// 获取注册与鉴权所用的基准时间

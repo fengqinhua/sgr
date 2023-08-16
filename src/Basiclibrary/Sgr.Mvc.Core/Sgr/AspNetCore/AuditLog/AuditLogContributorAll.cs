@@ -13,8 +13,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Server.IIS;
 using Sgr.Services;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -38,6 +40,8 @@ namespace Sgr.AspNetCore.AuditLog
             _httpUserAgentProvider = httpUserAgentProvider;
         }
 
+        public override bool IsAuditFull => true;
+
         /// <summary>
         /// 
         /// </summary>
@@ -54,7 +58,7 @@ namespace Sgr.AspNetCore.AuditLog
             auditInfo.ClientOs = httpUserAgent.Os;
             auditInfo.OperateWay = httpUserAgent.OperateWay;
 
-            auditInfo.Param = await context.GetHttpBodyAsync();
+            auditInfo.Param = await GetHttpBodyAsync(context);
             if (string.IsNullOrEmpty(auditInfo.Param))
                 auditInfo.Param = await context.GetHttpFormContentAsync();
 
@@ -74,6 +78,36 @@ namespace Sgr.AspNetCore.AuditLog
                 auditInfo.Description = functionDescriptor;
 
             _stopwatch.Restart();
+        }
+
+
+        /// <summary>
+        /// 获取请求体内容
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private static async Task<string> GetHttpBodyAsync( HttpContext context)
+        {
+            if (context.Request.ContentType == null || context.Request.ContentType.Contains("multipart/form-data"))
+                return "";
+
+            if (context.Request.ContentLength == null || context.Request.ContentLength == 0)
+                return "";
+
+            string result = "";
+            try
+            {
+                //context.Request.EnableBuffering();                              //可以实现多次读取Body
+
+                context.Request.Body.Seek(0, SeekOrigin.Begin);
+
+                using var sr = new StreamReader(context.Request.Body);
+                result = await sr.ReadToEndAsync();
+                context.Request.Body.Seek(0, SeekOrigin.Begin);
+            }
+            catch { }
+
+            return result;
         }
 
         /// <summary>

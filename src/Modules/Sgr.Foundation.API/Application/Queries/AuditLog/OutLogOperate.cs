@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：ef509d34-cd62-4145-9830-8f42e49acda9
- * 命名空间：Sgr.AuditLogAggregate
- * 创建时间：2023/8/8 10:26:16
+ * 唯一标识：bb6f6ca0-7c1c-452f-9973-64e6fc0e0445
+ * 命名空间：Sgr.Foundation.API.Application.Queries.AuditLog
+ * 创建时间：2023/8/16 17:32:24
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -10,35 +10,21 @@
  * 
  **************************************************************/
 
-using Sgr.Domain.Entities.Auditing;
-using Sgr.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Sgr.AuditLogAggregate
+namespace Sgr.Foundation.API.Application.Queries.AuditLog
 {
-    /// <summary>
-    /// 操作日志
-    /// </summary>
-    public class LogOperate : CreationAuditedEntity<long, long>, IAggregateRoot, IMustHaveOrg<long>
+    public class OutLogOperate
     {
-        public LogOperate() { }
-
-        public LogOperate(long orgId)
-        {
-            OrgId = orgId;
-        }
-
         /// <summary>
         /// 账号
         /// </summary>
-        public string LoginName { get; set; } = string.Empty;
+        public string? LoginName { get; set; } = string.Empty;
         /// <summary>
         /// 用户姓名
         /// </summary>
-        public string UserName { get; set; } = string.Empty;
-        
+        public string? UserName { get; set; } = string.Empty;
+
         /// <summary>
         /// Ip地址
         /// </summary>
@@ -93,13 +79,6 @@ namespace Sgr.AuditLogAggregate
         /// </summary>
         public string? Remark { get; set; } = string.Empty;
 
-        #region IMustHaveOrg  (如果一个实体实现该接口，那么必须存储实体所在组织的ID.)
-
-        /// <summary>
-        /// 所属组织
-        /// </summary>
-        public long OrgId { get; internal protected set; }
-
-        #endregion
+        public long OrgId { get; set; }
     }
 }

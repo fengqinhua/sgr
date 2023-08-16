@@ -29,6 +29,9 @@ using Sgr.UserAggregate;
 using Sgr.Domain.Checkers;
 using Sgr.Database;
 using Sgr.DataDictionaryAggregate;
+using Sgr.Foundation.API.Application.Queries.AuditLog;
+using Sgr.Foundation.API.Application.Queries.AuditLog.Impl;
+using Sgr.Foundation.API.Services;
 
 namespace Sgr.Foundation.API
 {
@@ -64,6 +67,9 @@ namespace Sgr.Foundation.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDataCategoryItemRepository, DataCategoryItemRepository>();
 
+            services.AddScoped<ILogOperateRepository, LogOperateRepository>();
+            services.AddScoped<ILogLoginRepository, LogLoginRepository>();
+
             services.AddScoped<IOrganizationChecker, OrganizationChecker>();
             services.AddScoped<IDataCategoryItemChecker, DataCategoryItemChecker>();
 
@@ -76,8 +82,9 @@ namespace Sgr.Foundation.API
             
             EntityFrameworkTypeRegistrar.Instance.Register<FoundationEntityFrameworkTypeProvider>();
 
-            //services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
-            //services.AddScoped<IEndpoint, OrgGetByIdEndpoint>();
+            services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
+
+            services.AddTransient<ILogOperateQueries, LogOperateQueries>();
         }
     }
 }

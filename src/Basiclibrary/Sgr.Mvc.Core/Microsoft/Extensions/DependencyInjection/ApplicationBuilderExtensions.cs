@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 using Sgr.AspNetCore.ActionFilters;
@@ -39,8 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.IsIgnoreAnonymousUsers = false;
             }); //"/WeatherForecast"
 
-            app.UseModules();
 
+
+            app.UseModules();
             app.UseSgrExceptionHandler();
             app.UsePoweredBy(true);
              
@@ -87,6 +89,18 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var auditLogFilterOptions = app.ApplicationServices.GetRequiredService<IAuditLogFilterOptions>();
             configure?.Invoke(auditLogFilterOptions);
+
+            //解决在审计日志中读取读取HttpBody的问题
+            //参考;https://blog.csdn.net/hwt0101/article/details/80893212
+            if (auditLogFilterOptions.IsEnabled && auditLogFilterOptions.Contributor.IsAuditFull)
+            {
+                app.Use(next => context =>
+                {
+                    context.Request.EnableBuffering();
+                    return next(context);
+                });
+            }
+
             return app;
         }
 

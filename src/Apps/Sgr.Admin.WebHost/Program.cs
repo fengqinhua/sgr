@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Sgr.Admin.WebHost.Extensions;
 using Sgr.AspNetCore.AuditLog;
 using Sgr.Database;
+using Sgr.Utilities;
 using System;
 using System.IO;
 using System.Reflection;
@@ -40,7 +41,10 @@ namespace Sgr.Admin.WebHost
 
             builder.Services.AddSgrMvcCore(builder.Configuration, builder.Environment, (services) =>
             {
-                services.AddControllers();
+                services.AddControllers().AddJsonOptions(options=>
+                {
+                    JsonHelper.UpdateJsonSerializerOptions(options.JsonSerializerOptions);
+                });
                 services.AddEndpointsApiExplorer();
                 services.AddSwaggerGen(options =>
                 {

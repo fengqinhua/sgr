@@ -165,21 +165,22 @@ namespace Sgr.Admin.WebHost.Infrastructure.Migrations
                         .HasComment("登录Ip地址");
 
                     b.Property<string>("Location")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
                         .HasColumnName("m_location")
                         .HasComment("登录地点");
 
                     b.Property<string>("LoginName")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)")
                         .HasColumnName("m_loginname")
                         .HasComment("登录账号");
 
-                    b.Property<string>("LoginWay")
+                    b.Property<string>("OperateWay")
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("m_loginway")
+                        .HasColumnName("m_operateway")
                         .HasComment("登录途径");
 
                     b.Property<long>("OrgId")
@@ -188,27 +189,27 @@ namespace Sgr.Admin.WebHost.Infrastructure.Migrations
                         .HasComment("所在组织ID");
 
                     b.Property<string>("Remark")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
                         .HasColumnName("m_remark")
                         .HasComment("请求结果描述");
 
                     b.Property<string>("RequestDescription")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
                         .HasColumnName("m_requestdescription")
                         .HasComment("请求说明");
 
-                    b.Property<int?>("RequestDuration")
-                        .HasColumnType("int")
+                    b.Property<long?>("RequestDuration")
+                        .HasColumnType("bigint")
                         .HasColumnName("m_requestduration")
                         .HasComment("请求耗时");
 
                     b.Property<string>("RequestParam")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000)")
+                        .HasMaxLength(4000)
+                        .HasColumnType("varchar(4000)")
                         .HasColumnName("m_requestparam")
                         .HasComment("请求参数");
 
@@ -219,8 +220,8 @@ namespace Sgr.Admin.WebHost.Infrastructure.Migrations
 
                     b.Property<string>("RequestUrl")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)")
                         .HasColumnName("m_requesturl")
                         .HasComment("请求地址");
 
@@ -230,6 +231,7 @@ namespace Sgr.Admin.WebHost.Infrastructure.Migrations
                         .HasComment("请求结果");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)")
                         .HasColumnName("m_username")

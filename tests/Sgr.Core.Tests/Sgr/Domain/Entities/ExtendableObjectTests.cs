@@ -23,7 +23,6 @@ namespace Sgr.Domain.Entities
         [TestMethod]
         public void ExtendableObject_SaveValue()
         {
-
             var entity = new ExtendableEntityClass();
 
             //针对数值

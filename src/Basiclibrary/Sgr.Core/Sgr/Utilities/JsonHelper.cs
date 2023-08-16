@@ -62,6 +62,7 @@ namespace Sgr.Utilities
 #endif
 
             // 添加时间格式化转换器
+            options.Converters.Add(new Serialization.DateTimeJsonConverter());
             options.Converters.Add(new Serialization.DateTimeOffsetJsonConverter());
 
             // 字段采用驼峰式命名

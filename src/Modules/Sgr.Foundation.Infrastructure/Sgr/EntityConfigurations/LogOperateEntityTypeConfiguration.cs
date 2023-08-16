@@ -32,10 +32,10 @@ namespace Sgr.EntityConfigurations
                 .HasComment("登录Ip地址");
 
             builder.PropertyAndHasColumnName(b => b.Location, GetColumnNameCase())
-                .HasMaxLength(200)
+                .HasMaxLength(500)
                 .HasComment("登录地点");
 
-            builder.PropertyAndHasColumnName(b => b.LoginWay, GetColumnNameCase())
+            builder.PropertyAndHasColumnName(b => b.OperateWay, GetColumnNameCase())
                 .HasMaxLength(20)
                 .HasComment("登录途径");
 
@@ -49,12 +49,12 @@ namespace Sgr.EntityConfigurations
 
             builder.PropertyAndHasColumnName(b => b.RequestDescription, GetColumnNameCase())
                 .IsRequired()
-                .HasMaxLength(200)
+                .HasMaxLength(500)
                 .HasComment("请求说明");
 
             builder.PropertyAndHasColumnName(b => b.RequestUrl, GetColumnNameCase())
                 .IsRequired()
-                .HasMaxLength(500)
+                .HasMaxLength(1000)
                 .HasComment("请求地址");
 
             builder.PropertyAndHasColumnName(b => b.HttpMethod, GetColumnNameCase())
@@ -64,7 +64,7 @@ namespace Sgr.EntityConfigurations
 
             builder.PropertyAndHasColumnName(b => b.RequestParam, GetColumnNameCase())
                 .IsRequired()
-                .HasMaxLength(2000)
+                .HasMaxLength(4000)
                 .HasComment("请求参数");
 
             builder.PropertyAndHasColumnName(b => b.RequestTime, GetColumnNameCase())
@@ -79,7 +79,7 @@ namespace Sgr.EntityConfigurations
                 .HasComment("请求结果");
 
             builder.PropertyAndHasColumnName(b => b.Remark, GetColumnNameCase())
-                .HasMaxLength(200)
+                .HasMaxLength(500)
                 .HasComment("请求结果描述");
         }
     }

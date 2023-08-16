@@ -22,6 +22,8 @@ namespace Sgr.AspNetCore.AuditLog
     /// </summary>
     public class AuditLogContributor : IAuditLogContributor
     {
+        public virtual bool IsAuditFull => false;
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,11 +35,17 @@ namespace Sgr.AspNetCore.AuditLog
         {
             auditInfo.LoginName = context.GetValueFromClaim(Constant.CLAIM_LOGIN_NAME, "");
             auditInfo.UserName = context.GetValueFromClaim(Constant.CLAIM_USER_NAME, "");
+
+            if (long.TryParse(context.GetValueFromClaim(Constant.CLAIM_USER_ORGID, ""), out long orgId))
+                auditInfo.OrgId = orgId;
+            else
+                auditInfo.OrgId = Constant.DEFAULT_ORGID;
+
             auditInfo.IpAddress = context.GetClientIpAddress();
 
             auditInfo.HttpMethod = context.Request.Method;
             auditInfo.Url = context.GetRequestUrl();
-            auditInfo.OperateTime = DateTimeOffset.Now;
+            auditInfo.OperateTime = DateTimeOffset.UtcNow;
 
             return Task.CompletedTask;
         }

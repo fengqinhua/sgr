@@ -31,6 +31,10 @@ namespace Sgr.Services
         /// </summary>
         public string UserName { get; set; } = "";
         /// <summary>
+        /// 组织标识
+        /// </summary>
+        public long OrgId { get; set; }
+        /// <summary>
         /// 操作时间
         /// </summary>
         public DateTimeOffset OperateTime { get; set; } 

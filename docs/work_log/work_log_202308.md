@@ -124,3 +124,11 @@
 > [在ASP.NET Core中实现内容协商](https://zhuanlan.zhihu.com/p/371535666?utm_id=0)
 > [asp.net core系列 38 WebAPI 返回类型与响应格式--必备](https://www.cnblogs.com/Alex80/p/17269948.html)
 
+### 10. DateTime 与 DateTimeOffset
+
+
+参考： 
+
+> [在 DateTime 与 DateTimeOffset 之间进行转换](https://learn.microsoft.com/zh-cn/dotnet/standard/datetime/converting-between-datetime-and-offset#conversions-from-datetime-to-datetimeoffset)
+> [DateTime还是DateTimeOffset？Now还是UtcNow？](https://www.cnblogs.com/redmoon/p/5104098.html)
+> [c#：时区、DateTime和DateTimeOffset](https://www.cnblogs.com/fanfan-90/p/14145694.html)

@@ -7,7 +7,10 @@
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
  * 描述：
- * 
+ * [ActionName("查询审计日志详情")]
+ * [TypeFilter(typeof(AuditLogActionFilterAttribute), Arguments = new object[] { "查询审计日志详情" })]
+ * [ServiceFilter(typeof(AuditLogActionFilterAttribute))]
+ * [UnAuditLogActionFilter()]
  **************************************************************/
 
 using Microsoft.AspNetCore.Http;

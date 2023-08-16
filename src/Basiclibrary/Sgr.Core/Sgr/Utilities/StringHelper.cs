@@ -41,5 +41,17 @@ namespace Sgr.Utilities
             else
                 return encoding.GetString(bytes);
         }
+
+        public static string SubStringMaxLength(string str, int maxLength)
+        {
+            maxLength -= 6;
+            if (maxLength < 0)
+                maxLength = 1;
+
+            if (string.IsNullOrEmpty(str) || str.Length < maxLength)
+                return str;
+
+            return str.Substring(0, maxLength) + "...";
+        }
     }
 }

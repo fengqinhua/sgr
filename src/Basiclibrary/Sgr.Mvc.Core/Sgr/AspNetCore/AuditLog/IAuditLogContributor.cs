@@ -21,6 +21,7 @@ namespace Sgr.AspNetCore.AuditLog
     /// </summary>
     public interface IAuditLogContributor
     {
+        bool IsAuditFull { get; }
         /// <summary>
         /// 
         /// </summary>

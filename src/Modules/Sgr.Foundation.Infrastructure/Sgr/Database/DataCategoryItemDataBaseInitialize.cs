@@ -56,7 +56,7 @@ namespace Sgr.Database
                     {
                         var item = list[i];
                         var dataCategoryItem = await this._dataCategoryItemManage.CreateNewAsync(item.Name, item.Value, item.Description, categoryTypeCode, i, 0);
-                        dataCategoryItem.CreationTime = DateTimeOffset.Now;
+                        dataCategoryItem.CreationTime = DateTimeOffset.UtcNow;
                         await _context.Set<DataCategoryItem>().AddAsync(dataCategoryItem);
                     }
 

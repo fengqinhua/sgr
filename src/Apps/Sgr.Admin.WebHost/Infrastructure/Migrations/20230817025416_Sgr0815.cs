@@ -150,32 +150,32 @@ namespace Sgr.Admin.WebHost.Infrastructure.Migrations
                 columns: table => new
                 {
                     sgr_id = table.Column<long>(type: "bigint", nullable: false, comment: "主键"),
-                    m_loginname = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "登录账号")
+                    m_loginname = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "登录账号")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    m_username = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "用户姓名")
+                    m_username = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "用户姓名")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_ipaddress = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true, comment: "登录Ip地址")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    m_location = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "登录地点")
+                    m_location = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true, comment: "登录地点")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_clientbrowser = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true, comment: "客户端浏览器")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_clientos = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true, comment: "客户端系统")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    m_loginway = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true, comment: "登录途径")
+                    m_operateway = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true, comment: "登录途径")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    m_requestdescription = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false, comment: "请求说明")
+                    m_requestdescription = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false, comment: "请求说明")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    m_requesturl = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false, comment: "请求地址")
+                    m_requesturl = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false, comment: "请求地址")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_httpmethod = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false, comment: "请求方法")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    m_requestparam = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: false, comment: "请求参数")
+                    m_requestparam = table.Column<string>(type: "varchar(4000)", maxLength: 4000, nullable: false, comment: "请求参数")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     m_requesttime = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false, comment: "请求时间"),
-                    m_requestduration = table.Column<int>(type: "int", nullable: true, comment: "请求耗时"),
+                    m_requestduration = table.Column<long>(type: "bigint", nullable: true, comment: "请求耗时"),
                     m_status = table.Column<bool>(type: "tinyint(1)", nullable: false, comment: "请求结果"),
-                    m_remark = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true, comment: "请求结果描述")
+                    m_remark = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true, comment: "请求结果描述")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     sgr_orgid = table.Column<long>(type: "bigint", nullable: false, comment: "所在组织ID"),
                     sgr_creatoruserid = table.Column<long>(type: "bigint", nullable: false, comment: "创建的用户ID"),

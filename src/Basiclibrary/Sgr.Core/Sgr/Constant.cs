@@ -24,11 +24,11 @@ namespace Sgr
         /// <summary>
         /// 最小时间
         /// </summary>
-        public static readonly DateTimeOffset MinDateTime = new (1900, 1, 1, 1, 1, 1,TimeSpan.Zero);
+        public static readonly DateTimeOffset MinDateTimeOffset = new (1900, 1, 1, 1, 1, 1,TimeSpan.Zero);
         /// <summary>
         /// 最大时间
         /// </summary>
-        public static readonly DateTimeOffset MaxDateTime = new (2999, 1, 1, 1, 1, 1, TimeSpan.Zero);
+        public static readonly DateTimeOffset MaxDateTimeOffset = new (2999, 1, 1, 1, 1, 1, TimeSpan.Zero);
         /// <summary>
         /// 实体的扩展属性最大长度
         /// </summary>
