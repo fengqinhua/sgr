@@ -11,6 +11,8 @@
  **************************************************************/
 
 using Sgr;
+using Sgr.Application.ViewModels;
+using Sgr.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +26,50 @@ namespace System.Linq
     public static class QueryableExtensions
     {
         /// <summary>
+        /// 排除已删除的
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static IQueryable<TEntity> ExcludeDeleted<TEntity>(this IQueryable<TEntity> query)
+            where TEntity : ISoftDelete
+        {
+            return query.Where(f => !f.IsDeleted);
+        }
+
+        /// <summary>
+        /// 查询指定组织的数据
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKey"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        public static IQueryable<TEntity> WithOrg<TEntity, TPrimaryKey>(this IQueryable<TEntity> query,
+            TPrimaryKey orgId)
+            where TEntity : IMustHaveOrg<TPrimaryKey>
+        {
+            return query.Where(f => f.OrgId!.Equals(orgId));
+        }
+
+        /// <summary>
+        /// 查找指定组织的数据
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKey"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="orgIds"></param>
+        /// <returns></returns>
+        public static IQueryable<TEntity> WithOrg<TEntity, TPrimaryKey>(this IQueryable<TEntity> query,
+            IList<TPrimaryKey> orgIds)
+            where TEntity : IMustHaveOrg<TPrimaryKey>
+        {
+            return query.Where(f => orgIds.Contains(f.OrgId));
+        }
+
+
+
+        /// <summary>
         ///  分页
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -31,7 +77,7 @@ namespace System.Linq
         /// <param name="skipCount"></param>
         /// <param name="takeCount"></param>
         /// <returns></returns>
-        public static Tuple<IEnumerable<T>, long> ToPagedListBySkip<T>(this IQueryable<T> query,
+        public static PagedResponse<T> ToPagedListBySkip<T>(this IQueryable<T> query,
             int skipCount,
             int takeCount)
         {
@@ -43,13 +89,14 @@ namespace System.Linq
             long count = query.LongCount();
 
             if (skipCount >= count)
-                return new Tuple<IEnumerable<T>, long>(new BindingList<T>(), count);
+                return new PagedResponse<T>(count, null);   //return new PagedResponse(count, new BindingList<T>());
             else
             {
                 var items = query.Skip(skipCount)
                  .Take(takeCount)
                  .ToList();
-                return new Tuple<IEnumerable<T>, long>(items, count);
+
+                return new PagedResponse<T>(count, items);  //return new Tuple<IEnumerable<T>, long>(items, count);
             }
         }
 
@@ -61,7 +108,7 @@ namespace System.Linq
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public static Tuple<IEnumerable<T>, long> ToPagedListByPageSize<T>(this IQueryable<T> query,
+        public static PagedResponse<T> ToPagedListByPageSize<T>(this IQueryable<T> query,
              int pageIndex,
              int pageSize)
         {

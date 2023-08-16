@@ -20,7 +20,7 @@ namespace Sgr.Foundation.API.Controllers
 
         public LogOperateController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator; 
         }
 
         /// <summary>
@@ -34,6 +34,10 @@ namespace Sgr.Foundation.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [AuditLogActionFilter("查询审计日志详情")]
+        //[ActionName("查询审计日志详情")]
+        //[TypeFilter(typeof(AuditLogActionFilterAttribute), Arguments = new object[] { "查询审计日志详情" })]
+        //[ServiceFilter(typeof(AuditLogActionFilterAttribute))]
+        //[UnAuditLogActionFilter()]
         public async Task<ActionResult<LogOperate>> LogOperateAsync(int id)
         {
             return new LogOperate();
