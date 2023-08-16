@@ -1,5 +1,4 @@
-﻿using FastEndpoints;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
@@ -25,13 +24,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IApplicationBuilder UseSgrMvcCore(this IApplicationBuilder app, Action<IApplicationBuilder>? configure = null)
         {
-            app.UseAuditLog((options) =>
-            {
-                options.IsEnabled = false;
-                options.IsIgnoreGetRequests = false;
-                options.IsIgnoreAnonymousUsers = false;
-                //options.AddIgnoredUrl("/");
-            }); //"/WeatherForecast"
+            //app.UseAuditLog((options) =>
+            //{
+            //    options.IsEnabled = false;
+            //    options.IsIgnoreGetRequests = false;
+            //    options.IsIgnoreAnonymousUsers = false;
+            //    //options.AddIgnoredUrl("/");
+            //}); //"/WeatherForecast"
 
             app.UseAuditLogFilters((options) =>
             {
@@ -42,23 +41,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             app.UseModules();
 
-
             app.UseSgrExceptionHandler();
             app.UsePoweredBy(true);
-
-            app.UseHttpsRedirection();
-            //app.UseAuthorization();
-
-            if (app is IEndpointRouteBuilder builder)
-            {
-                builder.MapControllers();
-            }
-
+             
             configure?.Invoke(app);
-
-            app.UseDefaultExceptionHandler(); //add this
-            app.UseEndpoints();
-
+             
             return app;
         }
 
@@ -134,18 +121,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             app.UseMiddleware<PoweredByMiddleware>();
 
-            return app;
-        }
-
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseEndpoints(this IApplicationBuilder app)
-        {
-            app.UseFastEndpoints();
             return app;
         }
 

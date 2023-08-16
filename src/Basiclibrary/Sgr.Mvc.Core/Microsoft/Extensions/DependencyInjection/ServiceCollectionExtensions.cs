@@ -1,5 +1,4 @@
-﻿using FastEndpoints;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -33,10 +32,8 @@ namespace Microsoft.Extensions.DependencyInjection
             AddSgrExceptionHandling(services);
 
             AddModules(services, environment);
-            AddSgrEndpoints(services);
 
-            services.AddControllers();
-
+            //services.AddControllers();
             //services.AddProblemDetails();
 
             configure?.Invoke(services);
@@ -103,18 +100,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddUserIdentity(this IServiceCollection services)
         {
             services.AddTransient<ICurrentUser, DefaultCurrentUser>();
-            return services;
-        }
-
-        /// <summary>
-        /// 添加 Endpoints
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddSgrEndpoints(this IServiceCollection services)
-        {
-            services.AddFastEndpoints();
-
             return services;
         }
 

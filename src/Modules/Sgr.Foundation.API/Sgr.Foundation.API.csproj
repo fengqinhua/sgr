@@ -3,8 +3,9 @@
 	<PropertyGroup>
 		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
 		<Description>$(SrgDescription)</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\..\Basiclibrary\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
 		<ProjectReference Include="..\Sgr.Foundation.Infrastructure\Sgr.Foundation.Infrastructure.csproj" />

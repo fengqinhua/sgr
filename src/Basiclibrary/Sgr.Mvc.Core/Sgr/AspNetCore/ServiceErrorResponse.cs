@@ -20,14 +20,14 @@ namespace Sgr.AspNetCore
         /// <summary>
         /// 
         /// </summary>
-        public ServiceErrorInfo ServiceError { get; set; }
+        public ServiceErrorInfo Serviceerror { get; set; }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="error"></param>
         public ServiceErrorResponse(ServiceErrorInfo error)
         {
-            ServiceError = error;
+            Serviceerror = error;
         }
     }
 }

@@ -10,7 +10,6 @@
  * 
  **************************************************************/
 
-using FastEndpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
@@ -19,8 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sgr.Domain.Repositories;
 using Sgr.EntityFrameworkCore;
-using Sgr.Foundation.API.OrgEndpoints;
-using Sgr.Foundation.API.Services;
 using Sgr.OrganizationAggregate;
 using Sgr.Services;
 using Sgr.AspNetCore.Modules;

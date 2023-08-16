@@ -10,7 +10,6 @@
  * 
  **************************************************************/
 
-using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;

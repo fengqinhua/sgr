@@ -130,6 +130,7 @@ namespace Sgr.AspNetCore.Middlewares
             //.GetRequiredService<IExceptionNotifier>()
 
 
+
             httpContext.Response.Clear();
             httpContext.Response.StatusCode = 500;
             httpContext.Response.OnStarting(ClearCacheHeaders, httpContext.Response);

@@ -1,5 +1,4 @@
-﻿using FastEndpoints;
-using Sgr.RoleAggregate;
+﻿using Sgr.RoleAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

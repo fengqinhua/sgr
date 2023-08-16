@@ -114,3 +114,13 @@
 参考： 
 
 > [领域模型验证](https://blog.csdn.net/yan_yu_lv_ji/article/details/128753978)
+
+
+### 09. WEB API
+
+
+参考： 
+
+> [在ASP.NET Core中实现内容协商](https://zhuanlan.zhihu.com/p/371535666?utm_id=0)
+> [asp.net core系列 38 WebAPI 返回类型与响应格式--必备](https://www.cnblogs.com/Alex80/p/17269948.html)
+

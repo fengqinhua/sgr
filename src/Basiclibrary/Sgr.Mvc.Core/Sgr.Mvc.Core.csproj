@@ -8,10 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FastEndpoints" Version="$(FastEndpointsVersion)" />
-	</ItemGroup>
-	
-	<ItemGroup>
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
 	</ItemGroup>
 
