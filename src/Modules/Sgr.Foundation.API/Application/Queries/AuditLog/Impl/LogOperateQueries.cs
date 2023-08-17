@@ -60,17 +60,20 @@ namespace Sgr.Foundation.API.Application.Queries.AuditLog.Impl
                  })
                  .FirstOrDefaultAsync();
 
+            if (result == null)
+                throw new KeyNotFoundException($"LogOperate Key = {id} Not Found!");
+
             return result;
 
             //return result ?? throw new KeyNotFoundException($"LogOperate Key = {id} Not Found!");
         }
 
 
-
+ 
         public async Task<PagedResponse<OutLogOperatePaged>> GetListAsync(InLogOperatePagedRequest request)
         {
             Check.NotNull(request, nameof(request));
-
+            
             //如果无法获取组织标识则返回空数据
             if (!long.TryParse(_currentUser.OrgId, out long orgId))
                 return new PagedResponse<OutLogOperatePaged>();
@@ -96,24 +99,24 @@ namespace Sgr.Foundation.API.Application.Queries.AuditLog.Impl
 
             //设置排序方式
             query = request.IsAscending ? query.OrderBy(f => f.Id) : query.OrderByDescending(f => f.Id);
-
+            
             //设置选择器
             return await query.Select(f => new OutLogOperatePaged()
-            {
-                Id = f.Id,
-                ClientBrowser = f.ClientBrowser,
-                ClientOs = f.ClientOs,
-                IpAddress = f.IpAddress,
-                Location = f.Location,
-                LoginName = f.LoginName,
-                Remark = f.Remark,
-                RequestDescription = f.RequestDescription,
-                RequestDuration = f.RequestDuration,
-                RequestTime = f.RequestTime,
-                RequestUrl = f.RequestUrl,
-                Status = f.Status,
+                 {
+                     Id = f.Id,
+                     ClientBrowser = f.ClientBrowser,
+                     ClientOs = f.ClientOs,
+                     IpAddress = f.IpAddress,
+                     Location = f.Location,
+                     LoginName = f.LoginName,
+                     Remark = f.Remark,
+                     RequestDescription = f.RequestDescription,
+                     RequestDuration = f.RequestDuration,
+                     RequestTime = f.RequestTime,
+                     RequestUrl = f.RequestUrl,
+                     Status = f.Status,
                 OrgId = f.OrgId
-            })
+                 })
                  .ToPagedListByPageSizeAsync(request.PageIndex, request.PageSize);
         }
     }
