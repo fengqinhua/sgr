@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sgr.DataDictionaryAggregate;
+using Sgr.DataCategoryAggregate;
 using Sgr.EntityFrameworkCore;
 using Sgr.OrganizationAggregate;
 using System;

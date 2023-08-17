@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sgr.DataDictionaryAggregate;
+using Sgr.DataCategoryAggregate;
 using Sgr.EntityFrameworkCore.EntityConfigurations;
 using Sgr.OrganizationAggregate;
 using System;

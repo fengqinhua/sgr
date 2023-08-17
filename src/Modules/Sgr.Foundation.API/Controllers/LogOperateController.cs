@@ -18,12 +18,10 @@ namespace Sgr.Foundation.API.Controllers
     [ApiController]
     public class LogOperateController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly ILogOperateQueries _logOperateQueries;
 
-        public LogOperateController(IMediator mediator, ILogOperateQueries logOperateQueries)
+        public LogOperateController(ILogOperateQueries logOperateQueries)
         {
-            _mediator = mediator;
             _logOperateQueries = logOperateQueries;
         }
 

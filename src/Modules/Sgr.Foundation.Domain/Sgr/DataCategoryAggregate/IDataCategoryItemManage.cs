@@ -2,11 +2,11 @@
 using Sgr.OrganizationAggregate;
 using System.Threading.Tasks;
 
-namespace Sgr.DataDictionaryAggregate
+namespace Sgr.DataCategoryAggregate
 {
     public interface IDataCategoryItemManage : ITreeNodeManage<DataCategoryItem, long>
     {
-       
+
         Task<DataCategoryItem> CreateNewAsync(
             string name,
             string value,

@@ -12,7 +12,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Sgr.AuditLogAggregate;
-using Sgr.DataDictionaryAggregate;
+using Sgr.DataCategoryAggregate;
 using Sgr.DepartmentAggregate;
 using Sgr.DutyAggregate;
 using Sgr.EntityConfigurations;

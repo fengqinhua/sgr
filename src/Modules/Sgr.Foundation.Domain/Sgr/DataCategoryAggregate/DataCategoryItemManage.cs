@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sgr.DataDictionaryAggregate
+namespace Sgr.DataCategoryAggregate
 {
     public class DataCategoryItemManage : TreeNodeManageBase<DataCategoryItem, long>, IDataCategoryItemManage
     {
@@ -43,11 +43,11 @@ namespace Sgr.DataDictionaryAggregate
                 throw new BusinessException($"字典项值{value}已存在");
 
             //获取Id及Id-Path
-            if(!long.TryParse(value, out long id))
+            if (!long.TryParse(value, out long id))
                 id = _numberIdGenerator.GenerateUniqueId();
 
-            string nodePath =  (await base.GetNodePath(parentId, id, 5));
-            if(nodePath == "0")
+            string nodePath = await GetNodePath(parentId, id, 5);
+            if (nodePath == "0")
                 nodePath = categoryTypeCode;
 
             //返回

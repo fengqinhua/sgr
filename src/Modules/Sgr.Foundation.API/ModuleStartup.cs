@@ -28,10 +28,12 @@ using Sgr.RoleAggregate;
 using Sgr.UserAggregate;
 using Sgr.Domain.Checkers;
 using Sgr.Database;
-using Sgr.DataDictionaryAggregate;
 using Sgr.Foundation.API.Application.Queries.AuditLog;
 using Sgr.Foundation.API.Application.Queries.AuditLog.Impl;
 using Sgr.Foundation.API.Services;
+using Sgr.DataCategoryAggregate;
+using Sgr.Foundation.API.Application.Queries.DataCategory.Impl;
+using Sgr.Foundation.API.Application.Queries.DataCategory;
 
 namespace Sgr.Foundation.API
 {
@@ -85,6 +87,7 @@ namespace Sgr.Foundation.API
             services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
 
             services.AddTransient<ILogOperateQueries, LogOperateQueries>();
+            services.AddTransient<IDataCategoryQueries, DataCategoryQueries>();
         }
     }
 }

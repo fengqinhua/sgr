@@ -1,7 +1,7 @@
 ﻿using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Entities;
 
-namespace Sgr.DataDictionaryAggregate
+namespace Sgr.DataCategoryAggregate
 {
     public class DataCategoryItem : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, ITreeNode<long>
     {
@@ -48,7 +48,7 @@ namespace Sgr.DataDictionaryAggregate
         #region  ITreeNode (树形结构)
 
         /// <summary>
-        /// 上级组织Id
+        /// 上级节点Id
         /// </summary>
         public long ParentId { get; internal protected set; } = 0;
         /// <summary>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Sgr.DataDictionaryAggregate;
+using Sgr.DataCategoryAggregate;
 using Sgr.EntityFrameworkCore;
 using Sgr.Utilities;
 using System;

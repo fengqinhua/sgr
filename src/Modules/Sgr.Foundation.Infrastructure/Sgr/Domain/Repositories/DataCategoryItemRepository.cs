@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sgr.DataDictionaryAggregate;
+using Sgr.DataCategoryAggregate;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Uow;
 using Sgr.EntityFrameworkCore;

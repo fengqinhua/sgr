@@ -1,6 +1,6 @@
 ﻿using Sgr.Domain.Repositories;
 
-namespace Sgr.DataDictionaryAggregate
+namespace Sgr.DataCategoryAggregate
 {
     public interface IDataCategoryItemRepository : ITreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<DataCategoryItem, long>
     {

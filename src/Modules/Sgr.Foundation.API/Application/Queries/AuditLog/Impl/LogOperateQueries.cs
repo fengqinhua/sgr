@@ -35,9 +35,9 @@ namespace Sgr.Foundation.API.Application.Queries.AuditLog.Impl
             _currentUser = currentUser;
         }
 
-        public async Task<OutLogOperate?> GetAsync(long id)
+        public Task<OutLogOperate?> GetAsync(long id)
         {
-            var result = await _context.Set<LogOperate>()
+            return _context.Set<LogOperate>()
                  .Where(f => f.Id == id)
                  .Select(f => new OutLogOperate()
                  {
@@ -60,16 +60,11 @@ namespace Sgr.Foundation.API.Application.Queries.AuditLog.Impl
                  })
                  .FirstOrDefaultAsync();
 
-            if (result == null)
-                throw new KeyNotFoundException($"LogOperate Key = {id} Not Found!");
-
-            return result;
-
             //return result ?? throw new KeyNotFoundException($"LogOperate Key = {id} Not Found!");
         }
 
 
- 
+
         public async Task<PagedResponse<OutLogOperatePaged>> GetListAsync(InLogOperatePagedRequest request)
         {
             Check.NotNull(request, nameof(request));
@@ -115,7 +110,7 @@ namespace Sgr.Foundation.API.Application.Queries.AuditLog.Impl
                      RequestTime = f.RequestTime,
                      RequestUrl = f.RequestUrl,
                      Status = f.Status,
-                OrgId = f.OrgId
+                     OrgId = f.OrgId
                  })
                  .ToPagedListByPageSizeAsync(request.PageIndex, request.PageSize);
         }
