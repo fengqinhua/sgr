@@ -58,30 +58,28 @@ namespace Sgr.AspNetCore.Middlewares
                 return;
             }
 
-            bool status = true;
-            string message = "";
-
             UserHttpRequestAuditInfo auditInfo = new();
-            context.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] = true;
+            context.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] = auditInfo;
+
+            await _auditLogMiddlewareOptions.Contributor.PreContribute(context, auditInfo);
 
             try
             {
-                await _auditLogMiddlewareOptions.Contributor.PreContribute(context, auditInfo);
-
                 await next(context);
-
-                await _auditLogMiddlewareOptions.Contributor.PostContribute(context, auditInfo);
             }
             catch (Exception ex)
             {
-                status = false;
-                message = ex.Message;
+                auditInfo.Status = false;
+                auditInfo.StatusMessage = ex.Message;
                 throw;
             }
             finally
             {
-                if (context.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
-                    await _auditLogService.OperateLogAsync(auditInfo, status, message);
+                await _auditLogMiddlewareOptions.Contributor.PostContribute(context, auditInfo);
+
+                if (context.Items.ContainsKey(Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY))
+                    await _auditLogService.OperateLogAsync(auditInfo);
+
             }
         }
 

@@ -35,11 +35,8 @@ namespace Sgr.Foundation.API.Services
         /// 
         /// </summary>
         /// <param name="requestInfo"></param>
-        /// <param name="status"></param>
-        /// <param name="message"></param>
         /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public async Task OperateLogAsync(UserHttpRequestAuditInfo requestInfo, bool status, string? message)
+        public async Task OperateLogAsync(UserHttpRequestAuditInfo requestInfo)
         {
             if (requestInfo == null)
                 return;
@@ -54,13 +51,13 @@ namespace Sgr.Foundation.API.Services
                 ClientOs = requestInfo.ClientOs,
                 HttpMethod = requestInfo.HttpMethod,
                 OperateWay = requestInfo.OperateWay,
-                Remark = message == null ? "" : StringHelper.SubStringMaxLength(message!, 500),
+                Remark = requestInfo.StatusMessage == null ? "" : StringHelper.SubStringMaxLength(requestInfo.StatusMessage!, 500),
                 RequestDescription = requestInfo.Description,
                 RequestDuration = requestInfo.Duration,
                 RequestParam = StringHelper.SubStringMaxLength(requestInfo.Param, 4000),
                 RequestTime = requestInfo.OperateTime,
                 RequestUrl = StringHelper.SubStringMaxLength(requestInfo.Url, 500),
-                Status = status
+                Status = requestInfo.Status
             };
 
 

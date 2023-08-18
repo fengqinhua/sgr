@@ -26,9 +26,7 @@ namespace Sgr.Application.Services
         /// 记录用户操作审计日志
         /// </summary>
         /// <param name="requestInfo"></param>
-        /// <param name="status"></param>
-        /// <param name="message"></param>
-        Task OperateLogAsync(UserHttpRequestAuditInfo requestInfo, bool status, string? message);
+        Task OperateLogAsync(UserHttpRequestAuditInfo requestInfo);
     }
 
 

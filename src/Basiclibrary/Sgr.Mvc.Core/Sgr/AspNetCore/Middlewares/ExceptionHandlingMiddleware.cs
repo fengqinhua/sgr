@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using Sgr.Application.Services;
 using Sgr.Utilities;
 using System;
 using System.Collections.Generic;
@@ -118,6 +119,13 @@ namespace Sgr.AspNetCore.Middlewares
         protected async Task HandleAndWrapExceptionAsync(HttpContext httpContext, Exception exception)
         {
             _logger.LogException(exception);
+
+            //将错误信息记录至审计信息
+            if(httpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is UserHttpRequestAuditInfo auditInfo)
+            {
+                auditInfo.Status = false;
+                auditInfo.StatusMessage = exception.Message;
+            }
 
             //此处可扩展的点
             //1、发布异常消息，由实现了异常Handle的自定义类进行处理

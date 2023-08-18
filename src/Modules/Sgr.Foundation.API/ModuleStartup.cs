@@ -87,10 +87,10 @@ namespace Sgr.Foundation.API
             services.AddTransient<ILogOperateQueries, LogOperateQueries>();
             services.AddTransient<IDataCategoryQueries, DataCategoryQueries>();
 
-            services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssemblyContaining<ModuleStartup>();
-            });
+            //services.AddMediatR(cfg =>
+            //{
+            //    cfg.RegisterServicesFromAssemblyContaining<ModuleStartup>();
+            //});
         }
     }
 }

@@ -75,5 +75,13 @@ namespace Sgr.Application.Services
         /// 请求耗时（毫秒）
         /// </summary>
         public long? Duration { get; set; }
+        /// <summary>
+        /// 操作状态（成功/失败）
+        /// </summary>
+        public bool Status { get; set; } = true;
+        /// <summary>
+        /// 操作消息（如果失败，则显示失败信息）
+        /// </summary>
+        public string? StatusMessage { get; set; }
     }
 }

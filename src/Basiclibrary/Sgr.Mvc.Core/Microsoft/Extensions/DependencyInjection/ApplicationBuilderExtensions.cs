@@ -27,20 +27,18 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             //app.UseAuditLog((options) =>
             //{
-            //    options.IsEnabled = false;
+            //    options.IsEnabled = true;
             //    options.IsIgnoreGetRequests = false;
             //    options.IsIgnoreAnonymousUsers = false;
             //    //options.AddIgnoredUrl("/");
-            //}); //"/WeatherForecast"
+            //}); 
 
             app.UseAuditLogFilters((options) =>
             {
                 options.IsEnabled = true;
                 options.IsIgnoreGetRequests = false;
                 options.IsIgnoreAnonymousUsers = false;
-            }); //"/WeatherForecast"
-
-
+            });
 
             app.UseModules();
             app.UseSgrExceptionHandler();

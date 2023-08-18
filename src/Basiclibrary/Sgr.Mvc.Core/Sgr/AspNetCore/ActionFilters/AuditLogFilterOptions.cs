@@ -13,6 +13,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Sgr.Application.Services;
 using Sgr.AspNetCore.AuditLog;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace Sgr.AspNetCore.ActionFilters
         /// <returns></returns>
         public virtual bool IsNeedAudit(PageHandlerExecutingContext context)
         {
-            if (context.HttpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
+            if (context.HttpContext.Items.ContainsKey(Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY))
                 return false;
 
             if (!context.ActionDescriptor.IsPageAction())
@@ -85,7 +86,7 @@ namespace Sgr.AspNetCore.ActionFilters
         /// <returns></returns>
         public virtual bool IsNeedAudit(ActionExecutingContext context)
         {
-            if (context.HttpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is bool hasKey && hasKey)
+            if (context.HttpContext.Items.ContainsKey(Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY))
                 return false;
 
             if (!context.ActionDescriptor.IsControllerAction())
