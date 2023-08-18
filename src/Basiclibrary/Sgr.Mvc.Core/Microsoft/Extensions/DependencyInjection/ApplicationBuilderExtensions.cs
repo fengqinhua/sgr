@@ -47,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
             app.UsePoweredBy(true);
              
             configure?.Invoke(app);
-             
+
             return app;
         }
 
@@ -93,16 +93,30 @@ namespace Microsoft.Extensions.DependencyInjection
             //解决在审计日志中读取读取HttpBody的问题
             //参考;https://blog.csdn.net/hwt0101/article/details/80893212
             if (auditLogFilterOptions.IsEnabled && auditLogFilterOptions.Contributor.IsAuditFull)
+                app.UseEnableBuffering();
+
+            return app;
+        }
+
+        public static IApplicationBuilder UseEnableBuffering(this IApplicationBuilder app)
+        {
+            var options = app.ApplicationServices.GetRequiredService<IEnableBufferingOptions>();
+
+            if (!options.IsUsed)
             {
                 app.Use(next => context =>
                 {
                     context.Request.EnableBuffering();
                     return next(context);
                 });
+
+                options.IsUsed = true;
             }
 
             return app;
         }
+
+
 
         /// <summary>
         /// 开启PoweredBy中间件

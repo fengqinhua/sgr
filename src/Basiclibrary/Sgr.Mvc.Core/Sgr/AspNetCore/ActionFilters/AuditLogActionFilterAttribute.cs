@@ -16,7 +16,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using Sgr.Services;
+using Sgr.Application.Services;
 using System;
 using System.Threading.Tasks;
 

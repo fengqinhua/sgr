@@ -11,10 +11,11 @@
  **************************************************************/
 
 using Microsoft.Extensions.Configuration;
+using Sgr.Application.IntegrationEvents;
+using Sgr.Application.Services;
 using Sgr.Database;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
-using Sgr.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -50,6 +51,9 @@ namespace Microsoft.Extensions.DependencyInjection
             //配置审计接口
             services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
             services.AddTransient<IAuditLogService, DefaultAuditLogService>();
+
+            //配置默认的集成事件管理器
+            services.AddTransient<IIntegrationEventService, DefaultIntegrationEventService>();
 
             return services;
         }

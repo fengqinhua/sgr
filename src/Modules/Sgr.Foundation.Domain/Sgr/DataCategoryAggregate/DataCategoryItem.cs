@@ -42,7 +42,7 @@ namespace Sgr.DataCategoryAggregate
         /// <summary>
         /// 状态
         /// </summary>
-        public EntityStates State { get; internal protected set; } = EntityStates.Normal;
+        public EntityStates State { get; set; } = EntityStates.Normal;
 
 
         #region  ITreeNode (树形结构)

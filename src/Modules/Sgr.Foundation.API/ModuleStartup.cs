@@ -19,7 +19,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sgr.Domain.Repositories;
 using Sgr.EntityFrameworkCore;
 using Sgr.OrganizationAggregate;
-using Sgr.Services;
 using Sgr.AspNetCore.Modules;
 using Sgr.AuditLogAggregate;
 using Sgr.DepartmentAggregate;
@@ -28,12 +27,11 @@ using Sgr.RoleAggregate;
 using Sgr.UserAggregate;
 using Sgr.Domain.Checkers;
 using Sgr.Database;
-using Sgr.Foundation.API.Application.Queries.AuditLog;
-using Sgr.Foundation.API.Application.Queries.AuditLog.Impl;
 using Sgr.Foundation.API.Services;
 using Sgr.DataCategoryAggregate;
-using Sgr.Foundation.API.Application.Queries.DataCategory.Impl;
-using Sgr.Foundation.API.Application.Queries.DataCategory;
+using Sgr.Foundation.API.Application.AuditLog.Queries;
+using Sgr.Foundation.API.Application.DataCategory.Queries;
+using Sgr.Application.Services;
 
 namespace Sgr.Foundation.API
 {
@@ -88,6 +86,11 @@ namespace Sgr.Foundation.API
 
             services.AddTransient<ILogOperateQueries, LogOperateQueries>();
             services.AddTransient<IDataCategoryQueries, DataCategoryQueries>();
+
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining<ModuleStartup>();
+            });
         }
     }
 }

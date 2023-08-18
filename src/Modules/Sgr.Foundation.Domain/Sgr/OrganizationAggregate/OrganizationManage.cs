@@ -74,7 +74,7 @@ namespace Sgr.OrganizationAggregate
 
             //获取Id及Id-Path
             var id = _numberIdGenerator.GenerateUniqueId();
-            string nodePath = await base.GetNodePath(parentId, id, 5);
+            string nodePath = await base.GetNodePathAsync(parentId, id, 5);
 
             //返回
             return new Organization(code)

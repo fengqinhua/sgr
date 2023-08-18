@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.IIS;
-using Sgr.Services;
+using Sgr.Application.Services;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;

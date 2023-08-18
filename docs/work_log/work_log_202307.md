@@ -112,3 +112,65 @@ public static void GenericNotnull<T>(T t) where T : notnull{ }
 > [FastEndpoints](https://github.com/FastEndpoints)
 > [Ardalis.ApiEndpoints](https://github.com/ardalis/ApiEndpoints)
 
+
+### 07.AsyncLocal
+
+1. AsyncLocal 本身不保存数据，数据保存在 ExecutionContext 实例的 m_localValues 的私有字段上，字段类型定义是 IAsyncLocalMap ，以 IAsyncLocal => object 的 Map 结构进行保存，且实现类型随着元素数量的变化而变化。
+2. ExecutionContext 实例 保存在 Thread.CurrentThread._executionContext 上，实现与当前线程的关联。
+3. 对于 IAsyncLocalMap 的实现类，如果 AsyncLocal 注册了回调，value 传 null 不会被忽略。
+4. 没注册回调时分为两种情况：如果 key 存在，则做删除处理，map 类型可能出现降级。如果 key 不存在，则直接忽略。
+5. ExecutionContext 和 IAsyncLocalMap 的实现类都被设计成不可变(immutable)。同一个 key 前后两次 value 发生变化后，会产生新的 ExecutionContext 的实例和 IAsyncLocalMap 实现类实例。
+6. ExecutionContext 与当前线程绑定，默认流动到辅助线程，可以禁止流动和恢复流动，且禁止流动仅影响当前线程向其辅助线程的传递，不影响后续。
+
+参考资料：  
+[1. 浅析 .NET 中 AsyncLocal 的实现原理](https://www.cnblogs.com/eventhorizon/p/12240767.html)
+
+
+### 08. System.Text.Json
+   
+
+   
+参考资料：  
+[1. System.Text.Json 常规用法](https://www.cnblogs.com/RainFate/p/15720684.html)   
+[2. How to use JsonNode to read, write, and modify JSON](https://makolyte.com/csharp-how-to-use-jsonnode-to-read-write-and-modify-json/#Remove_a_property)      
+
+### 09. 线程安全的 RandomHelper
+
+1. Random中的方法并非线程安全的，在多线程的情况下可能会存在返回多个重复值的情况。解决方案：采用[ThreadStatic]标记Random，确保每个线程中的Random对象不一样
+~~~code
+        [ThreadStatic]
+        private static Random _local;
+~~~
+
+2. Random 返回值的随机性由创建对象时的种子seed决定 。 解决方法：采用一个全局的随机对象来生成种子。之前采用 RNGCryptoServiceProvider ，后考虑性能换成 Random
+
+~~~code
+        //private static RNGCryptoServiceProvider _global = new RNGCryptoServiceProvider();
+        private static Random _global = new Random();
+        private static Random Instance
+        {
+            get
+            {
+                if (_local is null)
+                {
+                    int seed;
+                    lock (_global) // 👈 Ensure no concurrent access to Global
+                    {
+                        //byte[] buffer = new byte[4];
+                        //_global.GetBytes(buffer);
+                        //seed = BitConverter.ToInt32(buffer, 0);
+                        seed = _global.Next();
+                    }
+
+                    _local = new Random(seed); // 👈 Create [ThreadStatic] instance with specific seed
+                }
+
+                return _local;
+            }
+        }
+~~~
+
+参考资料：   
+[1. Getting random numbers in a thread-safe way](https://devblogs.microsoft.com/pfxteam/getting-random-numbers-in-a-thread-safe-way/)  
+[2. Working with System.Random and threads safely in .NET Core and .NET Framework](https://andrewlock.net/building-a-thread-safe-random-implementation-for-dotnet-framework/)  
+      

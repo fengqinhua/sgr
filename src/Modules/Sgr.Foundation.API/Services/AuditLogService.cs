@@ -10,8 +10,8 @@
  * 
  **************************************************************/
 
+using Sgr.Application.Services;
 using Sgr.AuditLogAggregate;
-using Sgr.Services;
 using Sgr.Utilities;
 using System.Net;
 using System.Threading.Tasks;

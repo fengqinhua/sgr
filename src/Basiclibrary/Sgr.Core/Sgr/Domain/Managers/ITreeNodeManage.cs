@@ -10,7 +10,10 @@ namespace Sgr.Domain.Managers
     public interface ITreeNodeManage<TEntity, TPrimaryKey> : IDomainManager
         where TEntity : class, IEntity<TPrimaryKey>, ITreeNode<TPrimaryKey>, IAggregateRoot
     {
-        Task<string> GetNodePath(TPrimaryKey parentId, TPrimaryKey thisId, int maxLevel = 5, CancellationToken cancellationToken = default);
+        Task<bool> RemoveNodeAsync(TPrimaryKey id,
+            CancellationToken cancellationToken = default);
+
+        Task<string> GetNodePathAsync(TPrimaryKey parentId, TPrimaryKey thisId, int maxLevel = 5, CancellationToken cancellationToken = default);
 
         Task ChangeParentIdAsync(
             TEntity entity,

@@ -62,6 +62,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddSgrAuditLog(this IServiceCollection services)
         {
+            services.AddSingleton<IEnableBufferingOptions, EnableBufferingOptions>();
+
             services.AddSingleton<IAuditLogMiddlewareOptions, AuditLogMiddlewareOptions>();
             services.AddSingleton<IAuditLogFilterOptions, AuditLogFilterOptions>();
 

@@ -16,7 +16,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Sgr.Services;
+using Sgr.Application.Services;
 using System;
 using System.Diagnostics;
 using System.Net.Http;

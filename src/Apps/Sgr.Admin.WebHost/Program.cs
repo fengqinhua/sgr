@@ -35,8 +35,8 @@ namespace Sgr.Admin.WebHost
 
             builder.Services.AddDbContexts(builder.Configuration);
             builder.Services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+            { 
+                cfg.RegisterServicesFromAssemblyContaining(typeof(Program)); 
             });
 
             builder.Services.AddSgrMvcCore(builder.Configuration, builder.Environment, (services) =>

@@ -46,7 +46,7 @@ namespace Sgr.DataCategoryAggregate
             if (!long.TryParse(value, out long id))
                 id = _numberIdGenerator.GenerateUniqueId();
 
-            string nodePath = await GetNodePath(parentId, id, 5);
+            string nodePath = await GetNodePathAsync(parentId, id, 5);
             if (nodePath == "0")
                 nodePath = categoryTypeCode;
 

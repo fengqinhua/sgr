@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Sgr.Application.ViewModels;
 using Sgr.AspNetCore.ActionFilters;
 using Sgr.AuditLogAggregate;
-using Sgr.Foundation.API.Application.Queries.AuditLog;
+using Sgr.Foundation.API.Application.AuditLog.Queries;
+using Sgr.Foundation.API.Application.AuditLog.ViewModels;
 using System.Threading.Tasks;
 
 namespace Sgr.Foundation.API.Controllers
@@ -25,6 +26,9 @@ namespace Sgr.Foundation.API.Controllers
             _logOperateQueries = logOperateQueries;
         }
 
+
+
+        #region Queries
         /// <summary>
         /// 查询审计日志列表
         /// </summary>
@@ -34,7 +38,7 @@ namespace Sgr.Foundation.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [AuditLogActionFilter("查询审计日志列表")]
-        public async Task<ActionResult<PagedResponse<OutLogOperatePaged>>> GetListAsync(InLogOperatePagedRequest request)
+        public async Task<ActionResult<PagedResponse<LogOperateSearchModel>>> GetListAsync(LogOperateListModel request)
         {
             //权限认证
 
@@ -53,7 +57,7 @@ namespace Sgr.Foundation.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [AuditLogActionFilter("查询审计日志详情")]
-        public async Task<ActionResult<OutLogOperate>> GetAsync(long id)
+        public async Task<ActionResult<LogOperateModel>> GetAsync(long id)
         {
             //权限认证
 
@@ -69,5 +73,6 @@ namespace Sgr.Foundation.API.Controllers
         }
 
 
+        #endregion
     }
 }

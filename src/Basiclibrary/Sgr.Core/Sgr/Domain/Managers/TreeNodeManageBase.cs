@@ -26,7 +26,7 @@ namespace Sgr.Domain.Managers
             CancellationToken cancellationToken = default)
         {
             string oldNodePath = entity.NodePath;
-            string newNodePath = await GetNodePath(newParentId, entity.Id, maxLevel, cancellationToken);
+            string newNodePath = await GetNodePathAsync(newParentId, entity.Id, maxLevel, cancellationToken);
 
             var sons = await _repository.GetChildNodesRecursionAsync(entity, cancellationToken);
 
@@ -40,7 +40,7 @@ namespace Sgr.Domain.Managers
 
         protected abstract void ChangeTreeNodePath(TEntity entity, string nodePath);
 
-        public async Task<string> GetNodePath(TPrimaryKey parentId, TPrimaryKey thisId,int maxLevel = 5, CancellationToken cancellationToken = default)
+        public async Task<string> GetNodePathAsync(TPrimaryKey parentId, TPrimaryKey thisId,int maxLevel = 5, CancellationToken cancellationToken = default)
         {
             string nodePath;
             if (parentId!.Equals(default(TPrimaryKey)))
@@ -59,6 +59,24 @@ namespace Sgr.Domain.Managers
             }
 
             return nodePath;
+        }
+
+        public async Task<bool> RemoveNodeAsync(TPrimaryKey id, CancellationToken cancellationToken = default)
+        {
+            var entity = await _repository.GetAsync(id, cancellationToken);
+            if (entity == null)
+                return false;
+
+            var sons = await _repository.GetChildNodesRecursionAsync(entity!, cancellationToken);
+
+            foreach(var son in sons )
+            {
+                await _repository.DeleteAsync(son);
+            }
+
+            await _repository.DeleteAsync(entity);
+
+            return await _repository.UnitOfWork.SaveEntitiesAsync();
         }
     }
 }
