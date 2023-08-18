@@ -90,6 +90,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSgrExceptionHandling(this IServiceCollection services)
         {
             services.AddTransient<ExceptionHandlingMiddleware>();
+            services.AddTransient<IExceptionToErrorInfo, DefaultExceptionToErrorInfo>();
+
+            services.AddSingleton<IExceptionHandlingOptions, ExceptionHandlingOptions>();
 
             return services;
         }

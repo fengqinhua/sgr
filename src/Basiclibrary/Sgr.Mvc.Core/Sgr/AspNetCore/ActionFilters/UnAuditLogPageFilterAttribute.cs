@@ -19,6 +19,7 @@ namespace Sgr.AspNetCore.ActionFilters
     /// <summary>
     /// 
     /// </summary>
+    [AttributeUsage(AttributeTargets.Method)]
     public class UnAuditLogPageFilterAttribute : Attribute, IAsyncPageFilter
     {
         /// <summary>
@@ -29,7 +30,7 @@ namespace Sgr.AspNetCore.ActionFilters
         /// <returns></returns>
         public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
         {
-            context.HttpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] = false;
+            context.HttpContext.Items.Remove(Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY);
 
             await next();
         }

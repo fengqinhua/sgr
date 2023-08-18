@@ -38,8 +38,9 @@ namespace Sgr.Admin.WebHost
             builder.Services.AddMediatR(cfg =>
             { 
                 cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
-
+#if DEBUG
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+#endif
                 cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });

@@ -168,6 +168,7 @@
 [eShopOnContainers之领域事件、集成事件、事件总线区别与关系](https://www.jianshu.com/p/13675f8ea997)
 [领域模型验证](https://blog.csdn.net/yan_yu_lv_ji/article/details/128753978)
 [一文读懂 .NET 中的高性能队列 Channel](https://www.cnblogs.com/myshowtime/p/15021640.html)  
+[分布式事务| 使用 dotnetcore/CAP 的本地消息表模式 ](https://mp.weixin.qq.com/s/mKVOoux9nmkXIYVhSDv0fg)  
 
 
 

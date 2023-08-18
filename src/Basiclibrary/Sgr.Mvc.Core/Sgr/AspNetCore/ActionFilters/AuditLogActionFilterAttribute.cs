@@ -61,29 +61,32 @@ namespace Sgr.AspNetCore.ActionFilters
                 await next();
                 return;
             }
-
-            bool status = true;
-            string message = "";
+             
             UserHttpRequestAuditInfo auditInfo = new();
             var auditLogService = context.HttpContext.RequestServices.GetRequiredService<IAuditLogService>();
+            await auditLogFilterOptions.Contributor.PreContribute(context.HttpContext, auditInfo, Description);
 
             try
             {
-                await auditLogFilterOptions.Contributor.PreContribute(context.HttpContext, auditInfo, Description);
+                var result = await next();
 
-                await next();
-
-                await auditLogFilterOptions.Contributor.PostContribute(context.HttpContext, auditInfo);
+                if(result.Exception != null)
+                {
+                    auditInfo.Status = false;
+                    auditInfo.StatusMessage = result.Exception.Message;
+                }
             }
             catch (Exception ex)
             {
-                status = false;
-                message = ex.Message;
+                auditInfo.Status = false;
+                auditInfo.StatusMessage = ex.Message;
                 throw;
             }
             finally
             {
-                await auditLogService.OperateLogAsync(auditInfo, status, message);
+                await auditLogFilterOptions.Contributor.PostContribute(context.HttpContext, auditInfo);
+
+                await auditLogService.OperateLogAsync(auditInfo);
             }
 
         }

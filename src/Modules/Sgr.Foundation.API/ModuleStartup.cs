@@ -32,6 +32,9 @@ using Sgr.DataCategoryAggregate;
 using Sgr.Foundation.API.Application.AuditLog.Queries;
 using Sgr.Foundation.API.Application.DataCategory.Queries;
 using Sgr.Application.Services;
+using Sgr.Foundation.API.Application.DataCategory.Validations;
+using FluentValidation;
+using Sgr.Foundation.API.Application.DataCategory.Commands;
 
 namespace Sgr.Foundation.API
 {
@@ -91,6 +94,9 @@ namespace Sgr.Foundation.API
             {
                 cfg.RegisterServicesFromAssemblyContaining<ModuleStartup>();
             });
+
+
+            services.AddTransient<IValidator<CreateCategpryItemCommand>, CreateCategpryItemCommandValidator>();
         }
     }
 }

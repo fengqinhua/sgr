@@ -1,4 +1,5 @@
-﻿using Sgr.Domain.Entities;
+﻿using Sgr.Application.Services;
+using Sgr.Domain.Entities;
 using Sgr.Domain.Managers;
 using Sgr.Domain.Repositories;
 using Sgr.Exceptions;
@@ -15,14 +16,17 @@ namespace Sgr.DataCategoryAggregate
     {
         private readonly IDataCategoryItemChecker _dataCategoryItemChecker;
         private readonly INumberIdGenerator _numberIdGenerator;
+        private readonly ICategoryTypeService _categoryTypeService;
 
         public DataCategoryItemManage(IDataCategoryItemRepository repository,
             IDataCategoryItemChecker dataCategoryItemChecker,
-            INumberIdGenerator numberIdGenerator)
+            INumberIdGenerator numberIdGenerator,
+            ICategoryTypeService categoryTypeService)
             : base(repository)
         {
             _dataCategoryItemChecker = dataCategoryItemChecker;
             _numberIdGenerator = numberIdGenerator;
+            _categoryTypeService = categoryTypeService;
         }
 
         public virtual async Task<DataCategoryItem> CreateNewAsync(
@@ -37,6 +41,7 @@ namespace Sgr.DataCategoryAggregate
             Check.StringNotNullOrWhiteSpace(name, nameof(name));
             Check.StringNotNullOrWhiteSpace(value, nameof(value));
             Check.StringNotNullOrWhiteSpace(categoryTypeCode, nameof(categoryTypeCode));
+            _ = await _categoryTypeService.GetAsync(categoryTypeCode) ?? throw new BusinessException($"数据字典分类{categoryTypeCode}未定义");
 
             //检查组织机构编码是否符合规范
             if (await _dataCategoryItemChecker.ValueIsUniqueAsync(value, categoryTypeCode))

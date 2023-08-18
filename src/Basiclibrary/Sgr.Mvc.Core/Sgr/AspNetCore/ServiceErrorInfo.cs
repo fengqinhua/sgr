@@ -20,17 +20,21 @@ namespace Sgr.AspNetCore
     public class ServiceErrorInfo
     {
         /// <summary>
-        /// 异常编号
-        /// </summary>
-        public string No { get; set; } = string.Empty;
-        /// <summary>
         /// 异常消息
         /// </summary>
         public string Message { get; set; } = string.Empty;
         /// <summary>
+        /// 异常编号
+        /// </summary>
+        public string? No { get; set; }
+        /// <summary>
         /// 异常详情
         /// </summary>
-        public string Details { get; set; } = string.Empty;
+        public string? Details { get; set; }
+        /// <summary>
+        /// 验证错误
+        /// </summary>
+        public ServiceValidationErrorInfo[]? ValidationErrors { get; set; }
         /// <summary>
         /// 异常数据
         /// </summary>

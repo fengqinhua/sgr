@@ -36,11 +36,9 @@ namespace Sgr.Application.Services
         /// 记录用户操作审计日志
         /// </summary>
         /// <param name="requestInfo"></param>
-        /// <param name="status"></param>
-        /// <param name="message"></param>
-        public Task OperateLogAsync(UserHttpRequestAuditInfo requestInfo, bool status, string? message)
+        public Task OperateLogAsync(UserHttpRequestAuditInfo requestInfo)
         {
-            logger.LogDebug($"{requestInfo?.OperateTime} {requestInfo?.LoginName} 通过 {requestInfo?.OperateWay ?? "平台"} 执行请求 {(status ? "成功" : "失败，原因：" + message ?? "未知" + "）")}");
+            logger.LogDebug($"{requestInfo.OperateTime} {requestInfo.LoginName} 通过 {requestInfo.OperateWay ?? "平台"} 执行请求 {(requestInfo.Status ? "成功" : "失败，原因：" + requestInfo.StatusMessage ?? "未知" + "）")}");
             logger.LogDebug($"----> 用户姓名：{requestInfo?.UserName} ； 客户端IP：{requestInfo?.IpAddress} ； 客户端浏览器：{requestInfo?.ClientBrowser} ； 客户端操作系统：{requestInfo?.ClientOs}");
             logger.LogDebug($"----> 请求描述：{requestInfo?.Description}");
             logger.LogDebug($"----> 请求方式：{requestInfo?.HttpMethod}");

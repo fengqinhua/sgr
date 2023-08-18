@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：5aa79585-ae5c-4177-8168-e1a4c454cbdb
- * 命名空间：Sgr.Application.IntegrationEvents
- * 创建时间：2023/8/18 10:58:29
+ * 唯一标识：8ca150ab-84c1-4d0f-9c9d-fdb3c8993e77
+ * 命名空间：Sgr.IntegrationEvents
+ * 创建时间：2023/8/19 17:11:19
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sgr.Application.IntegrationEvents
+namespace Sgr.IntegrationEvents
 {
     public class IntegrationEvent
     {

@@ -52,9 +52,7 @@ namespace MediatR.Behaviors
 #if DEBUG
                 _logger.LogWarning("Validation errors: {@ValidationErrors}",  failures);
 #endif
-
-                throw new MediatRValidationException(
-                    $"Command Validation Errors for type {typeof(TRequest).Name}", new FluentValidation.ValidationException("Validation exception", failures));
+                throw new FluentValidation.ValidationException($"Command Validation Errors for type {typeof(TRequest).Name}", failures);
             }
 
             return await next();

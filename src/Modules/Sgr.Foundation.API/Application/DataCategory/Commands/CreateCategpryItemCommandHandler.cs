@@ -40,9 +40,9 @@ namespace Sgr.Foundation.API.Application.DataCategory.Commands
                    request.OrderNumber,
                    request.ParentId);
 
-            await _dataCategoryItemRepository.InsertAsync(entity);
+            await _dataCategoryItemRepository.InsertAsync(entity, cancellationToken);
 
-            return await _dataCategoryItemRepository.UnitOfWork.SaveEntitiesAsync();
+            return await _dataCategoryItemRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

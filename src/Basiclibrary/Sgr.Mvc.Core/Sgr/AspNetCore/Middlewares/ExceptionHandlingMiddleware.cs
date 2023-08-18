@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using Sgr.Application.Services;
 using Sgr.Utilities;
 using System;
 using System.Collections.Generic;
@@ -119,19 +120,19 @@ namespace Sgr.AspNetCore.Middlewares
         {
             _logger.LogException(exception);
 
-            //此处可扩展的点
-            //1、发布异常消息，由实现了异常Handle的自定义类进行处理
-            //2、实现接口，用于根据异常类型判断状态码，而不是现在这样固定的
+            //将错误信息记录至审计信息
+            if(httpContext.Items[Constant.AUDITLOG_STATU_HTTPCONTEXT_KEY] is UserHttpRequestAuditInfo auditInfo)
+            {
+                auditInfo.Status = false;
+                auditInfo.StatusMessage = exception.Message;
+            }
 
-            //可通过该方法获取所需的服务
-            //var obj = httpContext
-            //.RequestServices
-            //.GetRequiredService<IExceptionNotifier>()
+            var converter = httpContext.RequestServices.GetRequiredService<IExceptionToErrorInfo>();
 
-
+            var errorInfo = converter.Convert(exception);
 
             httpContext.Response.Clear();
-            httpContext.Response.StatusCode = 500;
+            httpContext.Response.StatusCode = (int)errorInfo.Item1;
             httpContext.Response.OnStarting(ClearCacheHeaders, httpContext.Response);
             httpContext.Response.Headers.Add(Constant.SGR_ERRORHANDLE_HEADERNAME, "true");
             httpContext.Response.Headers.Add("Content-Type", "application/json");
@@ -139,12 +140,7 @@ namespace Sgr.AspNetCore.Middlewares
             await httpContext.Response.WriteAsync(
                 JsonHelper.SerializeObject(
                     new ServiceErrorResponse(
-                        new ServiceErrorInfo()
-                        {
-                            No = "500",
-                            Message = exception.Message, 
-                            Data = exception.Data
-                        }
+                        errorInfo.Item2
                     )
                 )
             );

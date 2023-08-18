@@ -12,7 +12,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sgr.Application.IntegrationEvents;
 using Sgr.EntityFrameworkCore;
 using Sgr.Exceptions;
 using Sgr.Utilities;
@@ -29,14 +28,14 @@ namespace MediatR.Behaviors
     {
         private readonly ILogger<TransactionBehavior<TRequest, TResponse>> _logger;
         private readonly SgrDbContext _dbContext;
-        private readonly IIntegrationEventService _integrationEventService;
+        //private readonly IIntegrationEventService _integrationEventService;
 
         public TransactionBehavior(SgrDbContext dbContext,
-            IIntegrationEventService integrationEventService,
+            //IIntegrationEventService integrationEventService,
             ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         {
             _dbContext = dbContext ?? throw new ArgumentException(nameof(SgrDbContext));
-            _integrationEventService = integrationEventService ?? throw new ArgumentException(nameof(IIntegrationEventService));
+            //_integrationEventService = integrationEventService ?? throw new ArgumentException(nameof(IIntegrationEventService));
             _logger = logger ?? throw new ArgumentException(nameof(ILogger));
         }
 
@@ -61,7 +60,8 @@ namespace MediatR.Behaviors
                 {
                     Guid transactionId;
 
-                    await using var transaction = await _dbContext.BeginTransactionAsync();
+                    await using var transaction = await _dbContext.BeginTransactionAsync() ?? throw new BusinessException("TransactionBehavior : dbContext transaction is null") ;
+
                     using (_logger.BeginScope(new List<KeyValuePair<string, object>> { new("TransactionContext", transaction.TransactionId) }))
                     {
 #if DEBUG
@@ -77,7 +77,7 @@ namespace MediatR.Behaviors
                         transactionId = transaction.TransactionId;
                     }
 
-                    await _integrationEventService.PublishEventsThroughEventBusAsync(transactionId);
+                    //await _integrationEventService.PublishEventsThroughEventBusAsync(transactionId);
                 });
 
 

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>$(NetstandardVersion)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="Sgr\IntegrationEvents\" />
+	</ItemGroup>
+	
+</Project>

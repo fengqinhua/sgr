@@ -27,23 +27,29 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             //app.UseAuditLog((options) =>
             //{
-            //    options.IsEnabled = false;
+            //    options.IsEnabled = true;
             //    options.IsIgnoreGetRequests = false;
             //    options.IsIgnoreAnonymousUsers = false;
             //    //options.AddIgnoredUrl("/");
-            //}); //"/WeatherForecast"
+            //}); 
 
             app.UseAuditLogFilters((options) =>
             {
                 options.IsEnabled = true;
                 options.IsIgnoreGetRequests = false;
                 options.IsIgnoreAnonymousUsers = false;
-            }); //"/WeatherForecast"
-
-
+            });
 
             app.UseModules();
+#if DEBUG
+            app.UseSgrExceptionHandler((options) =>
+            {
+                //options.IncludeFullDetails = true;
+                options.IncludeFullDetails = false;
+            });
+#else
             app.UseSgrExceptionHandler();
+#endif
             app.UsePoweredBy(true);
              
             configure?.Invoke(app);
@@ -52,12 +58,16 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 开启自定义移除处理中间件
+        /// 开启自定义异常处理中间件
         /// </summary>
         /// <param name="app"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSgrExceptionHandler(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSgrExceptionHandler(this IApplicationBuilder app, Action<IExceptionHandlingOptions>? configure = null)
         {
+            var exceptionHandlingOptions = app.ApplicationServices.GetRequiredService<IExceptionHandlingOptions>();
+            configure?.Invoke(exceptionHandlingOptions);
+
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             return app;

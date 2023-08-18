@@ -96,7 +96,6 @@ namespace Sgr.Domain.Entities
         /// <param name="extendableObject"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        /// <exception cref="UserFriendlyException"></exception>
         public static void SetObject<T>(this IExtendableObject extendableObject, string name, T? value) where T : class
         {
             Check.NotNull(extendableObject, nameof(extendableObject));
@@ -175,7 +174,6 @@ namespace Sgr.Domain.Entities
         /// <param name="extendableObject"></param>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        /// <exception cref="UserFriendlyException"></exception>
         public static void SetValue<T>(this IExtendableObject extendableObject, string name, T value) where T : struct
         {
             Check.NotNull(extendableObject, nameof(extendableObject));
@@ -223,7 +221,7 @@ namespace Sgr.Domain.Entities
                 data = null;
 
             if (data != null && Encoding.UTF8.GetBytes(data).Length >= Constant.ExtendableObjectMaxLength)
-                throw new UserFriendlyException("ExtensionData exceeding the maximum number of bytes");
+                throw new BusinessException("ExtensionData exceeding the maximum number of bytes");
 
             extendableObject.ExtensionData = data;
         }

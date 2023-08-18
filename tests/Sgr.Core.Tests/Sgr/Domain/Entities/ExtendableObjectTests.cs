@@ -118,7 +118,7 @@ namespace Sgr.Domain.Entities
                     entity.SetObject($"test_object_{i}", old_student);
                 }
             }
-            catch(UserFriendlyException ex)
+            catch(BusinessException ex)
             {
                 Assert.IsTrue(ex.Message.Contains("ExtensionData exceeding the maximum number of bytes"));
             }
