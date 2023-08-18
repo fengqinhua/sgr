@@ -1,3 +1,4 @@
+using MediatR.Behaviors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -36,7 +37,11 @@ namespace Sgr.Admin.WebHost
             builder.Services.AddDbContexts(builder.Configuration);
             builder.Services.AddMediatR(cfg =>
             { 
-                cfg.RegisterServicesFromAssemblyContaining(typeof(Program)); 
+                cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
+
+                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
+                cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
             builder.Services.AddSgrMvcCore(builder.Configuration, builder.Environment, (services) =>
