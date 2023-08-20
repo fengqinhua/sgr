@@ -14,6 +14,7 @@ using Sgr.Licence;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -47,28 +48,45 @@ namespace Sgr.EntityFrameworkCore
 
         #endregion
 
-        private ConcurrentDictionary<string, Type> _types = new();
+        private ConcurrentDictionary<Type, ConcurrentDictionary<string, Type>> _typeRegistrarInfo = new();
 
         /// <summary>
         /// 执行注册
         /// </summary>
+        /// <typeparam name="TDbContext"></typeparam>
         /// <typeparam name="TProvider"></typeparam>
-        public void Register<TProvider>() where TProvider : IEntityFrameworkTypeProvider, new()
+        public void Register<TDbContext,TProvider>()
+            where TDbContext : UnitOfWorkDbContext
+            where TProvider : IEntityFrameworkTypeProvider, new()
+
         {
-            var type = typeof(TProvider);
-            if (!string.IsNullOrEmpty(type.FullName) && !_types.ContainsKey(type.FullName))
-                _types.TryAdd(type.FullName, type);
+            Type tDbContext = typeof(TDbContext);
+            Type tProvider = typeof(TProvider);
+
+            if (!_typeRegistrarInfo.TryGetValue(tDbContext, out ConcurrentDictionary<string, Type>? dic))
+            {
+                dic = new();
+                _typeRegistrarInfo.TryAdd(tDbContext, dic);
+            }
+
+            if (dic != null && !dic.ContainsKey(tProvider.FullName!))
+                dic.TryAdd(tProvider.FullName!, tProvider);
         }
 
         /// <summary>
         /// 所有已注册的类型
         /// </summary>
-        public IReadOnlyCollection<Type> AllTypes
+        public IReadOnlyCollection<Type> GetAllTypeRegistrar<TDbContext>()
+             where TDbContext : UnitOfWorkDbContext
         {
-            get
+            Type tDbContext = typeof(TDbContext);
+
+            if (_typeRegistrarInfo.TryGetValue(tDbContext, out ConcurrentDictionary<string, Type>? dic) && dic != null)
             {
-                return _types.Values.ToList();
+                return dic.Values.ToList();
             }
+
+            return new List<Type>();
         }
     }
 }

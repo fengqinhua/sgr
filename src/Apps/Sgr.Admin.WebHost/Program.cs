@@ -1,18 +1,16 @@
-using MediatR.Behaviors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sgr.Admin.WebHost.Extensions;
-using Sgr.AspNetCore.AuditLog;
+using Sgr.AuditLogs.Contributor;
 using Sgr.Database;
+using Sgr.MediatR.Behaviors;
 using Sgr.Utilities;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Sgr.Admin.WebHost
@@ -35,8 +33,10 @@ namespace Sgr.Admin.WebHost
             builder.Host.UseNLogWeb();
 
             builder.Services.AddDbContexts(builder.Configuration);
+            builder.Services.AddSgrWeb(builder.Configuration, builder.Environment);
+
             builder.Services.AddMediatR(cfg =>
-            { 
+            {
                 cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
 #if DEBUG
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
@@ -45,30 +45,21 @@ namespace Sgr.Admin.WebHost
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
-            builder.Services.AddSgrMvcCore(builder.Configuration, builder.Environment, (services) =>
+            builder.Services.AddControllers().AddJsonOptions(options => { JsonHelper.UpdateJsonSerializerOptions(options.JsonSerializerOptions); });
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
             {
-                services.AddControllers().AddJsonOptions(options=>
+                options.SwaggerDoc("sgr", new OpenApiInfo
                 {
-                    JsonHelper.UpdateJsonSerializerOptions(options.JsonSerializerOptions);
-                });
-                services.AddEndpointsApiExplorer();
-                services.AddSwaggerGen(options =>
-                {
-                    options.SwaggerDoc("sgr", new OpenApiInfo
-                    {
-                        Version = "v1",
-                        Title = "SGR API",
-                        Description = "An ASP.NET Core Web API for SGR",
-                        TermsOfService = new Uri("https://github.com/fengqinhua/sgr"),
-                        Contact = new OpenApiContact { Name = "Mapleleaf", Email = "mapleleaf1024@163.com" },
-                        License = new OpenApiLicense { Name = "MIT License", Url = new Uri("https://github.com/fengqinhua/sgr/blob/main/LICENSE") }
-                    });
-        
-                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Foundation.API.xml"));
-                    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Admin.WebHost.xml"));
+                    Version = "v1",
+                    Title = "SGR API",
+                    Description = "An ASP.NET Core Web API for SGR",
+                    TermsOfService = new Uri("https://github.com/fengqinhua/sgr"),
+                    Contact = new OpenApiContact { Name = "Mapleleaf", Email = "mapleleaf1024@163.com" },
+                    License = new OpenApiLicense { Name = "MIT License", Url = new Uri("https://github.com/fengqinhua/sgr/blob/main/LICENSE") }
                 });
 
-                services.Replace(ServiceDescriptor.Singleton<IAuditLogContributor, AuditLogContributorAll>());
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Admin.WebHost.xml"));
             });
 
             var app = builder.Build();
@@ -81,27 +72,25 @@ namespace Sgr.Admin.WebHost
             //    app.UseHsts();
             //}
 
+            app.UseSgrWeb();
 
-            app.UseSgrMvcCore((appBuilder) =>
+            if (app.Environment.IsDevelopment())
             {
-                if (app.Environment.IsDevelopment())
+                app.UseSwagger(options =>
                 {
-                    app.UseSwagger(options =>
-                    {
-                        options.RouteTemplate = "docs/{documentName}/swagger.json";
-                    });
-                    app.UseSwaggerUI(options =>
-                    {
-                        options.SwaggerEndpoint("sgr/swagger.json", "SGR API");
-                        options.RoutePrefix = "docs";
-                    });
-                }
+                    options.RouteTemplate = "docs/{documentName}/swagger.json";
+                });
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("sgr/swagger.json", "SGR API");
+                    options.RoutePrefix = "docs";
+                });
+            }
 
-                app.UseHttpsRedirection();
-                app.UseAuthorization();
-                app.UseStaticFiles();
-                app.MapControllers();
-            });
+            app.UseHttpsRedirection();
+            app.UseAuthorization();
+            app.UseStaticFiles();
+            app.MapControllers();
 
             //当处于开发者模式下，程序自动执行数据库初始化逻辑，确保数据库相关表和数据存在
             if (app.Environment.IsDevelopment())

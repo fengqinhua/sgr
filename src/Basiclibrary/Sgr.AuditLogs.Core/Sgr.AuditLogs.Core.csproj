@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<OutputType>Library</OutputType>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Basiclibrary\Sgr.Core\Sgr.Core.csproj" />
+		<ProjectReference Include="..\..\Basiclibrary\Sgr.Data.EntityFrameworkCore\Sgr.Data.EntityFrameworkCore.csproj" />
+		<ProjectReference Include="..\..\Basiclibrary\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
+		<ProjectReference Include="..\Sgr.AuditLogs.Abstractions\Sgr.AuditLogs.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

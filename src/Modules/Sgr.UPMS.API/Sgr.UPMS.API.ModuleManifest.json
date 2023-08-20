@@ -1,0 +1,7 @@
+{
+  "id": "Sgr.UPMS.API",
+  "name": "用户权限管理",
+  "category": "System",
+  "description": "包含组织、用户、权限管理等基础功能模块",
+  "isEnable": true
+}

@@ -1,8 +1,8 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Sgr.EntityFrameworkCore;
+using Sgr.MediatR;
 using System;
 using System.IO;
 

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Sgr.Application.Targets": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:63100;http://localhost:63101"
+    }
+  }
+}

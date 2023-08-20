@@ -1,0 +1,7 @@
+{
+  "id": "Sgr.DataCategories",
+  "name": "数据字典管理模块",
+  "category": "System",
+  "description": "用于实现数据字典管理相关服务",
+  "isEnable": true
+}
