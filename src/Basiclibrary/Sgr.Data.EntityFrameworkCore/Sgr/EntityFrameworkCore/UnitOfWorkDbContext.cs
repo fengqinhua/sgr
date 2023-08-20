@@ -24,7 +24,7 @@ namespace Sgr.EntityFrameworkCore
     /// <summary>
     /// 支持IUnitOfWork的DbContext
     /// </summary>
-    public class UnitOfWorkDbContext : DbContext, IUnitOfWork
+    public abstract class UnitOfWorkDbContext : DbContext, IUnitOfWork
     {
         /// <summary>
         /// 中介者，处理领域事件
