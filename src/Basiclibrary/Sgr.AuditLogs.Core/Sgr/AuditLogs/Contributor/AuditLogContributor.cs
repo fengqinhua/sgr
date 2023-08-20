@@ -11,6 +11,7 @@
  **************************************************************/
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
 using System.Threading.Tasks;
 
@@ -45,6 +46,21 @@ namespace Sgr.AuditLogs.Contributor
             auditInfo.HttpMethod = context.Request.Method;
             auditInfo.Url = context.GetRequestUrl();
             auditInfo.OperateTime = DateTimeOffset.UtcNow;
+
+            if (string.IsNullOrEmpty(functionDescriptor))
+            {
+                //var b = context.GetEndpoint()?.Metadata?.GetMetadata<FastEndpoints.EndpointDefinition>();
+                //var description = endpoint?.Metadata.GetMetadata<EndpointNameMetadata>()?.EndpointName;
+
+                var endpoint = context.GetEndpoint(); //endpoint.RequestDelegate.Method.ReturnType
+                var controllerActionDescriptor = endpoint?.Metadata.GetMetadata<ControllerActionDescriptor>();
+                if (controllerActionDescriptor != null)
+                    auditInfo.Description = controllerActionDescriptor.ActionName;
+                else
+                    auditInfo.Description = endpoint?.DisplayName ?? string.Empty;
+            }
+            else
+                auditInfo.Description = functionDescriptor;
 
             return Task.CompletedTask;
         }

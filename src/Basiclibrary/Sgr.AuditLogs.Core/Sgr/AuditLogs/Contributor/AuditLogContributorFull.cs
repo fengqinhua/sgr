@@ -58,20 +58,7 @@ namespace Sgr.AuditLogs.Contributor
             if (string.IsNullOrEmpty(auditInfo.Param))
                 auditInfo.Param = await context.GetHttpFormContentAsync();
 
-            if (string.IsNullOrEmpty(functionDescriptor))
-            {
-                //var b = context.GetEndpoint()?.Metadata?.GetMetadata<FastEndpoints.EndpointDefinition>();
-                //var description = endpoint?.Metadata.GetMetadata<EndpointNameMetadata>()?.EndpointName;
 
-                var endpoint = context.GetEndpoint(); //endpoint.RequestDelegate.Method.ReturnType
-                var controllerActionDescriptor = endpoint?.Metadata.GetMetadata<ControllerActionDescriptor>();
-                if (controllerActionDescriptor != null)
-                    auditInfo.Description = controllerActionDescriptor.ActionName;
-                else
-                    auditInfo.Description = endpoint?.DisplayName ?? string.Empty;
-            }
-            else
-                auditInfo.Description = functionDescriptor;
 
             _stopwatch.Restart();
         }
