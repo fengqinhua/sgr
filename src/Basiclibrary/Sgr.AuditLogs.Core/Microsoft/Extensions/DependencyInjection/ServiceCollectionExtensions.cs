@@ -27,10 +27,10 @@ namespace Microsoft.Extensions.DependencyInjection
             
             services.AddSingleton<IHttpUserAgentProvider, DefaultHttpUserAgentProvider>();
             if (isAuditFull)
-                services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
+            services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
             else
                 services.AddSingleton<IAuditLogContributor, AuditLogContributorFull>();
-
+         
             services.AddTransient<AuditLogMiddleware>();
 
             services.AddTransient<AuditLogActionFilterAttribute>();
