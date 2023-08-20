@@ -13,8 +13,8 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Core\Sgr.Core.csproj" />
 	  <ProjectReference Include="..\Sgr.AuditLogs.Abstractions\Sgr.AuditLogs.Abstractions.csproj" />
+	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
 	  <ProjectReference Include="..\Sgr.ExceptionHandling.Abstractions\Sgr.ExceptionHandling.Abstractions.csproj" />
 	</ItemGroup>
 
