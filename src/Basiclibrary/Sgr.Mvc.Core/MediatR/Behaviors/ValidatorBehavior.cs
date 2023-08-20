@@ -18,7 +18,6 @@ using System.Threading;
 using FluentValidation;
 using System.Linq;
 using Sgr.Utilities;
-using Sgr.Domain.Entities;
 
 namespace MediatR.Behaviors
 {

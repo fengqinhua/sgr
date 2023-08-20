@@ -5,6 +5,7 @@
 		<Description>$(SrgDescription)</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<OutputType>Library</OutputType>
+		<RootNamespace />
 	</PropertyGroup>
 
 	<ItemGroup>

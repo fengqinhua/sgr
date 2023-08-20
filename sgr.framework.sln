@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Core", "src\Basiclibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Data.EntityFrameworkCore", "src\Basiclibrary\Sgr.Data.EntityFrameworkCore\Sgr.Data.EntityFrameworkCore.csproj", "{1E40D768-7EC3-434A-B24C-237A9C7DD17C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{618CA8DC-4B18-4AFD-AA76-1AB00765886A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sgr.Modules", "Sgr.Modules", "{618CA8DC-4B18-4AFD-AA76-1AB00765886A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Email", "src\Basiclibrary\Sgr.Email\Sgr.Email.csproj", "{7D3539D3-09B5-49CD-8ED2-28D51A85B600}"
 EndProject
@@ -71,6 +71,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.IntegrationEvents", "src\Modules\Sgr.IntegrationEvents\Sgr.IntegrationEvents.csproj", "{9ACB5F88-74F7-4015-9DCE-97B41423619C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.IntegrationEvents.Infrastructure", "src\Modules\Sgr.IntegrationEvents.Infrastructure\Sgr.IntegrationEvents.Infrastructure.csproj", "{17B39CA8-AEBA-44CB-AC22-7F856149F18F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuditLogs", "AuditLogs", "{6EDB996E-E98F-4462-B288-557F72DA25A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.Modules.Core", "src\Basiclibrary\Sgr.Modules.Core\Sgr.Modules.Core.csproj", "{5253CAF9-F86C-4285-A59C-DCF35E10B622}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +142,10 @@ Global
 		{17B39CA8-AEBA-44CB-AC22-7F856149F18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17B39CA8-AEBA-44CB-AC22-7F856149F18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17B39CA8-AEBA-44CB-AC22-7F856149F18F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5253CAF9-F86C-4285-A59C-DCF35E10B622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5253CAF9-F86C-4285-A59C-DCF35E10B622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5253CAF9-F86C-4285-A59C-DCF35E10B622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5253CAF9-F86C-4285-A59C-DCF35E10B622}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +175,8 @@ Global
 		{21A4A343-F21F-42BE-8132-66C404B97345} = {52D5EA6E-A6CA-4513-B757-9B3240ECB97C}
 		{9ACB5F88-74F7-4015-9DCE-97B41423619C} = {52D5EA6E-A6CA-4513-B757-9B3240ECB97C}
 		{17B39CA8-AEBA-44CB-AC22-7F856149F18F} = {52D5EA6E-A6CA-4513-B757-9B3240ECB97C}
+		{6EDB996E-E98F-4462-B288-557F72DA25A8} = {618CA8DC-4B18-4AFD-AA76-1AB00765886A}
+		{5253CAF9-F86C-4285-A59C-DCF35E10B622} = {DCB118B9-0060-46FD-9E6B-3772E384D059}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F860D220-ECF0-4466-AA85-30D0B2FCD69D}

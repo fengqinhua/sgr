@@ -1,7 +1,4 @@
-﻿using Sgr.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Sgr.Email
 {
@@ -9,7 +6,7 @@ namespace Sgr.Email
     /// 发送邮件时发生的异常信息
     /// </summary>
     [Serializable]
-    public class EmailException : BusinessException
+    public class EmailException : Exception
     {
         /// <summary>
         /// 发送邮件时发生的异常信息
