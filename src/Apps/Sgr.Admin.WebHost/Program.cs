@@ -1,18 +1,16 @@
-using MediatR.Behaviors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Sgr.Admin.WebHost.Extensions;
-using Sgr.AspNetCore.AuditLog;
+using Sgr.AuditLogs.Contributor;
 using Sgr.Database;
+using Sgr.MediatR.Behaviors;
 using Sgr.Utilities;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Sgr.Admin.WebHost
@@ -68,7 +66,7 @@ namespace Sgr.Admin.WebHost
                     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Admin.WebHost.xml"));
                 });
 
-                services.Replace(ServiceDescriptor.Singleton<IAuditLogContributor, AuditLogContributorAll>());
+                services.Replace(ServiceDescriptor.Singleton<IAuditLogContributor, AuditLogContributorFull>());
             });
 
             var app = builder.Build();

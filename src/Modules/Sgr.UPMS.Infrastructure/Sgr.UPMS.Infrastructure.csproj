@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<RootNamespace />
+	</PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Basiclibrary\Sgr.Data.EntityFrameworkCore\Sgr.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Sgr.UPMS.Domain\Sgr.UPMS.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

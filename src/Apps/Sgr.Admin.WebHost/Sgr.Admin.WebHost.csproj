@@ -16,8 +16,13 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+		<ProjectReference Include="..\..\Basiclibrary\Sgr.ExceptionHandling.Core\Sgr.ExceptionHandling.Core.csproj" />
 		<ProjectReference Include="..\..\Basiclibrary\Sgr.Logging.NLog\Sgr.Logging.NLog.csproj" />
-		<ProjectReference Include="..\..\Modules\Sgr.Foundation.API\Sgr.Foundation.API.csproj" />
+		<ProjectReference Include="..\..\Basiclibrary\Sgr.MediatR\Sgr.MediatR.csproj" />
+		<ProjectReference Include="..\..\Modules\Sgr.AuditLogs\Sgr.AuditLogs.csproj" />
+		<ProjectReference Include="..\..\Modules\Sgr.DataCategories\Sgr.DataCategories.csproj" />
+		<ProjectReference Include="..\..\Modules\Sgr.IntegrationEvents\Sgr.IntegrationEvents.csproj" />
+		<ProjectReference Include="..\..\Modules\Sgr.UPMS.API\Sgr.UPMS.API.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

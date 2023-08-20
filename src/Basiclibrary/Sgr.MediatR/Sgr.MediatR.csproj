@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<RootNamespace />
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="$(MediatRVersion)" />
+		<PackageReference Include="FluentValidation" Version="$(FluentValidationVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(MicrosoftExtensionsPackagesVersion)" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
+	  <ProjectReference Include="..\Sgr.Data.EntityFrameworkCore\Sgr.Data.EntityFrameworkCore.csproj" />
+	</ItemGroup>
+
+</Project>

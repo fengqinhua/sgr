@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>$(DefaultTargetFramework)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="$(MediatRVersion)" />
+		<PackageReference Include="FluentValidation" Version="$(FluentValidationVersion)" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Core\Sgr.Core.csproj" />
+	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
+	  <ProjectReference Include="..\Sgr.AuditLogs.Core\Sgr.AuditLogs.Core.csproj" />
+	</ItemGroup>
+</Project>

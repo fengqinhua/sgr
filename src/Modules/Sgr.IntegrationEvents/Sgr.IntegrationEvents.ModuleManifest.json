@@ -1,5 +1,5 @@
 {
-  "id": "Sgr.IntegrationEvent.API",
+  "id": "Sgr.IntegrationEvents",
   "name": "集成事件管理模块",
   "category": "System",
   "description": "用于实现集成事件相关服务",

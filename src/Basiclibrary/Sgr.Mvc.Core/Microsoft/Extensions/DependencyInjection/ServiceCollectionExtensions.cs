@@ -6,8 +6,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Sgr;
 using Sgr.AspNetCore;
-using Sgr.AspNetCore.ActionFilters;
-using Sgr.AspNetCore.AuditLog;
 using Sgr.AspNetCore.Middlewares;
 using Sgr.AspNetCore.Modules;
 using System;
@@ -28,8 +26,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             AddUserIdentity(services);
             AddSgrPoweredBy(services);
-            AddSgrAuditLog(services);
-            AddSgrExceptionHandling(services);
 
             AddModules(services, environment);
 
@@ -53,50 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
-
-
-        /// <summary>
-        /// 添加审计日志相关服务
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddSgrAuditLog(this IServiceCollection services)
-        {
-            services.AddSingleton<IEnableBufferingOptions, EnableBufferingOptions>();
-
-            services.AddSingleton<IAuditLogMiddlewareOptions, AuditLogMiddlewareOptions>();
-            services.AddSingleton<IAuditLogFilterOptions, AuditLogFilterOptions>();
-
-            
-            services.AddSingleton<IHttpUserAgentProvider, DefaultHttpUserAgentProvider>();
-            services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
          
-            services.AddTransient<AuditLogMiddleware>();
-
-            services.AddTransient<AuditLogActionFilterAttribute>();
-            services.AddTransient<AuditLogPageFilterAttribute>();
-            services.AddTransient<UnAuditLogActionFilterAttribute>();
-            services.AddTransient<UnAuditLogPageFilterAttribute>();
-
-
-            return services;
-        }
-
-        /// <summary>
-        /// 添加异常
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddSgrExceptionHandling(this IServiceCollection services)
-        {
-            services.AddTransient<ExceptionHandlingMiddleware>();
-            services.AddTransient<IExceptionToErrorInfo, DefaultExceptionToErrorInfo>();
-
-            services.AddSingleton<IExceptionHandlingOptions, ExceptionHandlingOptions>();
-
-            return services;
-        }
-
         /// <summary>
         /// 
         /// </summary>

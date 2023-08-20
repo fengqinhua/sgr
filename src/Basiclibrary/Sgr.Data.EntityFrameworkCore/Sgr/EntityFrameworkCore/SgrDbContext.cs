@@ -54,7 +54,7 @@ namespace Sgr.EntityFrameworkCore
 
             base.OnModelCreating(modelBuilder);
 
-            var types = EntityFrameworkTypeRegistrar.Instance.AllTypes;
+            var types = EntityFrameworkTypeRegistrar.Instance.GetAllTypeRegistrar<SgrDbContext>();
 
             foreach (var type in types)
             {
@@ -63,7 +63,6 @@ namespace Sgr.EntityFrameworkCore
                     typeProvider.RegisterEntities(modelBuilder);
                     typeProvider.RegisterEntityConfigurations(modelBuilder);
                 }
-
             }
 
         }

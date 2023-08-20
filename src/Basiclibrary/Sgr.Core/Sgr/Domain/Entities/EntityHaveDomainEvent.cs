@@ -52,7 +52,7 @@ namespace Sgr.Domain.Entities
         {
             get
             {
-                _domainEvents = _domainEvents ?? new List<INotification>();
+                _domainEvents ??= new List<INotification>();
                 return _domainEvents.AsReadOnly();
             }
         }
@@ -63,7 +63,7 @@ namespace Sgr.Domain.Entities
         /// <param name="eventItem"></param>
         public virtual void AddDomainEvent(INotification eventItem)
         {
-            _domainEvents = _domainEvents ?? new List<INotification>();
+            _domainEvents ??= new List<INotification>();
             _domainEvents.Add(eventItem);
         }
         /// <summary>

@@ -1,0 +1,7 @@
+{
+  "id": "Sgr.AuditLogs",
+  "name": "审计日志管理模块",
+  "category": "System",
+  "description": "用于实现审计日志管理相关服务",
+  "isEnable": true
+}
