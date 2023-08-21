@@ -11,16 +11,20 @@
  **************************************************************/
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sgr.Identity;
 using Sgr.Identity.Services;
+using Sgr.Utilities;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -29,6 +33,57 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+        public static AuthenticationBuilder AddCookieAuthentication(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            HttpCookieOptions cookieOpt = configuration.GetSection("Cookie").Get<HttpCookieOptions>() ?? HttpCookieOptions.CreateDefault();
+            return AddCookieAuthentication(services, cookieOpt);
+        }
+
+        public static AuthenticationBuilder AddCookieAuthentication(this IServiceCollection services,
+            HttpCookieOptions cookieOpt)
+        {
+            services.AddSingleton(cookieOpt);
+
+            return services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+              {
+                  //设置存储用户登录信息（用户Token信息）的Cookie名称
+                  options.Cookie.Name = cookieOpt.Name;
+                  //设置存储用户登录信息（用户Token信息）的Cookie，无法通过客户端浏览器脚本(如JavaScript等)访问到
+                  options.Cookie.HttpOnly = cookieOpt.HttpOnly;
+                  // 过期时间
+                  options.ExpireTimeSpan = TimeSpan.FromSeconds(cookieOpt.ExpireSeconds);
+                  //是否在过期时间过半的时候，自动延期
+                  options.SlidingExpiration = cookieOpt.SlidingExpiration;
+                  //认证失败，会自动跳转到这个地址
+                  options.LoginPath = cookieOpt.LoginPath;
+
+                  //options.Events = new CookieAuthenticationEvents
+                  //{
+                  //    OnRedirectToLogin = context =>
+                  //    {
+                  //        //IsAjax则返回401
+                  //        var xreq = context.Request.Headers.ContainsKey("x-requested-with");
+                  //        if (xreq && context.Request.Headers["x-requested-with"] == "XMLHttpRequest")
+                  //        {
+                  //            var payload = JsonHelper.SerializeObject(new { auth_code = 401, auth_message = "未登录" });
+                  //            context.Response.ContentType = "application/json";
+                  //            context.Response.StatusCode = 401;
+                  //            context.Response.WriteAsync(payload);
+                  //        }
+                  //        else
+                  //        {
+                  //            context.Response.Redirect("/OAuth/Login/?ReturnUrl=" + HttpUtility.UrlEncode(context.Request.Path + context.Request.QueryString));
+                  //        }
+
+                  //        return Task.CompletedTask;
+                  //    }
+                  //};
+              });
+        }
+
+
         /// <summary>
         /// 添加JWT认证
         /// </summary>
@@ -38,19 +93,11 @@ namespace Microsoft.Extensions.DependencyInjection
         public static AuthenticationBuilder AddJWTAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
-            JwtOptions jwtOpt = configuration.GetSection("JWT").Get<JwtOptions>() ??
-                new JwtOptions()
-                {
-                    Audience = "SGR",
-                    ExpireSeconds = 60,
-                    Issuer = "SGR",
-                    Key = Guid.NewGuid().ToString("D").ToUpper()
-                };
-
+            JwtOptions jwtOpt = configuration.GetSection("JWT").Get<JwtOptions>() ?? JwtOptions.CreateDefault();
 
             return AddJWTAuthentication(services, jwtOpt);
         }
-        
+
         /// <summary>
         /// 添加JWT认证
         /// </summary>
@@ -74,6 +121,29 @@ namespace Microsoft.Extensions.DependencyInjection
                         ValidIssuer = jwtOptions.Issuer,
                         ValidAudience = jwtOptions.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key))
+                    };
+
+                    x.Events = new JwtBearerEvents
+                    {
+                        //此处为权限验证失败后触发的事件
+                        OnChallenge = context =>
+                        {
+                            //此处代码为终止.Net Core默认的返回类型和数据结果，这个很重要哦，必须
+                            context.HandleResponse();
+
+                            //自定义自己想要返回的数据结果，我这里要返回的是Json对象，通过引用Newtonsoft.Json库进行转换
+
+                            var payload = "{\"serviceerror\": { \"message\": \"无权访问该接口!\" } }";
+                            //var payload = JsonHelper.SerializeObject(new { serviceerror  = new { message = "无权访问该接口" } });
+                            //自定义返回的数据类型
+                            context.Response.ContentType = "application/json";
+                            //自定义返回状态码，默认为401 我这里改成 200
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            //context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            //输出Json数据结果
+                            context.Response.WriteAsync(payload);
+                            return Task.FromResult(0);
+                        }
                     };
                 });
         }

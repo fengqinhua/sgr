@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using System;
+
 namespace Sgr.Identity
 {
     /// <summary>
@@ -36,5 +38,20 @@ namespace Sgr.Identity
         /// 过期时间
         /// </summary>
         public int ExpireSeconds { get; set; }
+
+        /// <summary>
+        /// 创建缺省配置项
+        /// </summary>
+        /// <returns></returns>
+        public static JwtOptions CreateDefault()
+        {
+            return new JwtOptions()
+            {
+                Audience = "SGR",
+                ExpireSeconds = 60,
+                Issuer = "SGR",
+                Key = Guid.NewGuid().ToString("D").ToUpper()
+            };
+        }
     }
 }
