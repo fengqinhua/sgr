@@ -69,7 +69,6 @@ namespace Sgr.AuditLogs.Controllers
         public async Task<ActionResult<LogOperateModel>> GetAsync(long id)
         {
             //权限认证
-
             if (id < 0)
                 return NotFound();
 

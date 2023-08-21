@@ -12,7 +12,7 @@ namespace Sgr.AspNetCore.Modules
         /// <summary>
         /// 模块服务初始化顺序，默认为0
         /// </summary>
-        public virtual int Order => 0;
+        public virtual int Order => 1000;
         /// <summary>
         /// 模块服务初始化
         /// </summary>

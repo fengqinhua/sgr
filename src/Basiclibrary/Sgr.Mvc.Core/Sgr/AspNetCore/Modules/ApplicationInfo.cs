@@ -57,7 +57,17 @@ namespace Sgr.AspNetCore.Modules
             Path = environment.ContentRootPath;
 
             Assembly = Assembly.Load(new AssemblyName(Name));
-            _modules = new List<ModuleInfo>(modules);
+
+            _modules = new List<ModuleInfo>();
+
+            foreach (var module in modules)
+            {
+                if (!_modules.Any(f => f.Id == module.Id))
+                {
+                    _modules.Add(module);
+                }
+            }
+
             _modulesById = _modules.ToDictionary(m => m.Id, m => m);
         }
 

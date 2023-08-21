@@ -45,9 +45,9 @@ namespace Sgr
         /// <param name="parameterName"></param>
         /// <param name="message"></param>
         /// <exception cref="ArgumentException"></exception>
-        public static void StringNotNullOrEmpty(string value, string parameterName, string? message = null)
+        public static void StringNotNullOrEmpty(string? value, string? parameterName, string? message = null)
         {
-            if (string.IsNullOrEmpty(value))
+            if (value == null || value.Length == 0)
                 throw new ArgumentException(message ?? $"{parameterName} can not be null or empty!", parameterName);
         }
 
@@ -58,9 +58,9 @@ namespace Sgr
         /// <param name="parameterName"></param>
         /// <param name="message"></param>
         /// <exception cref="ArgumentException"></exception>
-        public static void StringNotNullOrWhiteSpace(string value, string parameterName, string? message = null)
+        public static void StringNotNullOrWhiteSpace(string? value, string? parameterName, string? message = null)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            if (value == null || string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException(message ?? $"{parameterName} can not be null, empty or white space!", parameterName);
         }
         

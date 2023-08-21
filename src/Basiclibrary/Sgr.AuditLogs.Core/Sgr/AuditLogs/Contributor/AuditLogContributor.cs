@@ -13,6 +13,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Sgr.AuditLogs.Contributor
@@ -33,8 +34,8 @@ namespace Sgr.AuditLogs.Contributor
         /// <returns></returns>
         public virtual Task PreContribute(HttpContext context, UserHttpRequestAuditInfo auditInfo, string functionDescriptor = "")
         {
-            auditInfo.LoginName = context.GetValueFromClaim(Constant.CLAIM_LOGIN_NAME, "");
-            auditInfo.UserName = context.GetValueFromClaim(Constant.CLAIM_USER_NAME, "");
+            auditInfo.LoginName = context.GetValueFromClaim(ClaimTypes.Name, "");
+            auditInfo.UserName = "";
 
             if (long.TryParse(context.GetValueFromClaim(Constant.CLAIM_USER_ORGID, ""), out long orgId))
                 auditInfo.OrgId = orgId;

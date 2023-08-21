@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-using Sgr.AuditLogs;
+using Sgr.AuditLogs.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

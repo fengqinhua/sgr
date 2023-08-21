@@ -9,6 +9,7 @@ using Sgr.AuditLogs.Contributor;
 using Sgr.Database;
 using Sgr.MediatR.Behaviors;
 using Sgr.Utilities;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -47,6 +48,7 @@ namespace Sgr.Admin.WebHost
 
             builder.Services.AddControllers().AddJsonOptions(options => { JsonHelper.UpdateJsonSerializerOptions(options.JsonSerializerOptions); });
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddJWTAuthentication(builder.Configuration);
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("sgr", new OpenApiInfo
@@ -58,9 +60,11 @@ namespace Sgr.Admin.WebHost
                     Contact = new OpenApiContact { Name = "Mapleleaf", Email = "mapleleaf1024@163.com" },
                     License = new OpenApiLicense { Name = "MIT License", Url = new Uri("https://github.com/fengqinhua/sgr/blob/main/LICENSE") }
                 });
-
+                options.AddAuthenticationHeader();
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Admin.WebHost.xml"));
             });
+
+
 
             var app = builder.Build();
 
@@ -87,10 +91,12 @@ namespace Sgr.Admin.WebHost
                 });
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); 
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
             app.MapControllers();
+
 
             //当处于开发者模式下，程序自动执行数据库初始化逻辑，确保数据库相关表和数据存在
             if (app.Environment.IsDevelopment())

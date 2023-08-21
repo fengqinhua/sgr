@@ -17,7 +17,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sgr.AuditLogs
+namespace Sgr.AuditLogs.Services
 {
     /// <summary>
     /// 

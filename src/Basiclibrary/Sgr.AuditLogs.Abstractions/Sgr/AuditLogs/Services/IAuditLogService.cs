@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sgr.AuditLogs
+namespace Sgr.AuditLogs.Services
 {
     /// <summary>
     /// 审计日志服务

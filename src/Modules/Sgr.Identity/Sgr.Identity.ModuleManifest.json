@@ -1,0 +1,7 @@
+{
+  "id": "Sgr.Identity",
+  "name": "认证管理模块",
+  "category": "System",
+  "description": "用于实现认证相关服务",
+  "isEnable": true
+}

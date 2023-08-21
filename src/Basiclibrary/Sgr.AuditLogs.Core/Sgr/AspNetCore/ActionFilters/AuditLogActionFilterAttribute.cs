@@ -16,6 +16,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Sgr.AuditLogs;
+using Sgr.AuditLogs.Services;
 using System;
 using System.Threading.Tasks;
 

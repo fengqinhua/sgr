@@ -27,6 +27,8 @@
 		<NLogWebAspNetCoreVersion>5.3.2</NLogWebAspNetCoreVersion>
 		<!--验证-->
 		<FluentValidationVersion>11.7.1</FluentValidationVersion>
+		<!--认证-->
+		<MicrosoftAspNetCoreAuthenticationJwtBearerVersion>6.0.21</MicrosoftAspNetCoreAuthenticationJwtBearerVersion>
 	</PropertyGroup>
 
 	<!--项目设置-->

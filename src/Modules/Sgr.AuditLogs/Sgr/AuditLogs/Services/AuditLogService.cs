@@ -10,14 +10,11 @@
  * 
  **************************************************************/
 
-using Microsoft.EntityFrameworkCore;
 using Sgr.AuditLogs.Model;
-using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.EntityFrameworkCore;
 using Sgr.Generator;
 using Sgr.Utilities;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.AuditLogs.Services

@@ -30,6 +30,8 @@ namespace Sgr.Utilities
         private static readonly byte[] Key = Convert.FromBase64String("JFBAXvy9WKEQl3opFU/U8wsG8FlESGSGCcHbwFY7w7U=");
         private static readonly byte[] Iv = Convert.FromBase64String("vMu9WHcI+aB78JqskBWjZQ==");
 
+
+
         /// <summary>
         /// 加密
         /// </summary>

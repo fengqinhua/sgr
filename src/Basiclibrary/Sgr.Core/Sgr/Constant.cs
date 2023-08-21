@@ -58,17 +58,9 @@ namespace Sgr
         //public const string Setup_SiteTimeZone = "SiteTimeZone";
 
         /// <summary>
-        /// 用户标识
+        /// 用户标识(来源于 JwtRegisteredClaimNames.Sub )
         /// </summary>
-        public const string CLAIM_USER_ID = "use_id";
-        /// <summary>
-        /// 用户登录名称
-        /// </summary>
-        public const string CLAIM_LOGIN_NAME = "login_name";
-        /// <summary>
-        /// 用户姓名
-        /// </summary>
-        public const string CLAIM_USER_NAME = "use_name";
+        public const string CLAIM_USER_ID = "sub";
         /// <summary>
         /// 用户所属组织标识
         /// </summary>

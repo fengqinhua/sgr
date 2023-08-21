@@ -15,6 +15,7 @@
 
 using Microsoft.AspNetCore.Http;
 using Sgr.AuditLogs;
+using Sgr.AuditLogs.Services;
 using System;
 using System.Threading.Tasks;
 

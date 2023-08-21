@@ -50,6 +50,8 @@ namespace Microsoft.Extensions.DependencyInjection
             //配置审计接口
             services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
 
+            //签名验证工具
+            services.AddTransient<ISignatureChecker, DefaultSignatureChecker>();
 
 
             return services;

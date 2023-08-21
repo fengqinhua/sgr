@@ -12,7 +12,7 @@
 
 using Microsoft.AspNetCore.Http;
 using System;
-using System.IO.Compression;
+using System.Security.Claims;
 
 namespace Sgr.AspNetCore
 {
@@ -21,9 +21,6 @@ namespace Sgr.AspNetCore
     /// </summary>
     public class DefaultCurrentUser : ICurrentUser
     {
-
-
-
         private IHttpContextAccessor _context;
 
         /// <summary>
@@ -33,7 +30,7 @@ namespace Sgr.AspNetCore
         /// <exception cref="ArgumentNullException"></exception>
         public DefaultCurrentUser(IHttpContextAccessor context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context ?? throw new ArgumentNullException(nameof(context)); 
         }
 
         /// <summary>
@@ -43,11 +40,7 @@ namespace Sgr.AspNetCore
         /// <summary>
         /// 当前用户登录名称
         /// </summary>
-        public string LoginName => _context.HttpContext == null ? "" : _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_LOGIN_NAME, "");
-        /// <summary>
-        /// 当前用户姓名
-        /// </summary>
-        public string UserName => _context.HttpContext == null ? "" : _context.HttpContext!.GetValueFromClaim(Constant.CLAIM_USER_NAME, "");
+        public string LoginName => _context.HttpContext == null ? "" : _context.HttpContext!.GetValueFromClaim(ClaimTypes.Name, "");
         /// <summary>
         /// 当前用户所在组织
         /// </summary>
