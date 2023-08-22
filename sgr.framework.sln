@@ -62,8 +62,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.AuditLogs.Abstractions"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.AuditLogs.Core", "src\Basiclibrary\Sgr.AuditLogs.Core\Sgr.AuditLogs.Core.csproj", "{363A6E9B-FA18-4D57-8C59-E530E1B62E97}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.ExceptionHandling.Abstractions", "src\Basiclibrary\Sgr.ExceptionHandling.Abstractions\Sgr.ExceptionHandling.Abstractions.csproj", "{E1D770F6-BCA6-450B-9A79-4E89DBE84F34}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.ExceptionHandling.Core", "src\Basiclibrary\Sgr.ExceptionHandling.Core\Sgr.ExceptionHandling.Core.csproj", "{9555BBD9-1F2A-42BF-AD6C-4815545BE2D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.IntegrationEvents.Abstractions", "src\Basiclibrary\Sgr.IntegrationEvents.Abstractions\Sgr.IntegrationEvents.Abstractions.csproj", "{342B7A45-3E7A-4E6C-B032-AE261467FBD4}"
@@ -96,11 +94,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExceptionHandling", "Except
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{A2597E12-1F1E-4AD1-AF60-55A5F57CE010}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.Identity.Core", "src\Basiclibrary\Sgr.Identity.Core\Sgr.Identity.Core.csproj", "{E1639046-8C81-4AE0-8A97-80976745DF2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Identity.Core", "src\Basiclibrary\Sgr.Identity.Core\Sgr.Identity.Core.csproj", "{E1639046-8C81-4AE0-8A97-80976745DF2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.Identity.Abstractions", "src\Basiclibrary\Sgr.Identity.Abstractions\Sgr.Identity.Abstractions.csproj", "{8ED4DDFF-46EC-4704-BDEE-4B85C3734C3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Identity.Abstractions", "src\Basiclibrary\Sgr.Identity.Abstractions\Sgr.Identity.Abstractions.csproj", "{8ED4DDFF-46EC-4704-BDEE-4B85C3734C3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.Identity", "src\Modules\Sgr.Identity\Sgr.Identity.csproj", "{64AE0E4C-5949-430D-85F2-47900CFFBFF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Identity", "src\Modules\Sgr.Identity\Sgr.Identity.csproj", "{64AE0E4C-5949-430D-85F2-47900CFFBFF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,10 +150,6 @@ Global
 		{363A6E9B-FA18-4D57-8C59-E530E1B62E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{363A6E9B-FA18-4D57-8C59-E530E1B62E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{363A6E9B-FA18-4D57-8C59-E530E1B62E97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1D770F6-BCA6-450B-9A79-4E89DBE84F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1D770F6-BCA6-450B-9A79-4E89DBE84F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1D770F6-BCA6-450B-9A79-4E89DBE84F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1D770F6-BCA6-450B-9A79-4E89DBE84F34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9555BBD9-1F2A-42BF-AD6C-4815545BE2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9555BBD9-1F2A-42BF-AD6C-4815545BE2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9555BBD9-1F2A-42BF-AD6C-4815545BE2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -236,7 +230,6 @@ Global
 		{00CF3706-857D-4E55-A620-E9027072D2B0} = {ECCC91A8-6C1D-41B7-8A58-D11C7534BF7B}
 		{CEA012F3-D59D-4ED6-9052-80C53975A9FE} = {FF6C0FE4-3809-4CE8-8072-7D162137E04A}
 		{363A6E9B-FA18-4D57-8C59-E530E1B62E97} = {FF6C0FE4-3809-4CE8-8072-7D162137E04A}
-		{E1D770F6-BCA6-450B-9A79-4E89DBE84F34} = {00453BB3-BF36-47E8-95DA-EC6F9DD0E318}
 		{9555BBD9-1F2A-42BF-AD6C-4815545BE2D0} = {00453BB3-BF36-47E8-95DA-EC6F9DD0E318}
 		{342B7A45-3E7A-4E6C-B032-AE261467FBD4} = {652C53BB-881F-4FA1-B4D5-57D232164861}
 		{3A3EC2BE-6BCD-4454-A8A9-15CB8840CD80} = {652C53BB-881F-4FA1-B4D5-57D232164861}

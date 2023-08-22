@@ -1,7 +1,7 @@
 ﻿
 
+using Sgr.AspNetCore.ExceptionHandling;
 using Sgr.AspNetCore.Middlewares;
-using Sgr.ExceptionHandling;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-namespace Sgr.ExceptionHandling
+namespace Sgr.AspNetCore.ExceptionHandling
 {
     public class ServiceValidationErrorInfo
     {

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgr.Application.Services;
 using Sgr.AspNetCore.ActionFilters;
+using Sgr.AspNetCore.ExceptionHandling;
 using Sgr.Domain.Entities;
 using Sgr.Exceptions;
 using Sgr.Identity;
@@ -61,6 +62,8 @@ namespace Sgr.Indentity.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<TokenModel>> TokenAsync([FromBody] UserLoginModel model)
         {
             Check.NotNull(model, nameof(model));
@@ -68,8 +71,8 @@ namespace Sgr.Indentity.Controllers
             Check.StringNotNullOrEmpty(model.Name, nameof(model.Name));
             Check.StringNotNullOrEmpty(model.Password, nameof(model.Password));
 
-            if(!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.Name}-{model.Password}"))
-                throw new BusinessException("获取令牌时，参数中的签名Signature验证失败!");
+            if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.Name}-{model.Password}"))
+                return BadRequest(ServiceErrorResponse.CreateNew("获取令牌时，参数中的签名Signature验证失败!"));
 
             var loginResult = await _accountService.ValidateAccountAsync(model.Name, model.Password);
 
@@ -78,16 +81,16 @@ namespace Sgr.Indentity.Controllers
                 case AccountLoginResults.Success:
 
                     if (loginResult.Item2 == null)
-                        throw new BusinessException("创建令牌时的账号信息为空!");
+                        return BadRequest(ServiceErrorResponse.CreateNew("创建令牌时的账号信息为空!"));
 
                     TokenModel tokenModel = await creatTokenModel(loginResult.Item2!);
                     return Ok(tokenModel);
                 case AccountLoginResults.IsDeactivate:
-                    throw new BusinessException("账号被禁用!");
+                    return BadRequest(ServiceErrorResponse.CreateNew("账号被禁用!"));
                 case AccountLoginResults.WrongPassword:
                 case AccountLoginResults.NotExist:
                 default:
-                    throw new BusinessException("账号或密码错误!");
+                    return BadRequest(ServiceErrorResponse.CreateNew("账号或密码错误!"));
             }
 
         }
@@ -99,20 +102,21 @@ namespace Sgr.Indentity.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("refresh-token")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<TokenModel>> RefreshTokenAsync([FromBody] RefreshTokenModel model)
         {
             Check.NotNull(model, nameof(model));
-
             Check.StringNotNullOrEmpty(model.RefrashToken, nameof(model.RefrashToken));
             Check.StringNotNullOrEmpty(model.AccessToken, nameof(model.AccessToken));
 
             ClaimsPrincipal? claimsPrincipal = _jwtService.ValidateAccessToken(model.AccessToken!, _jwtOptions);
             if(claimsPrincipal == null)
-                throw new BusinessException("AccessToken无法解析!");
+                return BadRequest(ServiceErrorResponse.CreateNew("AccessToken无法解析!"));
 
-            var loginName = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var loginName = (claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value);
             if(loginName == null)
-                throw new BusinessException("AccessToken中无法获取用户标识!");
+                return BadRequest(ServiceErrorResponse.CreateNew("AccessToken中无法获取用户标识!"));
 
             var validateResult = await _accountService.ValidateRefreshTokenAsync(loginName, model.RefrashToken!);
             switch(validateResult.Item1) 
@@ -120,15 +124,16 @@ namespace Sgr.Indentity.Controllers
                 case ValidateRefreshTokenResults.Success:
 
                     if (validateResult.Item2 == null)
-                        throw new BusinessException("刷新令牌时的账号信息为空!");
+                        return BadRequest(ServiceErrorResponse.CreateNew("刷新令牌时的账号信息为空!"));
 
                     TokenModel tokenModel = await creatTokenModel(validateResult.Item2!);
                     return Ok(tokenModel);
+
                 case ValidateRefreshTokenResults.Expire:
-                    throw new BusinessException("RefreshToken已过期!");
+                    return BadRequest(ServiceErrorResponse.CreateNew("RefreshToken已过期!"));
                 case ValidateRefreshTokenResults.NotExist:
                 default:
-                    throw new BusinessException("RefreshToken不存在!");
+                    return BadRequest(ServiceErrorResponse.CreateNew("RefreshToken不存在!"));
             }
         }
 

@@ -128,7 +128,7 @@ namespace Sgr.Generator
                 }
                 if (timestamp < lastTimestamp)
                 {
-                    throw new Exception("时间戳比上一次生成ID时时间戳还小，故异常");
+                    throw new BusinessException("时间戳比上一次生成ID时时间戳还小，故异常");
                 }
                 lastTimestamp = timestamp; //把当前时间戳保存为最后生成ID的时间戳
                 long Id = timestamp - twepoch << (int)timestampLeftShift

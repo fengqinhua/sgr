@@ -13,7 +13,7 @@
 using System;
 using System.Net;
 
-namespace Sgr.ExceptionHandling
+namespace Sgr.AspNetCore.ExceptionHandling
 {
     public interface IExceptionToErrorInfo
     {

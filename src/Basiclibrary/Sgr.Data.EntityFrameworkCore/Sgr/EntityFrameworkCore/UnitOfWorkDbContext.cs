@@ -14,6 +14,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Sgr.Domain.Uow;
+using Sgr.Exceptions;
 using System;
 using System.Data;
 using System.Threading;
@@ -112,11 +113,10 @@ namespace Sgr.EntityFrameworkCore
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         public async Task CommitTransactionAsync(IDbContextTransaction transaction)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (transaction == null) throw new InvalidOperationException(nameof(transaction));
             if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
 
             try

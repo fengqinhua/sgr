@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using Sgr.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -153,8 +154,7 @@ namespace Sgr.Utilities
                     }
                     else
                     {
-                        int i;
-                        int.TryParse(fs.Length.ToString(), out i);
+                        int.TryParse(fs.Length.ToString(), out int i);
                         ss = r.ReadBytes(i);
 
                         if (IsUTF8Bytes(ss))
@@ -208,7 +208,7 @@ namespace Sgr.Utilities
             }
             if (charByteCounter > 1)
             {
-                throw new Exception("非预期的byte格式!");
+                throw new BusinessException("非预期的byte格式!");
             }
             return true;
         }

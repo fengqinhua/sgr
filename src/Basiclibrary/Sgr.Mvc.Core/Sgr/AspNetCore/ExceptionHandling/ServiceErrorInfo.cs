@@ -12,7 +12,7 @@
 
 using System.Collections;
 
-namespace Sgr.ExceptionHandling
+namespace Sgr.AspNetCore.ExceptionHandling
 {
     /// <summary>
     /// 服务端异常信息

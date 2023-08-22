@@ -11,6 +11,7 @@
  **************************************************************/
 
 using Microsoft.AspNetCore.Http;
+using Sgr.Exceptions;
 using System;
 using System.Security.Claims;
 
@@ -30,7 +31,7 @@ namespace Sgr.AspNetCore
         /// <exception cref="ArgumentNullException"></exception>
         public DefaultCurrentUser(IHttpContextAccessor context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context)); 
+            _context = context ?? throw new BusinessException("IHttpContextAccessor Is Null"); 
         }
 
         /// <summary>

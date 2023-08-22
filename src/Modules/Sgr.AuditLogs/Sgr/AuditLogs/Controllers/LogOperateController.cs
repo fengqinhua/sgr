@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgr.Application.ViewModels;
 using Sgr.AspNetCore.ActionFilters;
+using Sgr.AspNetCore.ExceptionHandling;
 using Sgr.AuditLogs.Queries;
 using Sgr.AuditLogs.ViewModels;
 using System.Threading.Tasks;
@@ -49,8 +50,7 @@ namespace Sgr.AuditLogs.Controllers
         [AuditLogActionFilter("查询审计日志列表")]
         public async Task<ActionResult<PagedResponse<LogOperateSearchModel>>> GetListAsync(LogOperateListModel request)
         {
-            //权限认证
-
+            //权限认证 
             var result = await _logOperateQueries.GetListAsync(request);
             return Ok(result);
         }
@@ -64,18 +64,18 @@ namespace Sgr.AuditLogs.Controllers
         [Route("details/{id:long}")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status404NotFound)]
         [AuditLogActionFilter("查询审计日志详情")]
         public async Task<ActionResult<LogOperateModel>> GetAsync(long id)
         {
             //权限认证
             if (id < 0)
-                return NotFound();
-
+                return NotFound(ServiceErrorResponse.CreateNew($"Id({id})不可小于零"));
+          
             var result = await _logOperateQueries.GetAsync(id);
 
             if (result == null)
-                return NotFound();
+                return NotFound(ServiceErrorResponse.CreateNew($"查无数据,Id={id}"));
 
             return Ok(result);
         }

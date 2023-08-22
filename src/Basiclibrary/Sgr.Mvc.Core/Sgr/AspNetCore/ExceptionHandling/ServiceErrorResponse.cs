@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-namespace Sgr.ExceptionHandling
+namespace Sgr.AspNetCore.ExceptionHandling
 {
     /// <summary>
     /// 
@@ -28,6 +28,14 @@ namespace Sgr.ExceptionHandling
         public ServiceErrorResponse(ServiceErrorInfo error)
         {
             Serviceerror = error;
+        }
+
+        public static ServiceErrorResponse CreateNew(string message)
+        {
+            return new ServiceErrorResponse(new ServiceErrorInfo()
+            {
+                Message = message
+            });
         }
     }
 }

@@ -12,12 +12,13 @@
 
 using FluentValidation;
 using Sgr.AspNetCore.Middlewares;
+using Sgr.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
-namespace Sgr.ExceptionHandling
+namespace Sgr.AspNetCore.ExceptionHandling
 {
     public class DefaultExceptionToErrorInfo : IExceptionToErrorInfo
     {
@@ -52,8 +53,16 @@ namespace Sgr.ExceptionHandling
 
         protected virtual HttpStatusCode JudgeHttpStatusCode(Exception exception)
         {
-            return HttpStatusCode.InternalServerError;
+            if (exception is ArgumentNullException)
+                return HttpStatusCode.BadRequest;
+            if (exception is ValidationException)
+                return HttpStatusCode.BadRequest;
+            if (exception is BusinessRuleValidationException)
+                return HttpStatusCode.BadRequest;
+            else
+                return HttpStatusCode.InternalServerError;//InvalidOperationException BusinessException
         }
+        
 
         protected virtual ServiceValidationErrorInfo[]? DisassemblyValidationErrorInfo(Exception exception)
         {

@@ -6,6 +6,7 @@ using Sgr.Generator;
 using Sgr.Domain.Repositories;
 using Sgr.UPMS.Domain.Departments;
 using System;
+using Sgr.Exceptions;
 
 namespace Sgr.UPMS.Infrastructure.Repositories
 {
@@ -33,9 +34,9 @@ namespace Sgr.UPMS.Infrastructure.Repositories
         /// <exception cref="ArgumentNullException"></exception>
         public DepartmentRepository(SgrDbContext context, IAuditedOperator auditedOperator, INumberIdGenerator numberIdGenerator)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _auditedOperator = auditedOperator ?? throw new ArgumentNullException(nameof(auditedOperator));
-            _numberIdGenerator = numberIdGenerator ?? throw new ArgumentNullException(nameof(numberIdGenerator));
+            _context = context ?? throw new BusinessException("SgrDbContext Is Null");
+            _auditedOperator = auditedOperator ?? throw new BusinessException("IAuditedOperator Is Null");
+            _numberIdGenerator = numberIdGenerator ?? throw new BusinessException("INumberIdGenerator Is Null");
         }
 
         /// <summary>

@@ -33,9 +33,9 @@ namespace Sgr.MediatR.Behaviors
             //IIntegrationEventService integrationEventService,
             ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         {
-            _dbContext = dbContext ?? throw new ArgumentException(nameof(SgrDbContext));
+            _dbContext = dbContext ?? throw new BusinessException(nameof(SgrDbContext));
             //_integrationEventService = integrationEventService ?? throw new ArgumentException(nameof(IIntegrationEventService));
-            _logger = logger ?? throw new ArgumentException(nameof(ILogger));
+            _logger = logger ?? throw new BusinessException(nameof(ILogger));
         }
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)

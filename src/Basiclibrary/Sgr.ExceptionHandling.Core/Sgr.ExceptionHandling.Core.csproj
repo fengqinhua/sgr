@@ -15,7 +15,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Sgr.AuditLogs.Abstractions\Sgr.AuditLogs.Abstractions.csproj" />
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
-	  <ProjectReference Include="..\Sgr.ExceptionHandling.Abstractions\Sgr.ExceptionHandling.Abstractions.csproj" />
+	  <ProjectReference Include="..\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
 	</ItemGroup>
 
 </Project>
