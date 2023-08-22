@@ -39,8 +39,7 @@ namespace Sgr.IntegrationEvents
         /// <param name="services"></param>
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAccountService, NoAccountService>();
-            services.AddScoped<IRoleService, NoRoleService>();
+
         }
     }
 }

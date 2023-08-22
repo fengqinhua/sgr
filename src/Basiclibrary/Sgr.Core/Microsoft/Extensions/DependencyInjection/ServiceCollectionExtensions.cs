@@ -12,9 +12,11 @@
 
 using Microsoft.Extensions.Configuration;
 using Sgr.Application.Services;
+using Sgr.AuditLogs.Services;
 using Sgr.Database;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
+using Sgr.Identity.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -47,12 +49,17 @@ namespace Microsoft.Extensions.DependencyInjection
             //数据字典
             services.AddSingleton<ICategoryTypeService, DefaultCategoryTypeService>();
 
-            //配置审计接口
-            services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
 
             //签名验证工具
             services.AddTransient<ISignatureChecker, DefaultSignatureChecker>();
 
+            //配置审计接口
+            services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
+            services.AddTransient<IAuditLogService, DefaultAuditLogService>();
+
+            //认证相关
+            services.AddScoped<IAccountService, NoAccountService>();
+            services.AddScoped<IRoleService, NoRoleService>();
 
             return services;
         }

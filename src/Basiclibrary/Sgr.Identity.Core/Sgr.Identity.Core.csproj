@@ -15,7 +15,6 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
-	  <ProjectReference Include="..\Sgr.Identity.Abstractions\Sgr.Identity.Abstractions.csproj" />
 	</ItemGroup>
 	
 </Project>

@@ -41,14 +41,14 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static AuthenticationBuilder AddCookieAuthentication(this IServiceCollection services,
+        public static AuthenticationBuilder AddSgrCookieAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
             HttpCookieOptions cookieOpt = configuration.GetSection("Sgr:Identity:Cookie").Get<HttpCookieOptions>() ?? HttpCookieOptions.CreateDefault();
-            return AddCookieAuthentication(services, cookieOpt);
+            return AddSgrCookieAuthentication(services, cookieOpt);
         }
 
-        public static AuthenticationBuilder AddCookieAuthentication(this IServiceCollection services,
+        public static AuthenticationBuilder AddSgrCookieAuthentication(this IServiceCollection services,
             HttpCookieOptions cookieOpt)
         {
             services.AddSingleton(cookieOpt);
@@ -98,12 +98,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static AuthenticationBuilder AddJWTAuthentication(this IServiceCollection services,
+        public static AuthenticationBuilder AddSgrJwtAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
             JwtOptions jwtOpt = configuration.GetSection("Sgr:Identity:JWT").Get<JwtOptions>() ?? JwtOptions.CreateDefault();
 
-            return AddJWTAuthentication(services, jwtOpt);
+            return AddSgrJwtAuthentication(services, jwtOpt);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         /// <param name="jwtOptions"></param>
         /// <returns></returns>
-        public static AuthenticationBuilder AddJWTAuthentication(this IServiceCollection services, JwtOptions jwtOptions)
+        public static AuthenticationBuilder AddSgrJwtAuthentication(this IServiceCollection services, JwtOptions jwtOptions)
         {
             services.AddSingleton(jwtOptions);
 
@@ -159,7 +159,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 为swagger增加Authentication报文头
         /// </summary>
         /// <param name="option"></param>
-        public static void AddAuthenticationHeader(this SwaggerGenOptions option)
+        public static void AddSgrAuthenticationHeader(this SwaggerGenOptions option)
         {
             option.AddSecurityDefinition("Authorization",
                 new OpenApiSecurityScheme

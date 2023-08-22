@@ -9,7 +9,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Basiclibrary\Sgr.AuditLogs.Abstractions\Sgr.AuditLogs.Abstractions.csproj" />
 		<ProjectReference Include="..\..\Basiclibrary\Sgr.Module.Targets\Sgr.Module.Targets.csproj" />
 		<ProjectReference Include="..\..\Basiclibrary\Sgr.Data.EntityFrameworkCore\Sgr.Data.EntityFrameworkCore.csproj" />
 	</ItemGroup>

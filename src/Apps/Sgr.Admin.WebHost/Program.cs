@@ -49,7 +49,7 @@ namespace Sgr.Admin.WebHost
             builder.Services.AddControllers().AddJsonOptions(options => { JsonHelper.UpdateJsonSerializerOptions(options.JsonSerializerOptions); });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSgrIdentity().
-                AddJWTAuthentication(builder.Configuration);
+                AddSgrJwtAuthentication(builder.Configuration);
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("sgr", new OpenApiInfo
@@ -61,7 +61,7 @@ namespace Sgr.Admin.WebHost
                     Contact = new OpenApiContact { Name = "Mapleleaf", Email = "mapleleaf1024@163.com" },
                     License = new OpenApiLicense { Name = "MIT License", Url = new Uri("https://github.com/fengqinhua/sgr/blob/main/LICENSE") }
                 });
-                options.AddAuthenticationHeader();
+                options.AddSgrAuthenticationHeader();
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Admin.WebHost.xml"));
             });
 
