@@ -40,6 +40,7 @@ namespace Sgr.IntegrationEvents
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAccountService, NoAccountService>();
+            services.AddScoped<IRoleService, NoRoleService>();
         }
     }
 }

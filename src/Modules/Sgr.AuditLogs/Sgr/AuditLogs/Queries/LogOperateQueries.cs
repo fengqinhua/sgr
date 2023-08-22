@@ -59,8 +59,6 @@ namespace Sgr.AuditLogs.Queries
             //return result ?? throw new KeyNotFoundException($"LogOperate Key = {id} Not Found!");
         }
 
-
-
         public async Task<PagedResponse<LogOperateSearchModel>> GetListAsync(LogOperateListModel request)
         {
             Check.NotNull(request, nameof(request));

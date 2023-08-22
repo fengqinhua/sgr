@@ -31,9 +31,9 @@ namespace Sgr.Identity.Services
 
         public Task<Tuple<AccountLoginResults, Account?>> ValidateAccountAsync(string name, string password)
         {
-            return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.Success, new Account("1", "1", "admin")));
+            //return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.Success, new Account("1", "1", "admin")));
 
-            //return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.NotExist, null)));
+            return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.NotExist, null));
         }
 
         /// <summary>
@@ -44,8 +44,19 @@ namespace Sgr.Identity.Services
         /// <returns></returns>
         public Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string userId, string refreshToken)
         {
-            return Task.FromResult(new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.Success, new Account("1", "1", "admin")));
-            //return Task.FromResult(new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.Expire, null));
+            //return Task.FromResult(new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.Success, new Account("1", "1", "admin")));
+            return Task.FromResult(new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.Expire, null));
+        }
+
+        /// <summary>
+        /// 获取账户关联的角色列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<string>> GetAccountRoleIdsAsync(string userId)
+        {
+            IEnumerable<string> result = new List<string>();
+            return Task.FromResult(result);
         }
     }
 }

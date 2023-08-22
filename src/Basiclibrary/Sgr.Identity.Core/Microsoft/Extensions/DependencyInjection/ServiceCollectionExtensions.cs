@@ -33,10 +33,18 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddSgrIdentity(this IServiceCollection services)
+        {
+            services.AddTransient<IJwtService, JwtService>();
+            services.AddTransient<IFunctionPermissionChecker, FunctionPermissionChecker>();
+
+            return services;
+        }
+
         public static AuthenticationBuilder AddCookieAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
-            HttpCookieOptions cookieOpt = configuration.GetSection("Cookie").Get<HttpCookieOptions>() ?? HttpCookieOptions.CreateDefault();
+            HttpCookieOptions cookieOpt = configuration.GetSection("Sgr:Identity:Cookie").Get<HttpCookieOptions>() ?? HttpCookieOptions.CreateDefault();
             return AddCookieAuthentication(services, cookieOpt);
         }
 
@@ -93,7 +101,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static AuthenticationBuilder AddJWTAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
-            JwtOptions jwtOpt = configuration.GetSection("JWT").Get<JwtOptions>() ?? JwtOptions.CreateDefault();
+            JwtOptions jwtOpt = configuration.GetSection("Sgr:Identity:JWT").Get<JwtOptions>() ?? JwtOptions.CreateDefault();
 
             return AddJWTAuthentication(services, jwtOpt);
         }
@@ -106,7 +114,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static AuthenticationBuilder AddJWTAuthentication(this IServiceCollection services, JwtOptions jwtOptions)
         {
-            services.AddTransient<IJwtService, JwtService>();
             services.AddSingleton(jwtOptions);
 
             return services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

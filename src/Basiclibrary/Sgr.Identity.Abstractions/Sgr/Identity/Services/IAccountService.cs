@@ -47,5 +47,13 @@ namespace Sgr.Identity.Services
         /// <param name="refreshToken">刷新令牌</param>
         /// <returns></returns>
         Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string loginName, string refreshToken);
+
+        /// <summary>
+        /// 获取账户关联的角色列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<string>> GetAccountRoleIdsAsync(string userId);
+
     }
 }

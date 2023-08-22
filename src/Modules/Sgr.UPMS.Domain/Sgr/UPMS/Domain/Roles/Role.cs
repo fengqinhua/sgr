@@ -36,7 +36,6 @@ namespace Sgr.UPMS.Domain.Roles
             _resources = new List<RoleResource>();
         }
 
-
         /// <summary>
         /// 
         /// </summary>
