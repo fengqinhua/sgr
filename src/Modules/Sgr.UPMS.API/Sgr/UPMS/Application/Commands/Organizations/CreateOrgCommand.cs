@@ -28,6 +28,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// 上级组织机构标识
         /// </summary>
         public long? ParentId { get; set; }
+
         /// <summary>
         /// 组织机构名称
         /// </summary>
