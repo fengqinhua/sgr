@@ -19,26 +19,30 @@ namespace Sgr.UPMS.Domain.Organizations
     /// </summary>
     public class Organization : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>
     {
-
-        private Organization() { }
+        protected Organization() { }
 
         /// <summary>
-        /// 组织机构
+        /// 组织机构名称
         /// </summary>
-        internal protected Organization(string core)
-        {
-            Code = core;
-        }
+        public string Name { get; internal protected set; } = string.Empty;
+        /// <summary>
+        /// 人员规模编码
+        /// </summary>
+        public string StaffSizeCode { get; set; } = string.Empty;
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string? Remarks { get; set; }
+
+        /// <summary>
+        /// Logo地址
+        /// </summary>
+        public string? LogoUrl { get; set; }
 
         /// <summary>
         /// 组织机构编码（默认情况下，选用统一社会信用代码）
         /// </summary>
         public string Code { get; private set; } = string.Empty;
-        /// <summary>
-        /// 组织机构名称
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
-
         /// <summary>
         /// 组织机构类型编码
         /// </summary>
@@ -47,24 +51,6 @@ namespace Sgr.UPMS.Domain.Organizations
         /// 所属行政区划编码（默认情况下，选用邮政编码）
         /// </summary>
         public string AreaCode { get; internal protected set; } = string.Empty;
-        /// <summary>
-        /// 人员规模编码
-        /// </summary>
-        public string StaffSizeCode { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 组织机构排序号
-        /// </summary>
-        public int OrderNumber { get; set; } = 0;
-        /// <summary>
-        /// Logo地址
-        /// </summary>
-        public string? LogoUrl { get; set; }
-        /// <summary>
-        /// 描述
-        /// </summary>
-        public string? Remarks { get; set; }
-
         /// <summary>
         /// 机构负责人/联系人
         /// </summary>
@@ -81,7 +67,6 @@ namespace Sgr.UPMS.Domain.Organizations
         /// 所在地址
         /// </summary>
         public string? Address { get; set; }
-
         /// <summary>
         /// 营业执照路径
         /// </summary>
@@ -90,11 +75,15 @@ namespace Sgr.UPMS.Domain.Organizations
         /// 组织机构是否已完成认证
         /// </summary>
         public bool IsConfirmed { get; private set; } = false;
-
+        /// <summary>
+        /// 组织机构排序号
+        /// </summary>
+        public int OrderNumber { get; set; } = 0;
         /// <summary>
         /// 组织机构状态
         /// </summary>
-        public EntityStates State { get; internal protected set; } = EntityStates.Normal;
+        public OrganizationStates State { get; internal protected set; } = OrganizationStates.WaitingActivation;
+
 
         #region  ITreeNode (树形结构)
 

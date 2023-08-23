@@ -15,7 +15,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Sgr\UPMS\Application\Commands\" />
 	  <Folder Include="Sgr\UPMS\Application\Queries\" />
 	  <Folder Include="Sgr\UPMS\Application\Validations\" />
 	  <Folder Include="Sgr\UPMS\Application\ViewModels\" />
