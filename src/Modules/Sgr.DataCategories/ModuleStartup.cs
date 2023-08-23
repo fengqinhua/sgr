@@ -14,7 +14,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Sgr.Application.Services;
 using Sgr.AspNetCore.Modules;
 using Sgr.AuditLogs;
 using Sgr.Database;
@@ -26,6 +25,7 @@ using Sgr.DataCategories.Infrastructure;
 using Sgr.DataCategories.Infrastructure.Checkers;
 using Sgr.DataCategories.Infrastructure.Repositories;
 using Sgr.DataCategories.Infrastructure.Sead;
+using Sgr.DataCategories.Services;
 using Sgr.EntityFrameworkCore;
 
 namespace Sgr.DataCategories

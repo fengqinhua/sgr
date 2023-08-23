@@ -8,6 +8,7 @@ using Sgr;
 using Sgr.AspNetCore;
 using Sgr.AspNetCore.Middlewares;
 using Sgr.AspNetCore.Modules;
+using Sgr.Caching.Services;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -29,6 +30,15 @@ namespace Microsoft.Extensions.DependencyInjection
             AddModules(services, environment);
 
             configure?.Invoke(services);
+     
+            return services;
+        }
+
+        public static IServiceCollection AddSgrCaching(this IServiceCollection services)
+        {
+            services.AddMemoryCache();
+
+            services.TryAddSingleton<ICacheManager, MemoryCacheManager>();
 
             return services;
         }

@@ -11,10 +11,10 @@
  **************************************************************/
 
 using Microsoft.EntityFrameworkCore;
-using Sgr.Application.Services;
 using Sgr.Application.ViewModels;
 using Sgr.DataCategories.Application.ViewModels;
 using Sgr.DataCategories.Domain;
+using Sgr.DataCategories.Services;
 using Sgr.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;

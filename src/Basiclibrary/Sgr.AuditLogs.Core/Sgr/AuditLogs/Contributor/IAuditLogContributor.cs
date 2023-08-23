@@ -11,7 +11,6 @@
  **************************************************************/
 
 using Microsoft.AspNetCore.Http;
-using Sgr.Application.Services;
 using System.Threading.Tasks;
 
 namespace Sgr.AuditLogs.Contributor

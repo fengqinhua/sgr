@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-using Sgr.Application.Services;
+using Sgr.DataCategories.Services;
 using System.Collections.Generic;
 
 namespace Sgr.DataCategories

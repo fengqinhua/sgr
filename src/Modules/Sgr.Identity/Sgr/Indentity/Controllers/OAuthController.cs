@@ -13,7 +13,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sgr.Application.Services;
+using Sgr.Application;
 using Sgr.AspNetCore.ActionFilters;
 using Sgr.AspNetCore.ExceptionHandling;
 using Sgr.Domain.Entities;

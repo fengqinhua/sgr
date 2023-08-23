@@ -1,4 +1,4 @@
-﻿using Sgr.Application.Services;
+﻿using Sgr.DataCategories.Services;
 using Sgr.Domain.Entities;
 using Sgr.Domain.Managers;
 using Sgr.Exceptions;

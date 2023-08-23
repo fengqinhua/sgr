@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sgr.Application.Services
+namespace Sgr.DataCategories.Services
 {
     public interface ICategoryTypeProvider
     {

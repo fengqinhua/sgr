@@ -11,9 +11,11 @@
  **************************************************************/
 
 using Microsoft.Extensions.Configuration;
-using Sgr.Application.Services;
+using Sgr.Application;
 using Sgr.AuditLogs.Services;
+using Sgr.Caching.Services;
 using Sgr.Database;
+using Sgr.DataCategories.Services;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
 using Sgr.Identity.Services;
@@ -60,6 +62,10 @@ namespace Microsoft.Extensions.DependencyInjection
             //认证相关
             services.AddScoped<IAccountService, NoAccountService>();
             services.AddScoped<IRoleService, NoRoleService>();
+
+            //缓存
+            services.AddSingleton<ICacheManager, NoCacheManager>();
+            
 
             return services;
         }

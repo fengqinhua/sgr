@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sgr.Application.Services
+namespace Sgr.Application
 {
     public class DefaultSignatureChecker : ISignatureChecker
     {

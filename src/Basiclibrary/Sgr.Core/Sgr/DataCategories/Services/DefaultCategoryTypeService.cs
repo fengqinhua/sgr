@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sgr.Application.Services
+namespace Sgr.DataCategories.Services
 {
     public class DefaultCategoryTypeService : ICategoryTypeService
     {
