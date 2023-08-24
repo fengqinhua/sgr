@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddSgrIdentity(this IServiceCollection services)
         {
-            services.AddTransient<IJwtService, JwtService>();
+            services.AddSingleton<IJwtService, JwtService>();
             services.AddTransient<IFunctionPermissionChecker, FunctionPermissionChecker>();
 
             return services;

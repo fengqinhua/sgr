@@ -63,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddUserIdentity(this IServiceCollection services)
         {
-            services.AddTransient<ICurrentUser, DefaultCurrentUser>();
+            services.AddSingleton<ICurrentUser, DefaultCurrentUser>();
             return services;
         }
 

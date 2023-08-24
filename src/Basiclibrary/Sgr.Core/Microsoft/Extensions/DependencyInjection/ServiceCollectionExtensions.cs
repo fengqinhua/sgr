@@ -53,10 +53,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
             //签名验证工具
-            services.AddTransient<ISignatureChecker, DefaultSignatureChecker>();
+            services.AddSingleton<ISignatureChecker, DefaultSignatureChecker>();
 
             //配置审计接口
-            services.AddTransient<IAuditedOperator, DefaultAuditedOperator>();
+            services.AddSingleton<IAuditedOperator, DefaultAuditedOperator>();
             services.AddTransient<IAuditLogService, DefaultAuditLogService>();
 
             //认证相关
