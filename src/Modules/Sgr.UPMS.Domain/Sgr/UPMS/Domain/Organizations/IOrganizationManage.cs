@@ -12,6 +12,7 @@
 
 
 using Sgr.Domain.Managers;
+using Sgr.UPMS.Domain.Users;
 using System.Threading.Tasks;
 
 namespace Sgr.UPMS.Domain.Organizations
@@ -20,21 +21,46 @@ namespace Sgr.UPMS.Domain.Organizations
     /// 领域服务：组织机构管理
     /// </summary>
     public interface IOrganizationManage : ITreeNodeManage<Organization, long>
-    {
+    { 
+
+
+
         /// <summary>
         /// 创建一个新的组织机构
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="orgTypeCode"></param>
         /// <param name="areaCode"></param>
-        /// <param name="ParentId"></param>
+        /// <param name="staffSizeCode"></param>
+        /// <param name="leader"></param>
+        /// <param name="phone"></param>
+        /// <param name="email"></param>
+        /// <param name="address"></param>
+        /// <param name="orderNumber"></param>
+        /// <param name="remarks"></param>
+        /// <param name="parentId"></param>
         /// <returns></returns>
-        Task<Organization> CreateNewAsync(
-            string code,
-            string name,
+        Task<Organization> CreateNewAsync(string name,
             string orgTypeCode,
             string areaCode,
-            long ParentId = 0);
+            string staffSizeCode,
+            string? leader,
+            string? phone,
+            string? email,
+            string? address,
+            int orderNumber,
+            string? remarks,
+            long? parentId);
+
+        /// <summary>
+        /// 组织注销前审查
+        /// </summary>
+        /// <param name="organization"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> CancellationExamination(Organization organization, User user);
+
+
+
     }
 }

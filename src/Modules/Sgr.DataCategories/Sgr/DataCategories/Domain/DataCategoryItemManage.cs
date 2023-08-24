@@ -67,8 +67,9 @@ namespace Sgr.DataCategories.Domain
         }
 
 
-        protected override void ChangeTreeNodePath(DataCategoryItem entity, string nodePath)
+        protected override void ChangeTreeNodePath(DataCategoryItem entity, long parentId, string nodePath)
         {
+            entity.ParentId = parentId;
             entity.NodePath = nodePath;
         }
     }

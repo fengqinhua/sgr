@@ -47,6 +47,15 @@ namespace Sgr.Domain.Repositories
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// 是否存在子节点
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> HasChildNodesAsync(TEntity entity,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 获取其子节点集合
         /// </summary>
         /// <param name="entity"></param>

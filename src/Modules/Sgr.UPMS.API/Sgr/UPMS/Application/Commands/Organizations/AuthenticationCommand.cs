@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Organizations
 {
     /// <summary>
@@ -18,28 +20,29 @@ namespace Sgr.UPMS.Application.Commands.Organizations
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望通过企业认证已使用诸如：发票申请等平台更多高级功能
     /// </remarks>
-    public class AuthenticationCommand
+    public class AuthenticationCommand : IRequest<bool>
     {
         /// <summary>
         /// 组织机构标识
         /// </summary>
         public long Id { get; set; }
         /// <summary>
+        /// 统一社会信用代码
+        /// </summary>
+        public string UsciCode { get; set; } = string.Empty;
+
+        /// <summary>
         /// 组织机构名称
         /// </summary>
         public string Name { get; set; } = string.Empty;
         /// <summary>
-        /// 组织机构编码（默认情况下，选用统一社会信用代码）
-        /// </summary>
-        public string Code { get; set; } = string.Empty;
-        /// <summary>
         /// 组织机构类型编码
         /// </summary>
-        public string OrgTypeCode { get; internal protected set; } = string.Empty;
+        public string OrgTypeCode { get; set; } = string.Empty;
         /// <summary>
         /// 所属行政区划编码（默认情况下，选用邮政编码）
         /// </summary>
-        public string AreaCode { get; internal protected set; } = string.Empty;
+        public string AreaCode { get; set; } = string.Empty;
         /// <summary>
         /// 机构负责人/联系人
         /// </summary>
@@ -60,5 +63,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// 营业执照
         /// </summary>
         public string[]? BusinessLicense { get; set; }
+
+        
     }
 }

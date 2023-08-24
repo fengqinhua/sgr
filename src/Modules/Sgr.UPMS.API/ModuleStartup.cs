@@ -10,11 +10,14 @@
  * 
  **************************************************************/
 
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Sgr.AspNetCore.Modules;
 using Sgr.EntityFrameworkCore;
+using Sgr.UPMS.Application.Commands.Organizations;
+using Sgr.UPMS.Application.Validations;
 using Sgr.UPMS.Domain.Departments;
 using Sgr.UPMS.Domain.Duties;
 using Sgr.UPMS.Domain.LogLogins;
@@ -36,18 +39,29 @@ namespace Sgr.UPMS.API
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            //Organization 组织机构相关
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+            services.AddScoped<IOrganizationChecker, OrganizationChecker>();
+            services.AddScoped<IOrganizationManage, OrganizationManage>();
+
+            services.AddTransient<IValidator<AuthenticationCommand>, AuthenticationCommandValidator>();
+            services.AddTransient<IValidator<CancellationOrgCommand>, CancellationOrgCommandValidator>();
+            services.AddTransient<IValidator<CreateOrgCommand>, CreateOrgCommandValidator>();
+            services.AddTransient<IValidator<RegisterOrgCommand>, RegisterOrgCommandValidator>();
+            services.AddTransient<IValidator<UpdateOrgCommand>, UpdateOrgCommandValidator>();
+
+            //User 用户相关
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserChecker, UserChecker>();
+            
+
             services.AddScoped<ILogLoginRepository, LogLoginRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IDutyRepository, DutyRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<ILogLoginRepository, LogLoginRepository>();
 
-            services.AddScoped<IOrganizationChecker, OrganizationChecker>();
-
-            services.AddScoped<IOrganizationManage, OrganizationManage>();
             services.AddScoped<IDutyManage, DutyManage>();
 
             EntityFrameworkTypeRegistrar.Instance.Register<SgrDbContext, UPMSEntityFrameworkTypeProvider>();

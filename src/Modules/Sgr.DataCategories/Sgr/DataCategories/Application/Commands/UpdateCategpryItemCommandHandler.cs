@@ -30,8 +30,6 @@ namespace Sgr.DataCategories.Application.Commands
 
         public async Task<bool> Handle(UpdateCategpryItemCommand request, CancellationToken cancellationToken)
         {
-            Check.NotNull(request, nameof(request));
-
             var entity = await _dataCategoryItemRepository.GetAsync(request.Id, cancellationToken);
 
             if (entity == null || !entity.IsEditable)

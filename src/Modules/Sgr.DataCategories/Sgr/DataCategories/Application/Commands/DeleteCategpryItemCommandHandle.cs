@@ -28,7 +28,6 @@ namespace Sgr.DataCategories.Application.Commands
 
         public async Task<bool> Handle(DeleteCategpryItemCommand request, CancellationToken cancellationToken)
         {
-            Check.NotNull(request, nameof(request));
             return await _dataCategoryItemManage.RemoveNodeAsync(request.Id, cancellationToken);
         }
     }

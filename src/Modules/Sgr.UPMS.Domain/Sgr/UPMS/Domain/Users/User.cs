@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using Sgr.Exceptions;
 using Sgr.Utilities;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Sgr.UPMS.Domain.Users
 {
@@ -24,7 +26,7 @@ namespace Sgr.UPMS.Domain.Users
     /// 用户
     /// </summary>
     public class User : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>
-    {
+    { 
         private List<UserDuty> _duties;
         private List<UserRole> _roles;
 
@@ -40,24 +42,21 @@ namespace Sgr.UPMS.Domain.Users
         /// <summary>
         /// 用户
         /// </summary>
-        protected User()
+        private User()
         {
             _duties = new List<UserDuty>();
             _roles = new List<UserRole>();
         }
 
-        /// <summary>
-        /// 用户
-        /// </summary>
-        /// <param name="loginName"></param>
-        /// <param name="orgId"></param>
-        protected User(string loginName, long orgId) : this()
+        private User(string loginName, string passWord, long orgId) : this()
         {
             LoginName = loginName;
-            ChangePassword("123456");
+            ChangePassword(passWord);
             State = EntityStates.Normal;
             OrgId = orgId;
         }
+
+
 
         /// <summary>
         /// 登录名称
@@ -123,6 +122,8 @@ namespace Sgr.UPMS.Domain.Users
         /// 所属部门名称
         /// </summary>
         public string DepartmentName { get; private set; } = "";
+
+
 
         /// <summary>
         /// 设置所属部门
@@ -231,6 +232,23 @@ namespace Sgr.UPMS.Domain.Users
             else
                 return $"sgr:{password}";
         }
+
+        #region Create
+
+        public static async Task<User> CreateNewAsync(string loginName,
+            string passWord,
+            long orgId,
+            IUserChecker checker)
+        {
+            Check.StringNotNullOrWhiteSpace(loginName, nameof(loginName));
+
+            if (!await checker.LoginNameIsUniqueAsync(loginName))
+                throw new BusinessException("账号名称已存在");
+
+            return new User(loginName, passWord, orgId);
+        }
+
+        #endregion
 
         #region IOptimisticLock (乐观锁)
 

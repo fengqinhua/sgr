@@ -34,6 +34,16 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// </summary>
         public string Name { get; set; } = string.Empty;
         /// <summary>
+        /// 人员规模编码
+        /// </summary>
+        public string StaffSizeCode { get; set; } = string.Empty;
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string? Remarks { get; set; }
+
+
+        /// <summary>
         /// 组织机构类型编码
         /// </summary>
         public string OrgTypeCode { get; set; } = string.Empty;
@@ -41,10 +51,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// 所属行政区划编码（默认情况下，选用邮政编码）
         /// </summary>
         public string AreaCode { get; set; } = string.Empty;
-        /// <summary>
-        /// 人员规模编码
-        /// </summary>
-        public string StaffSizeCode { get; set; } = string.Empty;
+
         /// <summary>
         /// 机构负责人/联系人
         /// </summary>
@@ -61,10 +68,11 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// 所在地址
         /// </summary>
         public string? Address { get; set; }
+
         /// <summary>
-        /// 描述
+        /// 组织机构排序号
         /// </summary>
-        public string? Remarks { get; set; }
+        public int OrderNumber { get; set; } = 0;
         /// <summary>
         /// 组织机构管理员账号名称
         /// </summary>

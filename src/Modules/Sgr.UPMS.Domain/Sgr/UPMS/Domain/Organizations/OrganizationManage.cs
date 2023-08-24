@@ -14,6 +14,7 @@ using Sgr.Domain.Entities;
 using Sgr.Domain.Managers;
 using Sgr.Exceptions;
 using Sgr.Generator;
+using Sgr.UPMS.Domain.Users;
 using System.Threading.Tasks;
 
 namespace Sgr.UPMS.Domain.Organizations
@@ -23,70 +24,90 @@ namespace Sgr.UPMS.Domain.Organizations
     /// </summary>
     public class OrganizationManage : TreeNodeManageBase<Organization, long>, IOrganizationManage
     {
-        private readonly IOrganizationChecker _organizationChecker;
         private readonly INumberIdGenerator _numberIdGenerator;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="organizationRepository"></param>
-        /// <param name="organizationChecker"></param>
         /// <param name="numberIdGenerator"></param>
         public OrganizationManage(IOrganizationRepository organizationRepository,
-            IOrganizationChecker organizationChecker,
             INumberIdGenerator numberIdGenerator)
             : base(organizationRepository)
         {
-            _organizationChecker = organizationChecker;
             _numberIdGenerator = numberIdGenerator;
         }
+
+
 
         /// <summary>
         /// 创建一个新的组织机构
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="name"></param>
         /// <param name="orgTypeCode"></param>
         /// <param name="areaCode"></param>
+        /// <param name="staffSizeCode"></param>
+        /// <param name="leader"></param>
+        /// <param name="phone"></param>
+        /// <param name="email"></param>
+        /// <param name="address"></param>
+        /// <param name="orderNumber"></param>
+        /// <param name="remarks"></param>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        /// <exception cref="BusinessException"></exception>
-        public async Task<Organization> CreateNewAsync(
-            string code,
-            string name,
+        public async Task<Organization> CreateNewAsync(string name,
             string orgTypeCode,
             string areaCode,
-            long parentId = 0)
+            string staffSizeCode,
+            string? leader,
+            string? phone,
+            string? email,
+            string? address,
+            int orderNumber,
+            string? remarks,
+            long? parentId)
         {
-            //不可为空
-            Check.StringNotNullOrWhiteSpace(code, nameof(code));
             Check.StringNotNullOrWhiteSpace(name, nameof(name));
             Check.StringNotNullOrWhiteSpace(orgTypeCode, nameof(orgTypeCode));
             Check.StringNotNullOrWhiteSpace(areaCode, nameof(areaCode));
 
-            //检查组织机构编码是否符合规范
-            if (await _organizationChecker.OrgCodeIsUniqueAsync(code))
-                throw new BusinessException("组织机构编码已存在");
-
             //获取Id及Id-Path
-            var id = _numberIdGenerator.GenerateUniqueId();
-            string nodePath = await GetNodePathAsync(parentId, id, 5);
+            long id = _numberIdGenerator.GenerateUniqueId();
+            string nodePath = "";
+            if (parentId.HasValue)
+                nodePath = await GetNodePathAsync(parentId.Value, id, 5);
 
-            //返回
-            return new Organization(code)
+            return new Organization(name, orgTypeCode, areaCode, staffSizeCode, leader, phone, email, address, orderNumber, remarks)
             {
                 Id = id,
-                Name = name,
-                OrgTypeCode = orgTypeCode,
-                AreaCode = areaCode,
-                ParentId = parentId,
-                NodePath = nodePath,
-                State = EntityStates.Normal
+                ParentId = parentId ?? 0,
+                NodePath = nodePath
             };
         }
 
-        protected override void ChangeTreeNodePath(Organization entity, string nodePath)
+        /// <summary>
+        /// 组织注销前审查
+        /// </summary>
+        /// <param name="organization"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> CancellationExamination(Organization organization, User user)
         {
+            if (!user.IsSuperAdmin && organization.Id != user.OrgId)
+                throw new BusinessException("注销组织必须由当前组织的用户执行!");
+
+            //如果当前组织有下级组织，则不允许注销
+
+            if (await this._repository.HasChildNodesAsync(organization))
+                return false;
+
+            return true;
+        }
+
+
+        protected override void ChangeTreeNodePath(Organization entity, long parentId, string nodePath)
+        {
+            entity.ParentId = parentId;
             entity.NodePath = nodePath;
         }
     }

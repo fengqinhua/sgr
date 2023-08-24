@@ -16,20 +16,19 @@ using System.Text;
 
 namespace Sgr.UPMS.Domain.Organizations
 {
-    public enum OrganizationStates
+    public enum ConfirmedStates
     {
         /// <summary>
-        /// 正常
+        /// 待认证
         /// </summary>
-        Normal = 0,
+        WaitingConfirmed = 0,
         /// <summary>
-        /// 停用
+        /// 待审核
         /// </summary>
-        Deactivate,
+        WaitingReview,
         /// <summary>
-        /// 等待激活
+        /// 已认证
         /// </summary>
-        WaitingActivation
-
+        ConfirmedCompleted
     }
 }

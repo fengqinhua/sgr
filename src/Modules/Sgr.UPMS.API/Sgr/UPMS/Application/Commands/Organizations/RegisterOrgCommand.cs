@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Organizations
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以在平台上快速完成组织机构注册  
     /// </remarks>
-    public class RegisterOrgCommand
+    public class RegisterOrgCommand : IRequest<bool>
     {
         /// <summary>
         /// 组织机构名称

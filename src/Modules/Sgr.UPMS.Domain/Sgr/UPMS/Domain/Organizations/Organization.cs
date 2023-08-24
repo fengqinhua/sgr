@@ -12,6 +12,10 @@
 
 using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
+using Sgr.Exceptions;
+using System;
+using System.Threading.Tasks;
+
 namespace Sgr.UPMS.Domain.Organizations
 {
     /// <summary>
@@ -21,10 +25,46 @@ namespace Sgr.UPMS.Domain.Organizations
     {
         protected Organization() { }
 
+        public Organization(string name,
+            string staffSizeCode,
+            string? remarks)
+        {
+            Name = name;
+            StaffSizeCode = staffSizeCode;
+            Remarks = remarks;
+
+            Code = Guid.NewGuid().ToString().ToUpper();
+            Confirmed = ConfirmedStates.WaitingConfirmed;
+            State = EntityStates.Normal;
+        }
+
+        internal Organization(string name,
+            string orgTypeCode,
+            string areaCode,
+            string staffSizeCode,
+            string? leader,
+            string? phone,
+            string? email,
+            string? address,
+            int orderNumber,
+            string? remarks)
+            :this(name, staffSizeCode, remarks)
+        {
+            OrgTypeCode = orgTypeCode;
+            AreaCode = areaCode;
+            Leader = leader;
+            Phone = phone;
+            Email = email;
+            Address = address;
+            OrderNumber = orderNumber;
+        }
+
+
+
         /// <summary>
         /// 组织机构名称
         /// </summary>
-        public string Name { get; internal protected set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 人员规模编码
         /// </summary>
@@ -42,15 +82,15 @@ namespace Sgr.UPMS.Domain.Organizations
         /// <summary>
         /// 组织机构编码（默认情况下，选用统一社会信用代码）
         /// </summary>
-        public string Code { get; private set; } = string.Empty;
+        public string Code { get; internal protected set; } = string.Empty;
         /// <summary>
         /// 组织机构类型编码
         /// </summary>
-        public string OrgTypeCode { get; internal protected set; } = string.Empty;
+        public string OrgTypeCode { get; set; } = string.Empty;
         /// <summary>
         /// 所属行政区划编码（默认情况下，选用邮政编码）
         /// </summary>
-        public string AreaCode { get; internal protected set; } = string.Empty;
+        public string AreaCode { get; set; } = string.Empty;
         /// <summary>
         /// 机构负责人/联系人
         /// </summary>
@@ -70,11 +110,11 @@ namespace Sgr.UPMS.Domain.Organizations
         /// <summary>
         /// 营业执照路径
         /// </summary>
-        public string? BusinessLicensePath { get; set; }
+        public string? BusinessLicensePath { get; private set; }
         /// <summary>
-        /// 组织机构是否已完成认证
+        /// 组织机构认证状态
         /// </summary>
-        public bool IsConfirmed { get; private set; } = false;
+        public ConfirmedStates Confirmed { get; private set; } = ConfirmedStates.WaitingConfirmed;
         /// <summary>
         /// 组织机构排序号
         /// </summary>
@@ -82,7 +122,28 @@ namespace Sgr.UPMS.Domain.Organizations
         /// <summary>
         /// 组织机构状态
         /// </summary>
-        public OrganizationStates State { get; internal protected set; } = OrganizationStates.WaitingActivation;
+        public EntityStates State { get; internal protected set; } = EntityStates.Deactivate;
+
+        /// <summary>
+        /// 提交组织认证信息
+        /// </summary>
+        /// <param name="usci">统一社会信用代码</param>
+        /// <param name="businessLicensePath">营业执照</param>
+        /// <param name="organizationChecker">规则检查类</param>
+        /// <returns></returns>
+        /// <exception cref="BusinessException"></exception>
+        public async Task SubmitToConfirmed(string usci,string businessLicensePath, IOrganizationChecker organizationChecker)
+        {
+            Check.StringNotNullOrEmpty(usci, nameof(usci));
+            Check.StringNotNullOrEmpty(businessLicensePath, nameof(businessLicensePath));
+
+            if (!await organizationChecker.OrgCodeIsUniqueAsync(usci))
+                throw new BusinessException("统一社会信用代码已存在");
+
+            this.Code = usci;
+            this.BusinessLicensePath = businessLicensePath;
+            this.Confirmed = ConfirmedStates.WaitingReview;
+        }
 
 
         #region  ITreeNode (树形结构)

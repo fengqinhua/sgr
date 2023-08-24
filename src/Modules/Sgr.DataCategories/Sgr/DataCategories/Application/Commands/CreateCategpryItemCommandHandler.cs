@@ -30,9 +30,6 @@ namespace Sgr.DataCategories.Application.Commands
 
         public async Task<bool> Handle(CreateCategpryItemCommand request, CancellationToken cancellationToken)
         {
-            Check.NotNull(request, nameof(request));
-            //Check.NotNull(request.Model, nameof(request));
-
             var entity = await _dataCategoryItemManage.CreateNewAsync(request.DcItemName,
                    request.DcItemValue,
                    request.Remarks,

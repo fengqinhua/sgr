@@ -58,11 +58,11 @@ namespace Sgr.UPMS.Infrastructure.EntityConfigurations
                 .HasComment("机构负责人");
 
             builder.PropertyAndHasColumnName(b => b.Phone, GetColumnNameCase())
-                .HasMaxLength(50)
+                .HasMaxLength(30)
                 .HasComment("联系电话");
 
             builder.PropertyAndHasColumnName(b => b.Email, GetColumnNameCase())
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .HasComment("联系邮箱");
 
             builder.PropertyAndHasColumnName(b => b.Address, GetColumnNameCase())

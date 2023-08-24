@@ -58,6 +58,21 @@ namespace Sgr.Domain.Repositories
         }
 
         /// <summary>
+        /// 是否存在子节点
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<bool> HasChildNodesAsync(TEntity entity,
+            CancellationToken cancellationToken = default)
+        {
+            if (entity == null)
+                return false;
+            else
+                return await GetQueryable().AnyAsync(f => f.ParentId!.Equals(entity.Id), cancellationToken);
+        }
+
+        /// <summary>
         /// 获取其子节点集合
         /// </summary>
         /// <param name="entity"></param>

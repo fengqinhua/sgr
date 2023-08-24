@@ -12,7 +12,7 @@ namespace Sgr.Domain.Managers
     public abstract class TreeNodeManageBase<TEntity, TPrimaryKey> : ITreeNodeManage<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>, ITreeNode<TPrimaryKey>, IAggregateRoot
     {
-        private readonly ITreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> _repository;
+        protected readonly ITreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> _repository;
 
         public TreeNodeManageBase(ITreeNodeBaseRepositoryOfTEntityAndTPrimaryKey<TEntity, TPrimaryKey> repository)
         {
@@ -25,21 +25,27 @@ namespace Sgr.Domain.Managers
             int maxLevel = 5,
             CancellationToken cancellationToken = default)
         {
+
             string oldNodePath = entity.NodePath;
             string newNodePath = await GetNodePathAsync(newParentId, entity.Id, maxLevel, cancellationToken);
 
-            var sons = await _repository.GetChildNodesRecursionAsync(entity, cancellationToken);
+            //先更新当前节点
+            ChangeTreeNodePath(entity, newParentId, newNodePath);
+            await _repository.UpdateAsync(entity);
 
+            //再更新子孙节点
+            var sons = await _repository.GetChildNodesRecursionAsync(entity, cancellationToken);
             foreach (var item in sons)
             {
-                ChangeTreeNodePath(item, item.NodePath.Replace(oldNodePath, newNodePath));
+                ChangeTreeNodePath(item, item.ParentId, item.NodePath.Replace(oldNodePath, newNodePath));
+
                 await _repository.UpdateAsync(item);
             }
         }
 
 
-        protected abstract void ChangeTreeNodePath(TEntity entity, string nodePath);
-
+        protected abstract void ChangeTreeNodePath(TEntity entity, TPrimaryKey parentId,string nodePath);
+         
         public async Task<string> GetNodePathAsync(TPrimaryKey parentId, TPrimaryKey thisId,int maxLevel = 5, CancellationToken cancellationToken = default)
         {
             string nodePath;

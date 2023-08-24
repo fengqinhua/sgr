@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：4b53fac5-47d2-49ff-b546-024130503bd5
+ * 唯一标识：207f5840-23b3-41b7-9558-b460af551664
  * 命名空间：Sgr.UPMS.Application.Commands.Organizations
- * 创建时间：2023/8/23 14:51:17
+ * 创建时间：2023/8/24 17:24:28
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -10,23 +10,25 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Organizations
 {
     /// <summary>
-    /// 组织机构认证
+    /// 注销组织
     /// </summary>
     /// <remarks>
-    /// 用户故事： 作为组织机构管理人员，希望通过关联上级组织机构，已使用诸如：数据报送等平台更多高级功能
+    /// 用户故事： 作为组织机构管理人员，当决定不再使用平台时，希望可将组织从当前平台注销
     /// </remarks>
-    public class AssociatedParentOrganizationCommand
+    public class CancellationOrgCommand : IRequest<bool>
     {
         /// <summary>
         /// 组织机构标识
         /// </summary>
         public long Id { get; set; }
         /// <summary>
-        /// 上级组织机构标识
+        /// 当前账号密码
         /// </summary>
-        public long? ParentId { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }

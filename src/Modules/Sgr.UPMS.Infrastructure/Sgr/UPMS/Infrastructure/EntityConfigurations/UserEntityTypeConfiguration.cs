@@ -55,7 +55,7 @@ namespace Sgr.UPMS.Infrastructure.EntityConfigurations
                 .HasComment("用户邮箱地址");
 
             builder.PropertyAndHasColumnName(b => b.Wechat, GetColumnNameCase())
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .HasComment("用户微信号码");
 
             builder.PropertyAndHasColumnName(b => b.IsSuperAdmin, GetColumnNameCase())
