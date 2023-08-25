@@ -82,9 +82,9 @@ namespace Sgr.UPMS.Infrastructure.EntityConfigurations
                 .HasMaxLength(200)
                 .HasComment("营业执照路径");
 
-            builder.PropertyAndHasColumnName(b => b.IsConfirmed, GetColumnNameCase())
+            builder.PropertyAndHasColumnName(b => b.Confirmed, GetColumnNameCase())
                 .IsRequired()
-                .HasComment("是否已完成认证");
+                .HasComment("组织机构认证状态");
 
             builder.PropertyAndHasColumnName(b => b.State, GetColumnNameCase())
                 .IsRequired()
