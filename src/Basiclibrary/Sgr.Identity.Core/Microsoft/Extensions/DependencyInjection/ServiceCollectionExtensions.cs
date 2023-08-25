@@ -15,11 +15,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sgr.Identity;
 using Sgr.Identity.Services;
-using Sgr.Utilities;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -33,14 +33,6 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddSgrIdentity(this IServiceCollection services)
-        {
-            services.AddSingleton<IJwtService, JwtService>();
-            services.AddTransient<IFunctionPermissionChecker, FunctionPermissionChecker>();
-
-            return services;
-        }
-
         public static AuthenticationBuilder AddSgrCookieAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -115,6 +107,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static AuthenticationBuilder AddSgrJwtAuthentication(this IServiceCollection services, JwtOptions jwtOptions)
         {
             services.AddSingleton(jwtOptions);
+            services.TryAddSingleton<IJwtService, JwtService>();
 
             return services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
@@ -170,7 +163,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Authorization"
                 }
-                ); ;
+            ); 
 
             option.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {

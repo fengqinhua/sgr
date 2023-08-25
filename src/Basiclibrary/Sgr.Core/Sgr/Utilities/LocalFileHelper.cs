@@ -191,5 +191,10 @@ namespace Sgr.Utilities
         }
 
 
+        public static string CreateFileNameForOss(string fileName)
+        {
+            return RandomHelper.GetRandomString(4, true, true, false, false) + fileName;
+        }
+
     }
 }

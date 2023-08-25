@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Sgr.AspNetCore.Modules;
 using Sgr.EntityFrameworkCore;
 using Sgr.UPMS.Application.Commands.Organizations;
+using Sgr.UPMS.Application.Queries;
 using Sgr.UPMS.Application.Validations;
 using Sgr.UPMS.Domain.Departments;
 using Sgr.UPMS.Domain.Duties;
@@ -49,6 +50,8 @@ namespace Sgr.UPMS.API
             services.AddTransient<IValidator<CreateOrgCommand>, CreateOrgCommandValidator>();
             services.AddTransient<IValidator<RegisterOrgCommand>, RegisterOrgCommandValidator>();
             services.AddTransient<IValidator<UpdateOrgCommand>, UpdateOrgCommandValidator>();
+
+            services.AddScoped<IOrganizationQueries, OrganizationQueries>();
 
             //User 用户相关
             services.AddScoped<IUserRepository, UserRepository>();

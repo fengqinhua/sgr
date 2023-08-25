@@ -22,7 +22,8 @@ namespace Sgr.Security.Permissions
     {
         public FunctionPermission(string name,
             string category,
-            string description = "")
+            string description = "",
+            bool onlyGrantToSuperAdmin = false)
         {
             if (string.IsNullOrEmpty(name))
                 throw new BusinessException("Function Permission Name Is Null Or Empty");
@@ -33,6 +34,7 @@ namespace Sgr.Security.Permissions
             Name = name;
             Category = category;
             Description = string.IsNullOrEmpty(description) ? name : description;
+            OnlyGrantToSuperAdmin = onlyGrantToSuperAdmin;
         }
 
         /// <summary>
@@ -42,11 +44,14 @@ namespace Sgr.Security.Permissions
         /// <summary>
         /// 功能权限项描述
         /// </summary>
-        public string Description { get; set; } = string.Empty;
+        public string Description { get; set; }
         /// <summary>
         /// 功能权限项分类
         /// </summary>
-        public string Category { get; set; } = string.Empty;
-
+        public string Category { get; set; } 
+        /// <summary>
+        /// 仅限授权给超级管理员
+        /// </summary>
+        public bool OnlyGrantToSuperAdmin { get; set; }
     }
 }

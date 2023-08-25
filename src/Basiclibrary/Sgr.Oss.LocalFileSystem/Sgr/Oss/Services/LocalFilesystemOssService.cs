@@ -93,12 +93,12 @@ namespace Sgr.Oss.Services
                 front_part = name.Substring(0, index);
 
             if (front_part.Length <= 2)
-                return name;
+                return name.ToLower();
 
             if (front_part.Length > 4)
-                return Path.Combine(front_part.Substring(0, 2), front_part.Substring(2, 2), name);
+                return Path.Combine(front_part.Substring(0, 2), front_part.Substring(2, 2), name).ToLower();
 
-            return Path.Combine(front_part.Substring(0, 2), name);
+            return Path.Combine(front_part.Substring(0, 2), name).ToLower();
         }
 
         /// <summary>
@@ -440,8 +440,9 @@ namespace Sgr.Oss.Services
         /// </summary>
         /// <param name="bucketName"></param>
         /// <param name="objectName"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<bool> RemoveObjectAsync(string bucketName, string objectName)
+        public virtual async Task<bool> RemoveObjectAsync(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
             //存储对象名称不合规，返回
             if (!IsCompliant(objectName))

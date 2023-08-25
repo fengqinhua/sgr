@@ -16,15 +16,17 @@ using Sgr.Identity.Services;
 using System.Security;
 using System.Collections.Generic;
 using System;
+using System.Security.Claims;
+using System.Linq;
 
 namespace Sgr.Identity.Services
 {
-    public class FunctionPermissionChecker : IFunctionPermissionChecker
+    public class PermissionChecker : IPermissionChecker
     {
         private readonly IRoleService _roleService;
         private readonly IAccountService _accountService;
 
-        public FunctionPermissionChecker(IAccountService accountService,IRoleService roleService)
+        public PermissionChecker(IAccountService accountService,IRoleService roleService)
         {
             _accountService = accountService;
             _roleService = roleService;
@@ -58,8 +60,14 @@ namespace Sgr.Identity.Services
         {
             return IsGrantedAsync(currentUser.Id, permission);
         }
-    
-        
-    
+
+        public async Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, FunctionPermission permission)
+        {
+            var claim = claimsPrincipal.Claims.FirstOrDefault(f => f.ValueType == Constant.CLAIM_USER_ID);
+            if (claim == null)
+                return false;
+            return await IsGrantedAsync(claim.Value, permission);
+        }
+
     }
 }

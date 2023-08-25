@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgr.Application.ViewModels;
 using Sgr.AspNetCore.ActionFilters;
+using Sgr.AspNetCore.ExceptionHandling;
 using Sgr.DataCategories.Application.Commands;
 using Sgr.DataCategories.Application.Queries;
 using Sgr.DataCategories.Application.ViewModels;
@@ -135,19 +136,20 @@ namespace Sgr.DataCategories.Controllers
         [Route("items/{id:long}")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status404NotFound)]
         [AuditLogActionFilter("查询数据字典项详情")]
         public async Task<ActionResult<DataDictionaryItemModel>> GetAsync(long id)
         {
             //权限认证
 
-            if (id < 0)
-                return NotFound();
+            if (id <= 0)
+                return this.CustomBadRequest($"Id({id})需大于零");
 
             var result = await _dataCategoryQueries.GetItemByIdAsync(id);
 
             if (result == null)
-                return NotFound();
+                return this.CustomNotFound($"查无数据,Id={id}");
 
             return Ok(result);
         }

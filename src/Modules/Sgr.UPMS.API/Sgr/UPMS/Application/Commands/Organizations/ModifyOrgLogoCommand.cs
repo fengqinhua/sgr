@@ -11,6 +11,7 @@
  **************************************************************/
 
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Sgr.UPMS.Application.Commands.Organizations
 {
@@ -29,6 +30,6 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// <summary>
         /// 组织机构Logo
         /// </summary>
-        public string[]? Logo { get; set; }
+        public string? LogoObjectName { get; set; }
     }
 }

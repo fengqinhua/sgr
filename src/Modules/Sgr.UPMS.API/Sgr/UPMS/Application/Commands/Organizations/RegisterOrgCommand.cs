@@ -15,7 +15,7 @@ using MediatR;
 namespace Sgr.UPMS.Application.Commands.Organizations
 {
     /// <summary>
-    /// 创建组织机构
+    /// 注册组织机构
     /// </summary>
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以在平台上快速完成组织机构注册  

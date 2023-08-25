@@ -10,14 +10,13 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Module.Targets\Sgr.Module.Targets.csproj" />
+	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Oss.Abstractions\Sgr.Oss.Abstractions.csproj" />
 	  <ProjectReference Include="..\Sgr.UPMS.Domain\Sgr.UPMS.Domain.csproj" />
 	  <ProjectReference Include="..\Sgr.UPMS.Infrastructure\Sgr.UPMS.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Sgr\UPMS\Application\Queries\" />
 	  <Folder Include="Sgr\UPMS\Application\ViewModels\" />
-	  <Folder Include="Sgr\UPMS\Controllers\" />
 	</ItemGroup>
 
 </Project>

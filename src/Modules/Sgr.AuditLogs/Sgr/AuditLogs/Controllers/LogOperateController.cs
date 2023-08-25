@@ -64,18 +64,19 @@ namespace Sgr.AuditLogs.Controllers
         [Route("details/{id:long}")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status404NotFound)]
         [AuditLogActionFilter("查询审计日志详情")]
         public async Task<ActionResult<LogOperateModel>> GetAsync(long id)
         {
             //权限认证
-            if (id < 0)
-                return NotFound(ServiceErrorResponse.CreateNew($"Id({id})不可小于零"));
-          
-            var result = await _logOperateQueries.GetAsync(id);
+            if (id <= 0)
+                return this.CustomBadRequest($"Id({id})需大于零");
+            
+              var result = await _logOperateQueries.GetAsync(id);
 
             if (result == null)
-                return NotFound(ServiceErrorResponse.CreateNew($"查无数据,Id={id}"));
+                return this.CustomNotFound($"查无数据,Id={id}");
 
             return Ok(result);
         }

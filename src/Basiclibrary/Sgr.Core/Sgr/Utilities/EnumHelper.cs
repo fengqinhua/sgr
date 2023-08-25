@@ -12,6 +12,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
 using System.Text;
 
 namespace Sgr.Utilities
@@ -28,10 +30,41 @@ namespace Sgr.Utilities
         /// <param name="value"></param>
         /// <param name="ignoreCase"></param>
         /// <returns></returns>
-        public static T StringToEnum<T>(string value, bool ignoreCase = true) where T : struct
+        public static TEnum StringToEnum<TEnum>(string value, bool ignoreCase = true) where TEnum : struct
         {
             Check.NotNull(value, nameof(value));
-            return (T)Enum.Parse(typeof(T), value, ignoreCase);
+            return (TEnum) Enum.Parse(typeof(TEnum), value, ignoreCase);
+        }
+
+        public static IEnumerable<NameValue> EnumToNameValues<TEnum>() where TEnum : struct
+        {
+            Type type = typeof(TEnum);
+
+            List<NameValue> result = new List<NameValue>();
+            if(type.IsEnum)
+            {
+                string[] names = Enum.GetNames(type);
+                Array values = Enum.GetValues(type);
+                if(names.Length > 0
+                    && names.Length == values.Length) {
+
+                    for (int i = 0; i < names.Length; i++)
+                    {
+                        string name = names[i];
+                        string value = $"{values.GetValue(i)}";
+
+                        var field = type.GetField(name);
+                        if(field != null)
+                        {
+                            var att = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute), false);
+                            name = ((DescriptionAttribute)att).Description;
+                        }
+                        result.Add(new NameValue(name, value));
+                    }
+                }
+   
+            }
+            return result;
         }
     }
 }

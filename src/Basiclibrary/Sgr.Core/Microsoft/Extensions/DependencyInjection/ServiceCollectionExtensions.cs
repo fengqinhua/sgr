@@ -62,6 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
             //认证相关
             services.AddScoped<IAccountService, NoAccountService>();
             services.AddScoped<IRoleService, NoRoleService>();
+            services.AddTransient<IPermissionChecker, PermissionChecker>();
 
             //缓存
             services.AddSingleton<ICacheManager, NoCacheManager>();
@@ -69,5 +70,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
             return services;
         }
+
+         
+
+
     }
 }

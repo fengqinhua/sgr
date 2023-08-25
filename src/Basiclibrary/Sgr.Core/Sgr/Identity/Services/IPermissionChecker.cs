@@ -11,14 +11,16 @@
  **************************************************************/
 
 using Sgr.Security.Permissions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Sgr.Identity.Services
 {
-    public interface IFunctionPermissionChecker
+    public interface IPermissionChecker
     {
         Task<bool> IsGrantedAsync(string userId, string functionPermissionName);
         Task<bool> IsGrantedAsync(string userId, FunctionPermission permission);
         Task<bool> IsGrantedAsync(ICurrentUser currentUser, FunctionPermission permission);
+        Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, FunctionPermission permission);
     }
 }

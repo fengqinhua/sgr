@@ -116,8 +116,9 @@ namespace Sgr.Oss.Services
         /// </summary>
         /// <param name="bucketName"></param>
         /// <param name="objectName"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> RemoveObjectAsync(string bucketName, string objectName);
+        Task<bool> RemoveObjectAsync(string bucketName, string objectName, CancellationToken cancellationToken = default);
 
 
         //列出所有存储对象、获取对象的元数据

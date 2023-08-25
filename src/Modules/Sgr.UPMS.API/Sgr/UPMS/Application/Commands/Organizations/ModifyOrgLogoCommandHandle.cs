@@ -11,7 +11,12 @@
  **************************************************************/
 
 using MediatR;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Sgr.Oss.Services;
 using Sgr.UPMS.Domain.Organizations;
+using Sgr.Utilities;
+using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,11 +38,9 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             if (org == null)
                 return false;
 
-            //附件保存待实现 ... 
-            string businessLicensePath = "local#";
-
-            org.LogoUrl = businessLicensePath;
+            org.LogoUrl = request.LogoObjectName;
             await _organizationRepository.UpdateAsync(org, cancellationToken);
+
             return await _organizationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }

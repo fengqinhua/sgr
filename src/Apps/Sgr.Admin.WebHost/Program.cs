@@ -48,8 +48,7 @@ namespace Sgr.Admin.WebHost
 
             builder.Services.AddControllers().AddJsonOptions(options => { JsonHelper.UpdateJsonSerializerOptions(options.JsonSerializerOptions); });
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSgrIdentity().
-                AddSgrJwtAuthentication(builder.Configuration);
+            builder.Services.AddSgrJwtAuthentication(builder.Configuration);
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("sgr", new OpenApiInfo

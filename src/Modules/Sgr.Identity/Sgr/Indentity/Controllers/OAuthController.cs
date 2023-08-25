@@ -72,7 +72,7 @@ namespace Sgr.Indentity.Controllers
             Check.StringNotNullOrEmpty(model.Password, nameof(model.Password));
 
             if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.Name}-{model.Password}"))
-                return BadRequest(ServiceErrorResponse.CreateNew("获取令牌时，参数中的签名Signature验证失败!"));
+                return this.CustomBadRequest("获取令牌时，参数中的签名Signature验证失败!");
 
             var loginResult = await _accountService.ValidateAccountAsync(model.Name, model.Password);
 
@@ -81,16 +81,16 @@ namespace Sgr.Indentity.Controllers
                 case AccountLoginResults.Success:
 
                     if (loginResult.Item2 == null)
-                        return BadRequest(ServiceErrorResponse.CreateNew("创建令牌时的账号信息为空!"));
+                        return this.CustomBadRequest("创建令牌时的账号信息为空!");
 
                     TokenModel tokenModel = await creatTokenModel(loginResult.Item2!);
                     return Ok(tokenModel);
                 case AccountLoginResults.IsDeactivate:
-                    return BadRequest(ServiceErrorResponse.CreateNew("账号被禁用!"));
+                    return this.CustomBadRequest("账号被禁用!");
                 case AccountLoginResults.WrongPassword:
                 case AccountLoginResults.NotExist:
                 default:
-                    return BadRequest(ServiceErrorResponse.CreateNew("账号或密码错误!"));
+                    return this.CustomBadRequest("账号或密码错误!");
             }
 
         }
@@ -112,11 +112,11 @@ namespace Sgr.Indentity.Controllers
 
             ClaimsPrincipal? claimsPrincipal = _jwtService.ValidateAccessToken(model.AccessToken!, _jwtOptions);
             if(claimsPrincipal == null)
-                return BadRequest(ServiceErrorResponse.CreateNew("AccessToken无法解析!"));
+                return this.CustomBadRequest("AccessToken无法解析!");
 
             var loginName = (claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value);
             if(loginName == null)
-                return BadRequest(ServiceErrorResponse.CreateNew("AccessToken中无法获取用户标识!"));
+                return this.CustomBadRequest("AccessToken中无法获取用户标识!");
 
             var validateResult = await _accountService.ValidateRefreshTokenAsync(loginName, model.RefrashToken!);
             switch(validateResult.Item1) 
@@ -124,16 +124,16 @@ namespace Sgr.Indentity.Controllers
                 case ValidateRefreshTokenResults.Success:
 
                     if (validateResult.Item2 == null)
-                        return BadRequest(ServiceErrorResponse.CreateNew("刷新令牌时的账号信息为空!"));
+                        return this.CustomBadRequest("刷新令牌时的账号信息为空!");
 
                     TokenModel tokenModel = await creatTokenModel(validateResult.Item2!);
                     return Ok(tokenModel);
 
                 case ValidateRefreshTokenResults.Expire:
-                    return BadRequest(ServiceErrorResponse.CreateNew("RefreshToken已过期!"));
+                    return this.CustomBadRequest("RefreshToken已过期!");
                 case ValidateRefreshTokenResults.NotExist:
                 default:
-                    return BadRequest(ServiceErrorResponse.CreateNew("RefreshToken不存在!"));
+                    return this.CustomBadRequest("RefreshToken不存在!");
             }
         }
 

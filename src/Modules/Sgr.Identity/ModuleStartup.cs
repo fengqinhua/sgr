@@ -14,6 +14,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sgr.AspNetCore.Modules;
 using Sgr.Identity.Services;
 
@@ -39,7 +40,7 @@ namespace Sgr.IntegrationEvents
         /// <param name="services"></param>
         public override void ConfigureServices(IServiceCollection services)
         {
-
+            services.TryAddSingleton<IJwtService, JwtService>();
         }
     }
 }
