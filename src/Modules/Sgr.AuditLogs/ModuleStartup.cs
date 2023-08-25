@@ -14,11 +14,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Sgr.AspNetCore.Modules;
 using Sgr.AuditLogs.Infrastructure;
 using Sgr.AuditLogs.Queries;
 using Sgr.AuditLogs.Services;
 using Sgr.EntityFrameworkCore;
+using Sgr.Modules;
 
 namespace Sgr.AuditLogs
 {

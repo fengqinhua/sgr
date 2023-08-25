@@ -6,9 +6,15 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Sgr;
 using Sgr.AspNetCore;
-using Sgr.AspNetCore.Middlewares;
-using Sgr.AspNetCore.Modules;
+using Sgr.AspNetCore.ActionFilters.AuditLogs;
+using Sgr.AspNetCore.Middlewares.AuditLogs;
+using Sgr.AspNetCore.Middlewares.ExceptionHandling;
+using Sgr.AspNetCore.Middlewares.PoweredBy;
+using Sgr.AuditLogs.Contributor;
+using Sgr.AuditLogs;
 using Sgr.Caching.Services;
+using Sgr.ExceptionHandling;
+using Sgr.Modules;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -106,5 +112,49 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
+        /// <summary>
+        /// 添加异常
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSgrExceptionHandling(this IServiceCollection services)
+        {
+            services.AddTransient<ExceptionHandlingMiddleware>();
+
+            services.AddSingleton<IExceptionToErrorInfo, DefaultExceptionToErrorInfo>();
+            services.AddSingleton<IExceptionHandlingOptions, ExceptionHandlingOptions>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// 添加审计日志相关服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="isAuditFull"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSgrAuditLog(this IServiceCollection services, bool isAuditFull)
+        {
+            services.AddSingleton<IEnableBufferingOptions, EnableBufferingOptions>();
+
+            services.AddSingleton<IAuditLogMiddlewareOptions, AuditLogMiddlewareOptions>();
+            services.AddSingleton<IAuditLogFilterOptions, AuditLogFilterOptions>();
+
+
+            services.AddSingleton<IHttpUserAgentProvider, DefaultHttpUserAgentProvider>();
+            if (isAuditFull)
+                services.AddSingleton<IAuditLogContributor, AuditLogContributor>();
+            else
+                services.AddSingleton<IAuditLogContributor, AuditLogContributorFull>();
+
+            services.AddTransient<AuditLogMiddleware>();
+
+            //services.AddTransient<AuditLogActionFilterAttribute>();
+            //services.AddTransient<AuditLogPageFilterAttribute>();
+            //services.AddTransient<UnAuditLogActionFilterAttribute>();
+            //services.AddTransient<UnAuditLogPageFilterAttribute>();
+
+            return services;
+        }
     }
 }

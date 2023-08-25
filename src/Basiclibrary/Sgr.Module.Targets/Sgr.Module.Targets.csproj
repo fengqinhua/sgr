@@ -17,6 +17,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Core\Sgr.Core.csproj" />
 	  <ProjectReference Include="..\..\Basiclibrary\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
-	  <ProjectReference Include="..\Sgr.AuditLogs.Core\Sgr.AuditLogs.Core.csproj" />
 	</ItemGroup>
 </Project>

@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-using Sgr.AspNetCore.Modules;
+using Sgr.Modules;
 
 namespace Sgr
 {

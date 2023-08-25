@@ -9,9 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Sgr.AuditLogs.Core\Sgr.AuditLogs.Core.csproj" />
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
-	  <ProjectReference Include="..\Sgr.ExceptionHandling.Core\Sgr.ExceptionHandling.Core.csproj" />
 	  <ProjectReference Include="..\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
 	</ItemGroup>
 

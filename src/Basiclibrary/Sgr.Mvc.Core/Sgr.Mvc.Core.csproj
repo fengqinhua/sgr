@@ -7,7 +7,10 @@
 		<OutputType>Library</OutputType>
 	</PropertyGroup>
 
-
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="$(FluentValidationVersion)" />
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
 	</ItemGroup>

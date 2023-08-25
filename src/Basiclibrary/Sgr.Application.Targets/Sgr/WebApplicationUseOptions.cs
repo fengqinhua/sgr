@@ -11,7 +11,10 @@
  **************************************************************/
 
 using Sgr.AspNetCore.ActionFilters;
+using Sgr.AspNetCore.ActionFilters.AuditLogs;
 using Sgr.AspNetCore.Middlewares;
+using Sgr.AspNetCore.Middlewares.AuditLogs;
+using Sgr.AspNetCore.Middlewares.ExceptionHandling;
 using System;
 
 namespace Sgr

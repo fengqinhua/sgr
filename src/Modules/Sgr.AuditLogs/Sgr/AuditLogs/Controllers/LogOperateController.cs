@@ -14,9 +14,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sgr.Application.ViewModels;
 using Sgr.AspNetCore.ActionFilters;
-using Sgr.AspNetCore.ExceptionHandling;
+using Sgr.AspNetCore.ActionFilters.AuditLogs;
 using Sgr.AuditLogs.Queries;
 using Sgr.AuditLogs.ViewModels;
+using Sgr.ExceptionHandling;
 using System.Threading.Tasks;
 
 namespace Sgr.AuditLogs.Controllers

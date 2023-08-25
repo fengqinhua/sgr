@@ -26,7 +26,7 @@ namespace Sgr.Utilities
         /// <summary>
         /// 字符串转枚举
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEnum"></typeparam>
         /// <param name="value"></param>
         /// <param name="ignoreCase"></param>
         /// <returns></returns>

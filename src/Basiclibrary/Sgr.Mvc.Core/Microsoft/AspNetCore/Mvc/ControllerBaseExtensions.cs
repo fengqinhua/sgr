@@ -10,7 +10,7 @@
  * 
  **************************************************************/
 
-using Sgr.AspNetCore.ExceptionHandling;
+using Sgr.ExceptionHandling;
 
 namespace Microsoft.AspNetCore.Mvc
 {

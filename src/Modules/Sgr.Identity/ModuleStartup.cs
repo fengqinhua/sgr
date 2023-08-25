@@ -15,8 +15,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Sgr.AspNetCore.Modules;
 using Sgr.Identity.Services;
+using Sgr.Modules;
 
 namespace Sgr.IntegrationEvents
 {
