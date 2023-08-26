@@ -127,6 +127,8 @@ namespace Sgr.UPMS.Controllers
         /// 组织机构认证
         /// </summary>
         /// <param name="command"></param>
+        /// <param name="formCollection"></param>
+        /// <param name="ossService"></param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
@@ -134,11 +136,32 @@ namespace Sgr.UPMS.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status401Unauthorized)]
         [AuditLogActionFilter("组织机构认证")]
-        public async Task<ActionResult<bool>> AuthenticationAsync([FromBody] AuthenticationCommand command)
+        public async Task<ActionResult<bool>> AuthenticationAsync([FromBody] AuthenticationCommand command,
+            [FromForm] IFormCollection formCollection,
+            [FromServices] IOssService ossService)
         {
             //权限认证
             if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.AuthenticationOrgPermission))
                 return this.CustomUnauthorized();
+
+            if (command.Id <= 0)
+                return this.CustomBadRequest($"Id({command.Id})需大于零!");
+
+            if (formCollection == null || formCollection.Files.Count < 0)
+                return this.CustomBadRequest($"未上传营业执照!");
+
+            //附件保存
+            IFormFile formFile = formCollection.Files[0];
+            var suffix = Path.GetExtension(formFile.FileName).ToLower();
+
+            string objectName = $"{command.Id}_org_businesslicense.{suffix}";
+            command.BusinessLicenseObjectName = objectName;
+            if (!await _mediator.Send(command))
+                return this.CustomBadRequest($"组织机构认证信息提交失败!");
+
+
+            if (await ossService.PutImageAsync(objectName, formFile.OpenReadStream()))
+                return this.CustomBadRequest($"营业执照上传失败!");
 
             return Ok(await _mediator.Send(command));
         }
@@ -185,17 +208,15 @@ namespace Sgr.UPMS.Controllers
                 return this.CustomUnauthorized();
 
             if (id <= 0)
-                return this.CustomBadRequest($"Id({id})需大于零");
+                return this.CustomBadRequest($"Id({id})需大于零!");
 
             if(formCollection == null || formCollection.Files.Count < 0)
-                return this.CustomBadRequest($"未上传 Logo");
+                return this.CustomBadRequest($"未上传 Logo!");
 
             //附件保存
             IFormFile formFile = formCollection.Files[0];
             var suffix = Path.GetExtension(formFile.FileName).ToLower();
             string objectName = $"{id}_org_logo.{suffix}";
-            if (await ossService.PutImageAsync(objectName, formFile.OpenReadStream()))
-                return this.CustomBadRequest($"Logo上传失败");
 
             ModifyOrgLogoCommand command = new ModifyOrgLogoCommand()
             {
@@ -203,21 +224,11 @@ namespace Sgr.UPMS.Controllers
                 LogoObjectName = objectName
             };
 
-            return Ok(await _mediator.Send(command));
+            if(!await _mediator.Send(command) || !await ossService.PutImageAsync(objectName, formFile.OpenReadStream()))
+                return this.CustomBadRequest($"Logo上传失败!");
 
-            //bool result;
 
-            //try
-            //{
-            //    result = await _mediator.Send(command);
-            //}
-            //catch
-            //{
-            //    await ossService.RemoveImageAsync(objectName);
-            //    throw;
-            //}
-
-            //return Ok(result);
+            return Ok(true);
         }
 
         #endregion

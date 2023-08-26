@@ -55,12 +55,13 @@ namespace Sgr.ExceptionHandling
         {
             if (exception is ArgumentNullException)
                 return HttpStatusCode.BadRequest;
+
             if (exception is ValidationException)
                 return HttpStatusCode.BadRequest;
             if (exception is BusinessRuleValidationException)
                 return HttpStatusCode.BadRequest;
-            else
-                return HttpStatusCode.InternalServerError;//InvalidOperationException BusinessException
+
+            return HttpStatusCode.InternalServerError;//InvalidOperationException BusinessException NotImplementedException
         }
 
 

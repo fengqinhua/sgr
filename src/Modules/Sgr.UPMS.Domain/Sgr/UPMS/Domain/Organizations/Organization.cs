@@ -15,13 +15,15 @@ using Sgr.Domain.Entities.Auditing;
 using Sgr.Exceptions;
 using System;
 using System.Threading.Tasks;
+using Sgr.Domain.Repositories;
+
 
 namespace Sgr.UPMS.Domain.Organizations
 {
     /// <summary>
     /// 组织机构
     /// </summary>
-    public class Organization : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>
+    public class Organization : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>, IHaveCode
     {
         protected Organization() { }
 
@@ -129,16 +131,17 @@ namespace Sgr.UPMS.Domain.Organizations
         /// </summary>
         /// <param name="usci">统一社会信用代码</param>
         /// <param name="businessLicensePath">营业执照</param>
-        /// <param name="organizationChecker">规则检查类</param>
+        /// <param name="organizationChecker">仓储类</param>
         /// <returns></returns>
         /// <exception cref="BusinessException"></exception>
-        public async Task SubmitToConfirmed(string usci,string businessLicensePath, IOrganizationChecker organizationChecker)
+        public async Task SubmitToConfirmed(string usci, string businessLicensePath, IOrganizationChecker organizationChecker)
         {
             Check.StringNotNullOrEmpty(usci, nameof(usci));
             Check.StringNotNullOrEmpty(businessLicensePath, nameof(businessLicensePath));
 
             if (!await organizationChecker.OrgCodeIsUniqueAsync(usci))
                 throw new BusinessException("统一社会信用代码已存在");
+
 
             this.Code = usci;
             this.BusinessLicensePath = businessLicensePath;

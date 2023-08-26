@@ -42,14 +42,11 @@ namespace Microsoft.AspNetCore.Builder
 
             //启用异常处理中间件
             if (applicationOptions.EnableExceptionHandler)
-            {
                 app.UseSgrExceptionHandler(applicationOptions.ExceptionHandlingOptionsConfigure);
-            }
+
             //启用并配置审计日志中间件
             if (applicationOptions.EnableAuditLogMiddleware)
-            {
                 app.UseSgrAuditLog(applicationOptions.AuditLogMiddlewareOptionsConfigure);
-            }
 
             //启用PoweredBy中间件
             app.UseSgrPoweredBy(applicationOptions.EnablePoweredByMiddleware, applicationOptions.PoweredByHeaderValue);

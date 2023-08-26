@@ -11,8 +11,11 @@
  **************************************************************/
 
 using MediatR;
+using Sgr.Domain.Repositories;
 using Sgr.Exceptions;
 using Sgr.UPMS.Domain.Organizations;
+using Sgr.UPMS.Infrastructure.Checkers;
+using Sgr.UPMS.Infrastructure.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +30,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         {
             _organizationChecker = organizationChecker;
             _organizationRepository = organizationRepository;
-        }   
+        }
 
         public async Task<bool> Handle(AuthenticationCommand request, CancellationToken cancellationToken)
         {
@@ -36,11 +39,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             if (org == null)
                 return false;
 
-            //附件保存待实现 ... 
-            string businessLicensePath = "local#";
-
-            await org.SubmitToConfirmed(request.UsciCode, businessLicensePath, _organizationChecker);
-
+            await org.SubmitToConfirmed(request.UsciCode, request.BusinessLicenseObjectName ?? "", _organizationChecker);
             org.Name = request.Name;
             org.OrgTypeCode = request.OrgTypeCode;
             org.AreaCode = request.AreaCode;

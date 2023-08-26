@@ -20,7 +20,7 @@ namespace Sgr.UPMS.Domain.Roles
     /// <summary>
     /// 角色
     /// </summary>
-    public class Role : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>
+    public class Role : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>, IHaveCode
     {
         private List<RoleResource> _resources;
         /// <summary>

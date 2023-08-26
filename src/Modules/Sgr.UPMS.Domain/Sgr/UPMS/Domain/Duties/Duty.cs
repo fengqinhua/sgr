@@ -18,7 +18,7 @@ namespace Sgr.UPMS.Domain.Duties
     /// <summary>
     /// 职务
     /// </summary>
-    public class Duty : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>
+    public class Duty : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>, IHaveCode
     {
 
         private Duty() { }

@@ -18,7 +18,7 @@ namespace Sgr.UPMS.Domain.Departments
     /// <summary>
     /// 部门
     /// </summary>
-    public class Department : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>, ITreeNode<long>
+    public class Department : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>, ITreeNode<long>, IHaveCode
     {
         /// <summary>
         /// 部门编码

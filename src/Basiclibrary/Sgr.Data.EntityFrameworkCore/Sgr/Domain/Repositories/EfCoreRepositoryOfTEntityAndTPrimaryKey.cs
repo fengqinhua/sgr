@@ -25,6 +25,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Sgr.Domain.Repositories
 {
+
     /// <summary>
     /// 基于EF CORE 实现的 IBaseRepository
     /// </summary>
@@ -37,6 +38,12 @@ namespace Sgr.Domain.Repositories
         /// 工作单元
         /// </summary>
         public abstract IUnitOfWork UnitOfWork { get; }
+
+
+        internal virtual DbContext GetDbContextToExtensions()
+        {
+            return GetDbContext();
+        }
 
         #region 待实现或扩展的方法
 

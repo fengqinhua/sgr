@@ -97,7 +97,6 @@ namespace Sgr.UPMS.Domain.Organizations
                 throw new BusinessException("注销组织必须由当前组织的用户执行!");
 
             //如果当前组织有下级组织，则不允许注销
-
             if (await this._repository.HasChildNodesAsync(organization))
                 return false;
 

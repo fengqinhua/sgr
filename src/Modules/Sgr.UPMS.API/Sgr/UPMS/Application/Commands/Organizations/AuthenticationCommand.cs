@@ -62,7 +62,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         /// <summary>
         /// 营业执照
         /// </summary>
-        public string[]? BusinessLicense { get; set; }
+        public string? BusinessLicenseObjectName { get; set; }
 
         
     }

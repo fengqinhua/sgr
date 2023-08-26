@@ -11,8 +11,11 @@
  **************************************************************/
 
 using MediatR;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Sgr.Oss.Services;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Users;
+using Sgr.UPMS.Events;
 using Sgr.UPMS.Infrastructure.Repositories;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,13 +28,15 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         private readonly IOrganizationRepository _organizationRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICurrentUser _currentUser;
+        private readonly IOssService _ossService;
 
-        public CancellationOrgCommandHandle(IOrganizationManage organizationManage, IOrganizationRepository organizationRepository, IUserRepository userRepository, ICurrentUser currentUser)
+        public CancellationOrgCommandHandle(IOrganizationManage organizationManage, IOrganizationRepository organizationRepository, IUserRepository userRepository, ICurrentUser currentUser, IOssService  ossService)
         {
             _organizationManage = organizationManage;
             _organizationRepository = organizationRepository;
             _userRepository = userRepository;
             _currentUser = currentUser;
+            _ossService = ossService;
         }
 
         public async Task<bool> Handle(CancellationOrgCommand request, CancellationToken cancellationToken)
@@ -53,14 +58,21 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             if (!user.CheckPassWord(request.Password))
                 return false;
 
-            //组织前审查
+            //组织注销前审查
             if(!await  _organizationManage.CancellationExamination(org, user))
                 return false;
 
-            //准备执行删除
-            //添加删除事件
+            //执行删除
+            await _organizationRepository.DeleteAsync(org, cancellationToken);
+            //发布组织机构删除事件
+            org.AddDomainEvent(new OrganizationCancellationDomainEvent(org.Id));
 
-            await _organizationRepository.DeleteAsync(org, cancellationToken); 
+            //删除附件
+            if (org.LogoUrl != null)
+                await _ossService.RemoveImageAsync(org.LogoUrl, cancellationToken);
+
+            if (org.BusinessLicensePath != null)
+                await _ossService.RemoveImageAsync(org.BusinessLicensePath, cancellationToken);
 
 
             return await _organizationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
