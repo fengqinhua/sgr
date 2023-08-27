@@ -33,26 +33,27 @@ namespace Sgr.Identity
         /// <summary>
         /// 账号标识
         /// </summary>
-        public string Id { get; set; }
+        public string Id { get; }
         /// <summary>
         /// 账号所属组织标识
         /// </summary>
-        public string OrgId { get; set; } 
+        public string OrgId { get; }
         /// <summary>
         /// 账号登录名称
         /// </summary>
-        public string LoginName { get; set; } 
-        /// <summary>
-        /// 用户姓名
-        /// </summary>
-        public string? UserName { get; set; }
-        /// <summary>
-        /// 用户邮箱
-        /// </summary>
-        public string? UserEmail { get; set; }
-        /// <summary>
-        /// 用户电话
-        /// </summary>
-        public string? UserPhone { get; set; }
+        public string LoginName { get; }
+
+        ///// <summary>
+        ///// 用户姓名
+        ///// </summary>
+        //public string? UserName { get; set; }
+        ///// <summary>
+        ///// 用户邮箱
+        ///// </summary>
+        //public string? UserEmail { get; set; }
+        ///// <summary>
+        ///// 用户电话
+        ///// </summary>
+        //public string? UserPhone { get; set; }
     }
 }

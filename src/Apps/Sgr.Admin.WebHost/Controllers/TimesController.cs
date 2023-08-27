@@ -30,7 +30,6 @@ namespace Sgr.Admin.WebHost.Controllers
             return DateTimeOffset.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        [Authorize]
         [HttpGet("TimeZone")]
         public string GetTimeZone()
         {

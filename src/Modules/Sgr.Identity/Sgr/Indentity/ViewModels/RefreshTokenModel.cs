@@ -22,5 +22,18 @@ namespace Sgr.Indentity.ViewModels
         /// 刷新令牌文本内容
         /// </summary>
         public string? RefrashToken { get; set; }
+
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        public string Timestamp { get; set; } = string.Empty;
+        /// <summary>
+        /// 随机数
+        /// </summary>
+        public string Nonce { get; set; } = string.Empty;
+        /// <summary>
+        /// 签名
+        /// </summary>
+        public string Signature { get; set; } = string.Empty;
     }
 }

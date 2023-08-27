@@ -20,12 +20,12 @@ namespace Sgr.Identity.Services
 {
     public interface IAccountService
     {
-        /// <summary>
-        /// 根据登录名称获取账号信息
-        /// </summary>
-        /// <param name="loginName"></param>
-        /// <returns></returns>
-        Task<Account?> GetAccountByLoginNameAsync(string loginName);
+        ///// <summary>
+        ///// 根据登录名称获取账号信息
+        ///// </summary>
+        ///// <param name="loginName"></param>
+        ///// <returns></returns>
+        //Task<Account?> GetAccountByLoginNameAsync(string loginName);
         /// <summary>
         /// 创建刷新Token
         /// </summary>
@@ -48,11 +48,17 @@ namespace Sgr.Identity.Services
         /// <returns></returns>
         Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string loginName, string refreshToken);
         /// <summary>
+        /// 根据账号Id获取账号信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<Account?> GetAccountByUserIdAsync(string userId);
+        /// <summary>
         /// 获取账户关联的角色列表
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<IEnumerable<string>> GetAccountRoleIdsAsync(string userId);
+        Task<AccountRoles> GetAccountRoleIdsAsync(string userId);
 
     }
 }

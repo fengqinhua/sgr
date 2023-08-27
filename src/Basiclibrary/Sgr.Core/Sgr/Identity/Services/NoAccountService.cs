@@ -49,13 +49,23 @@ namespace Sgr.Identity.Services
         }
 
         /// <summary>
+        /// 根据账号Id获取账号信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<Account?> GetAccountByUserIdAsync(string userId)
+        {
+            return Task.FromResult(default(Account));
+        }
+
+        /// <summary>
         /// 获取账户关联的角色列表
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<string>> GetAccountRoleIdsAsync(string userId)
+        public Task<AccountRoles> GetAccountRoleIdsAsync(string userId)
         {
-            IEnumerable<string> result = new List<string>();
+            AccountRoles result = new AccountRoles(new List<string>());
             return Task.FromResult(result);
         }
     }

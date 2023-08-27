@@ -18,6 +18,10 @@ using Sgr.Modules;
 using System;
 using System.Linq;
 using System.Reflection;
+using Sgr.Identity.Services;
+using Sgr.Security;
+using Sgr.Security.AuthorizationHandlers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -70,7 +74,11 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddUserIdentity(this IServiceCollection services)
         {
             services.AddSingleton<ICurrentUser, DefaultCurrentUser>();
-            return services;
+
+            services.AddScoped<IFunctionPermissionGrantingService, DefaultFunctionPermissionGrantingService>();
+            services.AddScoped<IAuthorizationHandler, FunctionPermissionHandler>();
+
+            return services; 
         }
 
         /// <summary>

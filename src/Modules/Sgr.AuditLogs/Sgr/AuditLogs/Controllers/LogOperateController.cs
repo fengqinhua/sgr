@@ -25,7 +25,6 @@ namespace Sgr.AuditLogs.Controllers
     /// <summary>
     /// 审计日志
     /// </summary>
-    //[Authorize]
     [Route("api/v1/sgr/[controller]")]
     [ApiController]
     public class LogOperateController : ControllerBase
@@ -36,8 +35,6 @@ namespace Sgr.AuditLogs.Controllers
         {
             _logOperateQueries = logOperateQueries;
         }
-
-
 
         #region Queries
         /// <summary>
