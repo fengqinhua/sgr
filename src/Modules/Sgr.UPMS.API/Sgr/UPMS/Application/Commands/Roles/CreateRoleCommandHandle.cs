@@ -31,7 +31,7 @@ namespace Sgr.UPMS.Application.Commands.Roles
 
         public async Task<bool> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
-            Role role = new Role(Guid.NewGuid().ToString(),
+            Role role = new Role(Guid.NewGuid().ToString("N"),
                 request.RoleName,
                 request.OrgId ?? Constant.DEFAULT_ORGID,
                 request.OrderNumber,

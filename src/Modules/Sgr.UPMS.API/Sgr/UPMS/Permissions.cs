@@ -37,12 +37,20 @@ namespace Sgr.UPMS
         public static readonly FunctionPermission ModifyUserPermission = new("Sgr.UPMS.ModifyUser", "个人中心", "修改信息");
         public static readonly FunctionPermission ModifyPasswordPermission = new("Sgr.UPMS.ModifyPassword", "个人中心", "修改密码");
 
-
         public static readonly FunctionPermission CreateRolePermission = new("Sgr.UPMS.CreateRole", "角色管理", "创建角色", true);
         public static readonly FunctionPermission UpdateRolePermission = new("Sgr.UPMS.UpdateRole", "角色管理", "修改角色");
         public static readonly FunctionPermission DeleteRolePermission = new("Sgr.UPMS.DeleteRole", "角色管理", "删除角色", true);
         public static readonly FunctionPermission ModifyRoleStatusPermission = new("Sgr.UPMS.ModifyRoleStatus", "角色管理", "调整状态");
         public static readonly FunctionPermission AllocateFunctionPermissionPermission = new("Sgr.UPMS.AllocateFunctionPermission", "角色管理", "授予功能权限", true);
+
+        public static readonly FunctionPermission CreateDutyPermission = new("Sgr.UPMS.CreateDuty", "职务管理", "创建职务");
+        public static readonly FunctionPermission UpdateDutyPermission = new("Sgr.UPMS.UpdateDuty", "职务管理", "修改职务");
+        public static readonly FunctionPermission DeleteDutyPermission = new("Sgr.UPMS.DeleteDuty", "职务管理", "删除职务");
+        public static readonly FunctionPermission ModifyDutyStatusPermission = new("Sgr.UPMS.ModifyDutyStatus", "职务管理", "调整状态");
+
+        public static readonly FunctionPermission CreateDepartmentPermission = new("Sgr.UPMS.CreateDepartment", "部门管理", "创建部门");
+        public static readonly FunctionPermission UpdateDepartmentPermission = new("Sgr.UPMS.UpdateDepartment", "部门管理", "修改部门");
+        public static readonly FunctionPermission DeleteDepartmentPermission = new("Sgr.UPMS.DeleteDepartment", "部门管理", "删除部门");
 
 
         public Task<IEnumerable<FunctionPermission>> GetFunctionPermissionsAsync()
@@ -70,7 +78,16 @@ namespace Sgr.UPMS
                 UpdateRolePermission,
                 DeleteRolePermission,
                 ModifyRoleStatusPermission,
-                AllocateFunctionPermissionPermission
+                AllocateFunctionPermissionPermission,
+                //职务管理
+                CreateDutyPermission,
+                UpdateDutyPermission,
+                DeleteDutyPermission,
+                ModifyDutyStatusPermission,
+                //部门管理
+                CreateDepartmentPermission,
+                UpdateDepartmentPermission,
+                DeleteDepartmentPermission
             }
             .AsEnumerable());
         }

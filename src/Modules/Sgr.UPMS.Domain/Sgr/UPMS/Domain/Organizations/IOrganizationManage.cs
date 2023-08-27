@@ -22,9 +22,6 @@ namespace Sgr.UPMS.Domain.Organizations
     /// </summary>
     public interface IOrganizationManage : ITreeNodeManage<Organization, long>
     { 
-
-
-
         /// <summary>
         /// 创建一个新的组织机构
         /// </summary>
@@ -59,8 +56,5 @@ namespace Sgr.UPMS.Domain.Organizations
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> CancellationExamination(Organization organization, User user);
-
-
-
     }
 }

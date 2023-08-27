@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Departments
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Departments
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以修改某一个已存在的部门的基本信息
     /// </remarks>
-    public class UpdateDepartmentCommand
+    public class UpdateDepartmentCommand : IRequest<bool>
     {
         /// <summary>
         /// 部门标识

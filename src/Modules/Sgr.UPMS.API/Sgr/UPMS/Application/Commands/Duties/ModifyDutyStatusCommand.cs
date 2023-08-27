@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using MediatR;
 using Sgr.Domain.Entities;
 
 namespace Sgr.UPMS.Application.Commands.Duties
@@ -20,7 +21,7 @@ namespace Sgr.UPMS.Application.Commands.Duties
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以调整某一个已存在的职务的可用状态
     /// </remarks>
-    public class ModifyDutyStatusCommand
+    public class ModifyDutyStatusCommand : IRequest<bool>
     {
         /// <summary>
         /// 职务标识

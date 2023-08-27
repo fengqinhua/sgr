@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Duties
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Duties
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以按名称创建一个职务
     /// </remarks>
-    public class CreateDutyCommand
+    public class CreateDutyCommand : IRequest<bool>
     {
         /// <summary>
         /// 职务名称

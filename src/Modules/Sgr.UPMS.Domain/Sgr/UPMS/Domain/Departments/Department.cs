@@ -12,6 +12,9 @@
 
 using Sgr.Domain.Entities;
 using Sgr.Domain.Entities.Auditing;
+using Sgr.Generator;
+using Sgr.UPMS.Events;
+using System.Xml.Linq;
 
 namespace Sgr.UPMS.Domain.Departments
 {
@@ -20,6 +23,21 @@ namespace Sgr.UPMS.Domain.Departments
     /// </summary>
     public class Department : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>, ITreeNode<long>, IHaveCode
     {
+
+        private Department()
+        {
+            State = EntityStates.Normal;
+        }
+
+        public Department(string code, string name, int orderNumber, string? remarks,long orgId)
+        {
+            Code = code;
+            Name = name;
+            OrderNumber = orderNumber;
+            Remarks = remarks;
+            OrgId = orgId;
+        }
+
         /// <summary>
         /// 部门编码
         /// </summary>
@@ -27,7 +45,8 @@ namespace Sgr.UPMS.Domain.Departments
         /// <summary>
         /// 部门名称
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; private set; } = string.Empty;
+
         /// <summary>
         /// 排序号
         /// </summary>
@@ -49,6 +68,13 @@ namespace Sgr.UPMS.Domain.Departments
         /// 备注
         /// </summary>
         public string? Remarks { get; set; }
+
+        public void ChangeName(string name)
+        {
+            if(Name != name)
+                this.AddDomainEvent(new DepartmentNameChangedDomainEvent(this.Id, name));
+            Name = name;
+        }
 
         /// <summary>
         /// 部门状态

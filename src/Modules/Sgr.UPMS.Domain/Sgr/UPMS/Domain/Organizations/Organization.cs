@@ -35,7 +35,7 @@ namespace Sgr.UPMS.Domain.Organizations
             StaffSizeCode = staffSizeCode;
             Remarks = remarks;
 
-            Code = Guid.NewGuid().ToString().ToUpper();
+            Code = Guid.NewGuid().ToString("N").ToUpper();
             Confirmed = ConfirmedStates.WaitingConfirmed;
             State = EntityStates.Normal;
         }

@@ -16,10 +16,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Sgr.EntityFrameworkCore;
 using Sgr.Modules;
+using Sgr.UPMS.Application.Commands.Departments;
+using Sgr.UPMS.Application.Commands.Duties;
 using Sgr.UPMS.Application.Commands.Organizations;
 using Sgr.UPMS.Application.Commands.Roles;
 using Sgr.UPMS.Application.Commands.Users;
 using Sgr.UPMS.Application.Queries;
+using Sgr.UPMS.Application.Validations.Departments;
+using Sgr.UPMS.Application.Validations.Duties;
 using Sgr.UPMS.Application.Validations.Organizations;
 using Sgr.UPMS.Application.Validations.Roles;
 using Sgr.UPMS.Application.Validations.Users;
@@ -74,22 +78,21 @@ namespace Sgr.UPMS.API
             services.AddTransient<IValidator<UpdateRoleCommand>, UpdateRoleCommandValidator>();
 
             //Departments 部门相关
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IDepartmentManage, DepartmentManage>();
+            services.AddTransient<IValidator<CreateDutyCommand>, CreateDutyCommandValidator>();
+            services.AddTransient<IValidator<UpdateDutyCommand>, UpdateDutyCommandValidator>();
+
 
             //Duties 职务相关
+            services.AddScoped<IDutyRepository, DutyRepository>();
+            services.AddTransient<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidator>();
+            services.AddTransient<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidator>();
 
             //其它
-
-
             services.AddScoped<ILogLoginRepository, LogLoginRepository>();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IDutyRepository, DutyRepository>();
-
-            services.AddScoped<ILogLoginRepository, LogLoginRepository>();
-
-            services.AddScoped<IDutyManage, DutyManage>();
 
             EntityFrameworkTypeRegistrar.Instance.Register<SgrDbContext, UPMSEntityFrameworkTypeProvider>();
-
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblyContaining<ModuleStartup>();

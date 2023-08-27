@@ -10,6 +10,9 @@
  * 
  **************************************************************/
 
+using MediatR;
+using Sgr.Domain.Entities;
+
 namespace Sgr.UPMS.Application.Commands.Duties
 {
     /// <summary>
@@ -18,7 +21,7 @@ namespace Sgr.UPMS.Application.Commands.Duties
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以修改某一个已存在的职务的基本信息
     /// </remarks>
-    public class UpdateDutyCommand
+    public class UpdateDutyCommand : IRequest<bool>
     {
         /// <summary>
         /// 职务标识
@@ -29,6 +32,10 @@ namespace Sgr.UPMS.Application.Commands.Duties
         /// 职务名称
         /// </summary>
         public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public EntityStates State { get; set; } = EntityStates.Normal;
         /// <summary>
         /// 排序号
         /// </summary>

@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Departments
 {
     /// <summary>
@@ -18,8 +20,13 @@ namespace Sgr.UPMS.Application.Commands.Departments
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以按名称创建一个部门
     /// </remarks>
-    public class CreateDepartmentCommand
+    public class CreateDepartmentCommand : IRequest<bool>
     {
+        /// <summary>
+        /// 上级部门
+        /// </summary>
+        public long? ParentId { get; set; }
+
         /// <summary>
         /// 部门名称
         /// </summary>

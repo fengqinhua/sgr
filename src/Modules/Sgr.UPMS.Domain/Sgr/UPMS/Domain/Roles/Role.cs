@@ -35,6 +35,7 @@ namespace Sgr.UPMS.Domain.Roles
         protected Role()
         {
             _resources = new List<RoleResource>();
+            State = EntityStates.Normal;
         }
 
         /// <summary>
@@ -52,7 +53,6 @@ namespace Sgr.UPMS.Domain.Roles
             RoleName = roleName;
             OrderNumber = orderNumber;
             Remarks = remarks;
-            State = EntityStates.Normal;
             OrgId = orgId;
         }
 

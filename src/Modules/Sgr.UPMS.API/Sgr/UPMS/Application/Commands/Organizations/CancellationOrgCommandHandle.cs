@@ -62,11 +62,11 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             if(!await  _organizationManage.CancellationExamination(org, user))
                 return false;
 
-            //执行删除
-            await _organizationRepository.DeleteAsync(org, cancellationToken);
             //发布组织机构删除事件
             org.AddDomainEvent(new OrganizationCancellationDomainEvent(org.Id));
-
+            //执行删除
+            await _organizationRepository.DeleteAsync(org, cancellationToken);
+    
             //删除附件
             if (org.LogoUrl != null)
                 await _ossService.RemoveImageAsync(org.LogoUrl, cancellationToken);

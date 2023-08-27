@@ -12,6 +12,7 @@
 
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Entities;
+using Sgr.Exceptions;
 
 namespace Sgr.UPMS.Domain.Duties
 {
@@ -21,20 +22,27 @@ namespace Sgr.UPMS.Domain.Duties
     public class Duty : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>, IHaveCode
     {
 
-        private Duty() { }
-
-        /// <summary>
-        /// 职务
-        /// </summary>
-        internal protected Duty(string core)
+        private Duty()
         {
-            Code = core;
+            State = EntityStates.Normal;
         }
+
+        public Duty(string code, string name, int orderNumber, string? remarks, long orgId)
+            :this()
+        {
+            Code = code;
+            Name = name;
+            OrderNumber = orderNumber;
+            Remarks = remarks;
+            OrgId = orgId;
+        }
+
+
 
         /// <summary>
         /// 职务编码
         /// </summary>
-        public string Code { get; private set; } = string.Empty;
+        public string Code { get;  set; } = string.Empty;
         /// <summary>
         /// 职务名称
         /// </summary>
@@ -52,6 +60,16 @@ namespace Sgr.UPMS.Domain.Duties
         /// 职务状态
         /// </summary>
         public EntityStates State { get; internal protected set; } = EntityStates.Normal;
+
+        /// <summary>
+        /// 调整实体状态
+        /// </summary>
+        /// <param name="state"></param>
+        /// <exception cref="BusinessException"></exception>
+        public void ChangeEntityStates(EntityStates state)
+        {
+            this.State = state;
+        }
 
         #region IOptimisticLock (乐观锁)
 

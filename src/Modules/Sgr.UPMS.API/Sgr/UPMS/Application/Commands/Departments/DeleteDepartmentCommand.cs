@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Departments
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Departments
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以删除某一个已存在的部门
     /// </remarks>
-    public class DeleteDepartmentCommand
+    public class DeleteDepartmentCommand : IRequest<bool>
     {
         /// <summary>
         /// 部门标识

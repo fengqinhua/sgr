@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Duties
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Duties
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以删除某一个已存在的职务
     /// </remarks>
-    public class DeleteDutyCommand
+    public class DeleteDutyCommand : IRequest<bool>
     {
         /// <summary>
         /// 职务标识
