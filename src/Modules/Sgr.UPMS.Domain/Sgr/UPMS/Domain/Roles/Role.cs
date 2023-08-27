@@ -14,6 +14,7 @@ using Sgr.Domain.Entities.Auditing;
 using Sgr.Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using Sgr.Exceptions;
 
 namespace Sgr.UPMS.Domain.Roles
 {
@@ -100,6 +101,17 @@ namespace Sgr.UPMS.Domain.Roles
                 _resources.Add(roleResource);
             }
         }
+
+        /// <summary>
+        /// 调整实体状态
+        /// </summary>
+        /// <param name="state"></param>
+        /// <exception cref="BusinessException"></exception>
+        public void ChangeEntityStates(EntityStates state)
+        {
+            this.State = state;
+        }
+
 
         #region IOptimisticLock (乐观锁)
 

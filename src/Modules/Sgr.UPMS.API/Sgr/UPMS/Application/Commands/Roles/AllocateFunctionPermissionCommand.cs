@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using MediatR;
 using Sgr.UPMS.Domain.Roles;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace Sgr.UPMS.Application.Commands.Roles
     /// <remarks>
     /// 用户故事： 作为系统管理员，希望可以为角色分配相应的功能权限
     /// </remarks>
-    public class AllocateFunctionPermissionCommand
+    public class AllocateFunctionPermissionCommand : IRequest<bool>
     {
         /// <summary>
         /// 角色标识

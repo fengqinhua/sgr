@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Roles
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Roles
     /// <remarks>
     /// 用户故事： 作为系统管理员，希望可以删除某一个已存在的角色
     /// </remarks>
-    public class DeleteRoleCommand
+    public class DeleteRoleCommand : IRequest<bool>
     {
         /// <summary>
         /// 角色标识

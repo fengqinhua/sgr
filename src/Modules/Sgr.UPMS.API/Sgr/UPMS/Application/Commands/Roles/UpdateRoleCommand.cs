@@ -10,17 +10,18 @@
  * 
  **************************************************************/
 
+using MediatR;
 using Sgr.Domain.Entities;
 
 namespace Sgr.UPMS.Application.Commands.Roles
 {
     /// <summary>
-    /// 删除角色
+    /// 修改角色
     /// </summary>
     /// <remarks>
     /// 用户故事： 作为系统管理员，希望可以修改某一个已存在的角色的基本信息
     /// </remarks>
-    public class UpdateRoleCommand
+    public class UpdateRoleCommand : IRequest<bool>
     {
         /// <summary>
         /// 角色标识
@@ -29,7 +30,7 @@ namespace Sgr.UPMS.Application.Commands.Roles
         /// <summary>
         /// 角色名称
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string RoleName { get; set; } = string.Empty;
         /// <summary>
         /// 状态
         /// </summary>

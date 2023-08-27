@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Roles
 {
     /// <summary>
@@ -18,12 +20,12 @@ namespace Sgr.UPMS.Application.Commands.Roles
     /// <remarks>
     /// 用户故事： 作为系统管理员，希望可以按名称创建一个角色 
     /// </remarks>
-    public class CreateRoleCommand
+    public class CreateRoleCommand : IRequest<bool>
     {
         /// <summary>
         /// 角色名称
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string RoleName { get; set; } = string.Empty;
         /// <summary>
         /// 排序号
         /// </summary>
@@ -36,6 +38,6 @@ namespace Sgr.UPMS.Application.Commands.Roles
         /// <summary>
         /// 组织标识
         /// </summary>
-        public long OrgId { get; set; }
+        public long? OrgId { get; set; }
     }
 }

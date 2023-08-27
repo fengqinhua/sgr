@@ -38,6 +38,13 @@ namespace Sgr.UPMS
         public static readonly FunctionPermission ModifyPasswordPermission = new("Sgr.UPMS.ModifyPassword", "个人中心", "修改密码");
 
 
+        public static readonly FunctionPermission CreateRolePermission = new("Sgr.UPMS.CreateRole", "角色管理", "创建角色", true);
+        public static readonly FunctionPermission UpdateRolePermission = new("Sgr.UPMS.UpdateRole", "角色管理", "修改角色");
+        public static readonly FunctionPermission DeleteRolePermission = new("Sgr.UPMS.DeleteRole", "角色管理", "删除角色", true);
+        public static readonly FunctionPermission ModifyRoleStatusPermission = new("Sgr.UPMS.ModifyRoleStatus", "角色管理", "调整状态");
+        public static readonly FunctionPermission AllocateFunctionPermissionPermission = new("Sgr.UPMS.AllocateFunctionPermission", "角色管理", "授予功能权限", true);
+
+
         public Task<IEnumerable<FunctionPermission>> GetFunctionPermissionsAsync()
         {
             return Task.FromResult(new[]
@@ -57,7 +64,13 @@ namespace Sgr.UPMS
                 ResetPasswordPermission,
                 //个人中心
                 ModifyUserPermission,
-                ModifyPasswordPermission
+                ModifyPasswordPermission,
+                //角色管理
+                CreateRolePermission,
+                UpdateRolePermission,
+                DeleteRolePermission,
+                ModifyRoleStatusPermission,
+                AllocateFunctionPermissionPermission
             }
             .AsEnumerable());
         }
