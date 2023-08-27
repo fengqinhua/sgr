@@ -13,7 +13,7 @@
 using FluentValidation;
 using Sgr.UPMS.Application.Commands.Organizations;
 
-namespace Sgr.UPMS.Application.Validations
+namespace Sgr.UPMS.Application.Validations.Organizations
 {
     public class CancellationOrgCommandValidator : AbstractValidator<CancellationOrgCommand>
     {

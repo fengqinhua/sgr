@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Users
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Users
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以按名称创建一个账号
     /// </remarks>
-    public class CreateUserCommand
+    public class CreateUserCommand : IRequest<bool>
     {
         /// <summary>
         /// 登录名称
@@ -45,7 +47,6 @@ namespace Sgr.UPMS.Application.Commands.Users
         /// 所属角色
         /// </summary>
         public long[]? RoleIds { get; set; }
-
 
         /// <summary>
         /// 组织标识

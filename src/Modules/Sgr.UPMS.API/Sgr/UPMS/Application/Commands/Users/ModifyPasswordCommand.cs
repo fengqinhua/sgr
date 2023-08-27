@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Users
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Sgr.UPMS.Application.Commands.Users
     /// <remarks>
     /// 用户故事： 作为账号的所有者，希望可以修改账号的密码
     /// </remarks>
-    public class ModifyPasswordCommand
+    public class ModifyPasswordCommand : IRequest<bool>
     {
         /// <summary>
         /// 部门标识

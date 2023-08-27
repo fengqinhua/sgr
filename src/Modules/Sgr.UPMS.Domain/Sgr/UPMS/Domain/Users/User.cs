@@ -25,7 +25,7 @@ namespace Sgr.UPMS.Domain.Users
     /// <summary>
     /// 用户
     /// </summary>
-    public class User : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>
+    public class User : FullAudited<long, long>, IAggregateRoot, IOptimisticLock, IMustHaveOrg<long>
     { 
         private List<UserDuty> _duties;
         private List<UserRole> _roles;
@@ -78,11 +78,11 @@ namespace Sgr.UPMS.Domain.Users
         /// <summary>
         /// 登录成功次数
         /// </summary>
-        public int LoginSuccessCount { get; internal protected set; } = 0;
+        public int LoginSuccessCount { get; private set; } = 0;
         /// <summary>
         /// 登录失败次数
         /// </summary>
-        public int LoginFailCount { get; internal protected set; } = 0;
+        public int LoginFailCount { get; private set; } = 0;
 
         /// <summary>
         /// 用户姓名
@@ -112,7 +112,7 @@ namespace Sgr.UPMS.Domain.Users
         /// <summary>
         /// 账号状态
         /// </summary>
-        public EntityStates State { get; internal protected set; } = EntityStates.Normal;
+        public EntityStates State { get; private set; } = EntityStates.Normal;
 
         /// <summary>
         /// 所属部门Id
@@ -123,72 +123,34 @@ namespace Sgr.UPMS.Domain.Users
         /// </summary>
         public string DepartmentName { get; private set; } = "";
 
+        #region 创建实体
 
-
-        /// <summary>
-        /// 设置所属部门
-        /// </summary>
-        /// <param name="departmentId"></param>
-        /// <param name="departmentName"></param>
-        public void BindDepartment(long? departmentId, string departmentName)
+        public static async Task<User> CreateNewAsync(string loginName,
+            string passWord,
+            long orgId,
+            IUserChecker checker)
         {
-            if (IsSuperAdmin)
-                throw new BusinessException("超级管理员不可以绑定部门信息！");
+            Check.StringNotNullOrWhiteSpace(loginName, nameof(loginName));
 
-            DepartmentId = departmentId;
-            DepartmentName = departmentName;
+            if (!await checker.LoginNameIsUniqueAsync(loginName))
+                throw new BusinessException("账号名称已存在");
+
+            return new User(loginName, passWord, orgId);
         }
 
-        /// <summary>
-        /// 设置用户岗位列表(拥有多个岗位)
-        /// </summary>
-        /// <param name="dutyIds"></param>
-        public void BindDuties(long[] dutyIds)
-        {
-            if (IsSuperAdmin)
-                throw new BusinessException("超级管理员可以绑定岗位信息！");
+        #endregion
 
-            Check.NotNull(dutyIds, nameof(dutyIds));
-
-            //移除不存在的
-            _duties.RemoveAll(f => !dutyIds.Contains(f.DutyId));
-
-            foreach (var duty in dutyIds)
-            {
-                if (_duties.Count(f => f.DutyId == duty) == 0)
-                    _duties.Add(new UserDuty(duty));
-            }
-        }
+        #region 密码与登录相关
 
         /// <summary>
-        /// 设置用户角色列表(拥有多个角色)
-        /// </summary>
-        /// <param name="roleIds"></param>
-        public void BindRoles(long[] roleIds)
-        {
-            if (IsSuperAdmin)
-                throw new BusinessException("超级管理员可以绑定角色信息！");
-
-            Check.NotNull(roleIds, nameof(roleIds));
-
-            //移除不存在的
-            _roles.RemoveAll(f => !roleIds.Contains(f.RoleId));
-
-            foreach (var role in roleIds)
-            {
-                if (_roles.Count(f => f.RoleId == role) == 0)
-                    _roles.Add(new UserRole(role));
-            }
-        }
-
-        /// <summary>
-        /// 登录成功
+        /// 执行登录完成
         /// </summary>
         /// <param name="status">是否成功</param>
         public void LoginComplete(bool status)
         {
             if (FirstLoginTime == null)
                 FirstLoginTime = DateTimeOffset.UtcNow;
+
             LastLoginTime = DateTimeOffset.UtcNow;
 
             if (status)
@@ -233,20 +195,81 @@ namespace Sgr.UPMS.Domain.Users
                 return $"sgr:{password}";
         }
 
-        #region Create
 
-        public static async Task<User> CreateNewAsync(string loginName,
-            string passWord,
-            long orgId,
-            IUserChecker checker)
+        #endregion
+
+        #region 账号状态信息调整
+
+        /// <summary>
+        /// 设置所属部门
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <param name="departmentName"></param>
+        public void BindDepartment(long departmentId, string departmentName)
         {
-            Check.StringNotNullOrWhiteSpace(loginName, nameof(loginName));
+            if (IsSuperAdmin)
+                throw new BusinessException("超级管理员不可以绑定部门信息！");
 
-            if (!await checker.LoginNameIsUniqueAsync(loginName))
-                throw new BusinessException("账号名称已存在");
-
-            return new User(loginName, passWord, orgId);
+            DepartmentId = departmentId;
+            DepartmentName = departmentName;
         }
+
+        /// <summary>
+        /// 设置用户岗位列表(拥有多个岗位)
+        /// </summary>
+        /// <param name="dutyIds"></param>
+        public void BindDuties(long[] dutyIds)
+        {
+            if (IsSuperAdmin)
+                throw new BusinessException("超级管理员不可以绑定岗位信息！");
+
+            Check.NotNull(dutyIds, nameof(dutyIds));
+
+            //移除不存在的
+            _duties.RemoveAll(f => !dutyIds.Contains(f.DutyId));
+
+            foreach (var duty in dutyIds)
+            {
+                if (_duties.Count(f => f.DutyId == duty) == 0)
+                    _duties.Add(new UserDuty(duty));
+            }
+        }
+
+        /// <summary>
+        /// 设置用户角色列表(拥有多个角色)
+        /// </summary>
+        /// <param name="roleIds"></param>
+        public void BindRoles(long[] roleIds)
+        {
+            if (IsSuperAdmin)
+                throw new BusinessException("超级管理员不可以绑定角色信息！");
+
+            Check.NotNull(roleIds, nameof(roleIds));
+
+            //移除不存在的
+            _roles.RemoveAll(f => !roleIds.Contains(f.RoleId));
+
+            foreach (var role in roleIds)
+            {
+                if (_roles.Count(f => f.RoleId == role) == 0)
+                    _roles.Add(new UserRole(role));
+            }
+        }
+
+
+        /// <summary>
+        /// 调整实体状态
+        /// </summary>
+        /// <param name="state"></param>
+        /// <exception cref="BusinessException"></exception>
+        public void ChangeEntityStates(EntityStates state)
+        {
+            if (IsSuperAdmin && state == EntityStates.Deactivate)
+                throw new BusinessException("超级管理员不可以禁用！");
+
+            this.State = state;
+        }
+
 
         #endregion
 

@@ -12,40 +12,31 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sgr.AspNetCore.ActionFilters;
 using Sgr.AspNetCore.ActionFilters.AuditLogs;
 using Sgr.ExceptionHandling;
-using Sgr.Identity.Services;
 using Sgr.Oss.Services;
 using Sgr.UPMS.Application.Commands.Organizations;
-using Sgr.UPMS.Application.Queries;
-using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sgr.UPMS.Controllers
 {
     /// <summary>
-    /// 组织机构
+    /// 组织机构管理
     /// </summary>
     [Route("api/v1/sgr/[controller]")]
     [ApiController]
     public class OrganizationController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IOrganizationQueries _organizationQueries;
         private readonly IAuthorizationService _authorizationService;
 
         public OrganizationController(IMediator mediator,
-            IOrganizationQueries organizationQueries,
             IAuthorizationService authorizationService)
         {
             _mediator = mediator;
-            _organizationQueries = organizationQueries;
             _authorizationService = authorizationService; 
         }
 
@@ -228,7 +219,6 @@ namespace Sgr.UPMS.Controllers
         #endregion
 
         #region Queries
-
 
 
         #endregion 

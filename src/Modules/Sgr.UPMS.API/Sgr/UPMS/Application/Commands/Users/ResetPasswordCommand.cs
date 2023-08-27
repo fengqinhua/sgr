@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Users
 {
     /// <summary>
@@ -18,11 +20,15 @@ namespace Sgr.UPMS.Application.Commands.Users
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望在某个员忘记密码时帮助其重置密码
     /// </remarks>
-    public class ResetPasswordCommand
+    public class ResetPasswordCommand : IRequest<bool>
     {
         /// <summary>
         /// 账号标识
         /// </summary>
         public long UserId { get; set; }
+        /// <summary>
+        /// 用户密码
+        /// </summary>
+        public string Password { get; set; } = string.Empty;
     }
 }

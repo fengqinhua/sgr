@@ -17,8 +17,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Sgr.EntityFrameworkCore;
 using Sgr.Modules;
 using Sgr.UPMS.Application.Commands.Organizations;
+using Sgr.UPMS.Application.Commands.Users;
 using Sgr.UPMS.Application.Queries;
-using Sgr.UPMS.Application.Validations;
+using Sgr.UPMS.Application.Validations.Organizations;
+using Sgr.UPMS.Application.Validations.Users;
 using Sgr.UPMS.Domain.Departments;
 using Sgr.UPMS.Domain.Duties;
 using Sgr.UPMS.Domain.LogLogins;
@@ -56,7 +58,21 @@ namespace Sgr.UPMS.API
             //User 用户相关
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserChecker, UserChecker>();
-            
+
+            services.AddTransient<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+            services.AddTransient<IValidator<ModifyPasswordCommand>, ModifyPasswordCommandValidator>();
+            services.AddTransient<IValidator<ModifyUserCommand>, ModifyUserCommandValidator>();
+            services.AddTransient<IValidator<ResetPasswordCommand>, ResetPasswordCommandValidator>();
+            services.AddTransient<IValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
+
+            //Role 角色相关
+
+            //Departments 部门相关
+
+            //Duties 职务相关
+
+            //其它
+
 
             services.AddScoped<ILogLoginRepository, LogLoginRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();

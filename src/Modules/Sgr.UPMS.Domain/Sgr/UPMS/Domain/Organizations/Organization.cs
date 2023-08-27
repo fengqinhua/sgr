@@ -23,7 +23,7 @@ namespace Sgr.UPMS.Domain.Organizations
     /// <summary>
     /// 组织机构
     /// </summary>
-    public class Organization : CreationAndModifyAuditedEntity<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>, IHaveCode
+    public class Organization : FullAudited<long, long>, IAggregateRoot, IOptimisticLock, IExtendableObject, ITreeNode<long>, IHaveCode
     {
         protected Organization() { }
 

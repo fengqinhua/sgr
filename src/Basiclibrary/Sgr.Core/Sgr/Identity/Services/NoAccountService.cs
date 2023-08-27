@@ -24,11 +24,6 @@ namespace Sgr.Identity.Services
             return Task.CompletedTask;
         }
 
-        public Task<Account?> GetAccountByLoginNameAsync(string loginName)
-        {
-            return Task.FromResult(default(Account?));
-        }
-
         public Task<Tuple<AccountLoginResults, Account?>> ValidateAccountAsync(string name, string password)
         {
             //return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.Success, new Account("1", "1", "admin")));

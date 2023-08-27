@@ -13,6 +13,7 @@
 using MediatR;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Users;
+using Sgr.Utilities;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,7 +48,7 @@ namespace Sgr.UPMS.Application.Commands.Organizations
                 request.Remarks,
                 request.ParentId);
 
-            User user = await User.CreateNewAsync(request.AdminName, request.AdminPassword, organization.Id, _userChecker);
+            User user = await User.CreateNewAsync(request.AdminName, HashHelper.CreateMd5(request.AdminPassword), organization.Id, _userChecker);
 
             await _organizationRepository.InsertAsync(organization, cancellationToken);
             await _userRepository.InsertAsync(user, cancellationToken);

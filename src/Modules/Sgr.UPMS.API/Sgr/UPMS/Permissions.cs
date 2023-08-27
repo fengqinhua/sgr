@@ -28,18 +28,36 @@ namespace Sgr.UPMS
         public static readonly FunctionPermission AssociatedParentOrgPermission = new("Sgr.UPMS.AssociatedParentOrg", "组织机构", "绑定上级组织");
         public static readonly FunctionPermission ModifyOrgLogoPermission = new("Sgr.UPMS.ModifyOrgLogo", "组织机构", "上传Logo");
 
+        public static readonly FunctionPermission CreateUserPermission = new("Sgr.UPMS.CreateUser", "账户管理", "创建账号");
+        public static readonly FunctionPermission UpdateUserPermission = new("Sgr.UPMS.UpdateUser", "账户管理", "修改账号");
+        public static readonly FunctionPermission DeleteUserPermission = new("Sgr.UPMS.DeleteUser", "账户管理", "删除账号");
+        public static readonly FunctionPermission ModifyUserStatusPermission = new("Sgr.UPMS.ModifyUserStatus", "账户管理", "调整状态");
+        public static readonly FunctionPermission ResetPasswordPermission = new("Sgr.UPMS.ResetPassword", "账户管理", "重置密码");
+
+        public static readonly FunctionPermission ModifyUserPermission = new("Sgr.UPMS.ModifyUser", "个人中心", "修改信息");
+        public static readonly FunctionPermission ModifyPasswordPermission = new("Sgr.UPMS.ModifyPassword", "个人中心", "修改密码");
 
 
         public Task<IEnumerable<FunctionPermission>> GetFunctionPermissionsAsync()
         {
             return Task.FromResult(new[]
             {
+                //组织管理
                 CreateOrgPermission,
                 UpdateOrgPermission,
                 CancellationOrgPermission,
                 AssociatedParentOrgPermission,
                 AuthenticationOrgPermission,
-                ModifyOrgLogoPermission
+                ModifyOrgLogoPermission,
+                //账户管理
+                CreateUserPermission,
+                UpdateUserPermission,
+                DeleteUserPermission,
+                ModifyUserStatusPermission,
+                ResetPasswordPermission,
+                //个人中心
+                ModifyUserPermission,
+                ModifyPasswordPermission
             }
             .AsEnumerable());
         }

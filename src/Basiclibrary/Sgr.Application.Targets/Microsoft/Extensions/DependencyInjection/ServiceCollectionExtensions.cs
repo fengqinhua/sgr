@@ -40,8 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSgrExceptionHandling();     
             //模块化
             services.AddModules(environment, applicationOptions.ModuleInfoProvider);
-
-
+            //Oss文件管理
+            services.AddSgrLocalFileSystemOss(configuration);
+            
             return services;
         }
     }

@@ -1,8 +1,8 @@
 ﻿/**************************************************************
  * 
- * 唯一标识：7d80b942-6120-465b-a05e-38987816b12d
+ * 唯一标识：001fa77b-82d4-4d7a-881f-b0a790eb0638
  * 命名空间：Sgr.UPMS.Events
- * 创建时间：2023/8/26 10:18:14
+ * 创建时间：2023/8/27 11:55:11
  * 机器名称：DESKTOP-S0D075D
  * 创建者：antho
  * 电子邮箱：fengqinhua2016@163.com
@@ -18,16 +18,15 @@ using System.Text;
 namespace Sgr.UPMS.Events
 {
     /// <summary>
-    /// 组织机构注销事件
+    /// 用户删除事件
     /// </summary>
-    public class OrganizationCancellationDomainEvent : INotification
+    public class UserDeleteDomainEvent : INotification
     {
-        public long OrgId { get; }
+        public long UserId { get; }
 
-        public OrganizationCancellationDomainEvent(long OrgId)
+        public UserDeleteDomainEvent(long userId)
         {
-            this.OrgId = OrgId;
+            this.UserId = userId;
         }
     }
-
 }

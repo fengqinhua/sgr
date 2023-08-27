@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Users
 {
     /// <summary>
@@ -18,10 +20,10 @@ namespace Sgr.UPMS.Application.Commands.Users
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以修改某一个已存在账号的基本信息
     /// </remarks>
-    public class UpdateUserCommand
+    public class UpdateUserCommand : IRequest<bool>
     {
         /// <summary>
-        /// 部门标识
+        /// 账号标识
         /// </summary>
         public long UserId { get; set; }
 

@@ -10,6 +10,7 @@
  * 
  **************************************************************/
 
+using MediatR;
 using Sgr.Domain.Entities;
 
 namespace Sgr.UPMS.Application.Commands.Roles
@@ -20,7 +21,7 @@ namespace Sgr.UPMS.Application.Commands.Roles
     /// <remarks>
     /// 用户故事： 作为系统管理员，希望可以调整某一个已存在的账号的可用状态
     /// </remarks>
-    public class ModifyUserStatusCommand
+    public class ModifyUserStatusCommand : IRequest<bool>
     {
         /// <summary>
         /// 账号标识

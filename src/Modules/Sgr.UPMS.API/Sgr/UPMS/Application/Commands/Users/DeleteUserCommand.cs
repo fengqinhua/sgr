@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using MediatR;
+
 namespace Sgr.UPMS.Application.Commands.Users
 {
     /// <summary>
@@ -18,15 +20,15 @@ namespace Sgr.UPMS.Application.Commands.Users
     /// <remarks>
     /// 用户故事： 作为组织机构管理人员，希望可以删除某一个已存在的账号
     /// </remarks>
-    public class DeleteUserCommand
+    public class DeleteUserCommand : IRequest<bool>
     {
         /// <summary>
         /// 用户标识
         /// </summary>
         public long UserId { get; set; }
         /// <summary>
-        /// 是否级联删除
+        /// 当前用户密码
         /// </summary>
-        public bool IsCascade { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }

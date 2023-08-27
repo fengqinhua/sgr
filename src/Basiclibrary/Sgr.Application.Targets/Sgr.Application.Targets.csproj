@@ -11,6 +11,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Sgr.Core\Sgr.Core.csproj" />
 	  <ProjectReference Include="..\Sgr.Mvc.Core\Sgr.Mvc.Core.csproj" />
+	  <ProjectReference Include="..\Sgr.Oss.LocalFileSystem\Sgr.Oss.LocalFileSystem.csproj" />
 	</ItemGroup>
 
 
