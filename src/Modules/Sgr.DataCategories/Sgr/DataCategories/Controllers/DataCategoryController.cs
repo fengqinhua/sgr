@@ -28,7 +28,6 @@ namespace Sgr.DataCategories.Controllers
     /// <summary>
     /// 数据字典
     /// </summary>
-    //[Authorize]
     [Route("api/v1/sgr/[controller]")]
     [ApiController]
     public class DataCategoryController : ControllerBase
@@ -133,7 +132,6 @@ namespace Sgr.DataCategories.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        //[AllowAnonymous]
         [Route("items/{id:long}")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]

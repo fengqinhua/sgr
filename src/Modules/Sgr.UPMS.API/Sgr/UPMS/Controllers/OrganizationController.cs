@@ -37,16 +37,16 @@ namespace Sgr.UPMS.Controllers
     public class OrganizationController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IPermissionChecker _permissionChecker;
         private readonly IOrganizationQueries _organizationQueries;
+        private readonly IAuthorizationService _authorizationService;
 
         public OrganizationController(IMediator mediator,
             IOrganizationQueries organizationQueries,
-            IPermissionChecker permissionChecker)
+            IAuthorizationService authorizationService)
         {
             _mediator = mediator;
             _organizationQueries = organizationQueries;
-            _permissionChecker = permissionChecker;
+            _authorizationService = authorizationService; 
         }
 
         #region Commond
@@ -57,16 +57,15 @@ namespace Sgr.UPMS.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status401Unauthorized)]
         [AuditLogActionFilter("创建组织机构")]
         public async Task<ActionResult<bool>> CreateAsync([FromBody] CreateOrgCommand command)
         {
-            //权限认证
-            if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.CreateOrgPermission))
+            if (await _authorizationService.AuthorizeAsync(User, Permissions.CreateOrgPermission))
                 return this.CustomUnauthorized();
+
             return Ok(await _mediator.Send(command));
         }
 
@@ -75,7 +74,6 @@ namespace Sgr.UPMS.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status401Unauthorized)]
@@ -83,8 +81,9 @@ namespace Sgr.UPMS.Controllers
         public async Task<ActionResult<bool>> UpdateOrgAsync([FromBody] UpdateOrgCommand command)
         {
             //权限认证
-            if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.UpdateOrgPermission))
+            if (await _authorizationService.AuthorizeAsync(this.User, Permissions.UpdateOrgPermission))
                 return this.CustomUnauthorized();
+
             return Ok(await _mediator.Send(command));
         }
 
@@ -93,7 +92,6 @@ namespace Sgr.UPMS.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ServiceErrorResponse), StatusCodes.Status401Unauthorized)]
@@ -101,7 +99,7 @@ namespace Sgr.UPMS.Controllers
         public async Task<ActionResult<bool>> CancellationOrgAsync([FromBody] CancellationOrgCommand command)
         {
             //权限认证
-            if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.CancellationOrgPermission))
+            if (await _authorizationService.AuthorizeAsync(this.User, Permissions.CancellationOrgPermission))
                 return this.CustomUnauthorized();
 
             return Ok(await _mediator.Send(command));
@@ -112,7 +110,6 @@ namespace Sgr.UPMS.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpPost]
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -130,7 +127,6 @@ namespace Sgr.UPMS.Controllers
         /// <param name="formCollection"></param>
         /// <param name="ossService"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPost]
         [Route("authentication")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -141,7 +137,7 @@ namespace Sgr.UPMS.Controllers
             [FromServices] IOssService ossService)
         {
             //权限认证
-            if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.AuthenticationOrgPermission))
+            if (await _authorizationService.AuthorizeAsync(this.User, Permissions.AuthenticationOrgPermission))
                 return this.CustomUnauthorized();
 
             if (command.Id <= 0)
@@ -170,8 +166,7 @@ namespace Sgr.UPMS.Controllers
         /// 绑定组织机构
         /// </summary>
         /// <param name="command"></param>
-        /// <returns></returns>
-        [Authorize]
+        /// <returns></returns> 
         [HttpPost]
         [Route("associated_parent")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -180,7 +175,7 @@ namespace Sgr.UPMS.Controllers
         public async Task<ActionResult<bool>> AssociatedParentOrgAsync([FromBody] AssociatedParentOrgCommand command)
         {
             //权限认证
-            if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.AssociatedParentOrgPermission))
+            if (await _authorizationService.AuthorizeAsync(this.User, Permissions.AssociatedParentOrgPermission))
                 return this.CustomUnauthorized();
 
             return Ok(await _mediator.Send(command));
@@ -192,8 +187,7 @@ namespace Sgr.UPMS.Controllers
         /// <param name="id"></param>
         /// <param name="formCollection"></param>
         /// <param name="ossService"></param>
-        /// <returns></returns>
-        [Authorize]
+        /// <returns></returns> 
         [HttpPost]
         [Route("logo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -204,7 +198,7 @@ namespace Sgr.UPMS.Controllers
             [FromServices] IOssService ossService)
         {
             //权限认证
-            if (await _permissionChecker.IsGrantedAsync(this.User, Permissions.ModifyOrgLogoPermission))
+            if (await _authorizationService.AuthorizeAsync(this.User, Permissions.ModifyOrgLogoPermission))
                 return this.CustomUnauthorized();
 
             if (id <= 0)

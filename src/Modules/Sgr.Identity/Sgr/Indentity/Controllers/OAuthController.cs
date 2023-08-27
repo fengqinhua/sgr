@@ -32,10 +32,10 @@ namespace Sgr.Indentity.Controllers
     /// <summary>
     /// 认证服务
     /// </summary>
-    //[Authorize]
     [Route("api/sgr/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    //[AllowAnonymous]
+    //[Authorize]
     public class OAuthController : ControllerBase
     {
         private readonly ISignatureChecker _signatureChecker;
@@ -108,7 +108,10 @@ namespace Sgr.Indentity.Controllers
         {
             Check.NotNull(model, nameof(model));
             Check.StringNotNullOrEmpty(model.RefrashToken, nameof(model.RefrashToken));
-            Check.StringNotNullOrEmpty(model.AccessToken, nameof(model.AccessToken));
+            Check.StringNotNullOrEmpty(model.AccessToken, nameof(model.AccessToken)); 
+
+            if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.AccessToken}-{model.RefrashToken}"))
+                return this.CustomBadRequest("刷新令牌时，参数中的签名Signature验证失败!");
 
             ClaimsPrincipal? claimsPrincipal = _jwtService.ValidateAccessToken(model.AccessToken!, _jwtOptions);
             if(claimsPrincipal == null)

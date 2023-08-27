@@ -98,23 +98,25 @@
 
 
 参考： 
-> [mysql有哪些索引类型](https://m.php.cn/faq/493277.html)
-> [efcore 关系中的外键和主键](https://learn.microsoft.com/zh-cn/ef/core/modeling/relationships/foreign-and-principal-keys?source=recommendations)
-> [Entity Framework Core Override Conventions](https://giridharprakash.me/2020/02/12/entity-framework-core-override-conventions/)
-> [查看EFCore生成的语句的四种方式](https://blog.csdn.net/m0_66746443/article/details/124058262)
-> [EF Core Like 模糊查询](https://www.cnblogs.com/xjxue/p/17558826.html)
-> [EF Core 6 新功能汇总](https://mp.weixin.qq.com/s/VpqEWQPdEJUw_HHNeqBPdg)
-> [EFCORE性能优化方案](https://www.cnblogs.com/lbonet/p/14608870.html)
-> [关于Entity Framework中的Attached报错的完美解决方案](http://www.hzhcontrols.com/new-1080210.html)
-> [张高兴的 Entity Framework Core 即学即用：（一）创建第一个 EF Core 应用](https://www.cnblogs.com/zhanggaoxing/p/16040341.html)  
-> [EF Core中的三类事务(SaveChanges、DbContextTransaction、TransactionScope)](https://www.cnblogs.com/yaopengfei/p/11387935.html)  
-> [Entity Framework Core 工具参考 - Visual Studio 中的包管理器控制台](https://learn.microsoft.com/zh-cn/ef/core/cli/powershell#scaffold-dbcontext)[3. Entity Framework Core 工具参考 - Visual Studio 中的包管理器控制台](https://learn.microsoft.com/zh-cn/ef/core/cli/powershell#scaffold-dbcontext)   
-> [EF Core 的 Code First 模式 ](https://www.cnblogs.com/clis/p/16197076.html)   
-> [Code-First Approach in Entity Framework Core ](https://www.yogihosting.com/code-first-entity-framework-core/)   
-> [EF Core 中的更改跟踪 ](https://learn.microsoft.com/zh-cn/ef/core/change-tracking/)   
-> [Entity Framework Core 执行SQL语句和存储过程 ](https://www.cnblogs.com/tdfblog/p/execute-sql-stored-procedure-in-entity-framework-core.html)   
+> [mysql有哪些索引类型](https://m.php.cn/faq/493277.html)  
+> [efcore 关系中的外键和主键](https://learn.microsoft.com/zh-cn/ef/core/modeling/relationships/foreign-and-principal-keys?source=recommendations)  
+> [Entity Framework Core Override Conventions](https://giridharprakash.me/2020/02/12/entity-framework-core-override-conventions/)  
+> [查看EFCore生成的语句的四种方式](https://blog.csdn.net/m0_66746443/article/details/124058262)  
+> [EF Core Like 模糊查询](https://www.cnblogs.com/xjxue/p/17558826.html)  
+> [EF Core 6 新功能汇总](https://mp.weixin.qq.com/s/VpqEWQPdEJUw_HHNeqBPdg)  
+> [EFCORE性能优化方案](https://www.cnblogs.com/lbonet/p/14608870.html)	    
+> [关于Entity Framework中的Attached报错的完美解决方案](http://www.hzhcontrols.com/new-1080210.html)		   
+> [张高兴的 Entity Framework Core 即学即用：（一）创建第一个 EF Core 应用](https://www.cnblogs.com/zhanggaoxing/p/16040341.html)      
+> [EF Core中的三类事务(SaveChanges、DbContextTransaction、TransactionScope)](https://www.cnblogs.com/yaopengfei/p/11387935.html)      
+> [Entity Framework Core 工具参考 - Visual Studio 中的包管理器控制台](https://learn.microsoft.com/zh-cn/ef/core/cli/powershell#scaffold-dbcontext)   
+> [3. Entity Framework Core 工具参考 - Visual Studio 中的包管理器控制台](https://learn.microsoft.com/zh-cn/ef/core/cli/powershell#scaffold-dbcontext)       
+> [EF Core 的 Code First 模式 ](https://www.cnblogs.com/clis/p/16197076.html)      
+> [Code-First Approach in Entity Framework Core ](https://www.yogihosting.com/code-first-entity-framework-core/)       
+> [EF Core 中的更改跟踪 ](https://learn.microsoft.com/zh-cn/ef/core/change-tracking/)       
+> [Entity Framework Core 执行SQL语句和存储过程 ](https://www.cnblogs.com/tdfblog/p/execute-sql-stored-procedure-in-entity-framework-core.html)       
 > [EF Core上下文DbContext相关配置和生命周期 ](https://www.cnblogs.com/yaopengfei/p/11349644.html)   
 > [EF Core延迟加载 ](https://learn.microsoft.com/zh-cn/ef/core/querying/related-data/lazy)   
+> [*** EntityFrameworkCore之工作单元的封装](https://www.cnblogs.com/BigBrotherStone/p/efcore-unitofwork.html)   
 
 
 
@@ -182,8 +184,14 @@
 
 
 
-参考资料：
-[如何在.net6webapi中配置Jwt实现鉴权验证](https://blog.csdn.net/Gefangenes/article/details/131137902)
-[ASP.NET Core Web Api之JWT刷新Token(三)](https://www.cnblogs.com/CreateMyself/p/11273732.html)
-[asp.net core3.1cookie和jwt混合认证授权实现多种身份验证方案](https://www.yii666.com/blog/262695.html)
+参考资料：  
+[如何在.net6webapi中配置Jwt实现鉴权验证](https://blog.csdn.net/Gefangenes/article/details/131137902)  
+[ASP.NET Core Web Api之JWT刷新Token(三)](https://www.cnblogs.com/CreateMyself/p/11273732.html)  
+[asp.net core3.1cookie和jwt混合认证授权实现多种身份验证方案](https://www.yii666.com/blog/262695.html)  
+[ASP.NET Core[源码分析篇] - Authentication认证](https://www.cnblogs.com/lex-wu/p/10512424.html)  
+[ASP.NET Core 认证与授权[7]:动态授权](https://mp.weixin.qq.com/s/X-Jhe0SmyEYFr8VKBCmQZQ)  
+[基于.NetCore3.1系列 —— 认证授权方案之授权揭秘](https://www.cnblogs.com/i3yuan/p/13275774.html)  
+[为什么HttpContextAccessor要这么设计](https://www.cnblogs.com/InCerry/p/Why-The-Design-HttpContextAccessor.html)  
+
+
 

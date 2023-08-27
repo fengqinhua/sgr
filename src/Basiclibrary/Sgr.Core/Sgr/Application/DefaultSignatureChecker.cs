@@ -41,14 +41,7 @@ namespace Sgr.Application
             if (!TimestampIsValid(timestamp))
                 return false;
 
-            string tmp = "sgr-" + timestamp + "-" + nonce;
-            if (!string.IsNullOrEmpty(customParameters))
-                tmp = tmp + "-" + customParameters;
-            else
-                tmp += "-";
-            tmp += "-sgr";
-
-            string md5 = HashHelper.CreateMd5(tmp);
+            string md5 = HashHelper.CreateMd5($"sgr-{timestamp}-{nonce}-{customParameters}-sgr");
 
             return signature.Equals(md5, StringComparison.OrdinalIgnoreCase);
         }

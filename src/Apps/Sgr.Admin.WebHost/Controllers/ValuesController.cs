@@ -22,7 +22,7 @@ namespace Sgr.Admin.WebHost.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public class ValuesController : ControllerBase
     {
         // GET api/values
@@ -34,24 +34,5 @@ namespace Sgr.Admin.WebHost.Controllers
 
             return new string[] { version, "it is all right ..." };
         }
-
-
-
-#if DEBUG
-
-        [Authorize]
-        [Route("/test")]
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get2()
-        {
-            System.Reflection.Assembly assemFromType = typeof(ValuesController).Assembly;
-            string version = $"{assemFromType.GetName().Version}";
-
-            return new string[] { version, "it is all right ..." };
-        }
-#endif
-
-
-
     }
 }
