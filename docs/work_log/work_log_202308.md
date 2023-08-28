@@ -201,3 +201,12 @@
 [.NET框架中的并发HashSet<T>](https://cloud.tencent.com/developer/ask/sof/58784)  
 [自定义一个线程安全的Hashset类](https://github.com/i3arnon/ConcurrentHashSet/blob/main/src/ConcurrentHashSet/ConcurrentHashSet.cs)  
 
+### 13. DOTNET 图像操作
+
+参考资料： 
+[仅在 Windows 上支持 System.Drawing.Common](https://learn.microsoft.com/zh-cn/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only)  
+[.NET 采用 SkiaSharp 生成二维码和图形验证码及图片进行指定区域截取方法实现](https://www.cnblogs.com/berkerdong/p/16779385.html)  
+[ASP.NET Core使用SkiaSharp实现验证码](https://www.cnblogs.com/maxzhang1985/p/8137199.html)  
+[LazyCaptcha是仿EasyCaptcha和SimpleCaptcha,基于.Net Standard 2.1的图形验证码模块](https://www.cnblogs.com/readafterme/p/15890042.html)  
+
+

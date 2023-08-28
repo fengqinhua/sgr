@@ -13,6 +13,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Sgr.Application;
 using Sgr.AspNetCore.ActionFilters;
@@ -23,7 +24,9 @@ using Sgr.ExceptionHandling;
 using Sgr.Exceptions;
 using Sgr.Identity;
 using Sgr.Identity.Services;
+using Sgr.Indentity.Utilities;
 using Sgr.Indentity.ViewModels;
+using Sgr.Utilities;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -58,6 +61,17 @@ namespace Sgr.Indentity.Controllers
             _jwtOptions = jwtOptions;
         }
 
+
+        [HttpGet]
+        [Route("captcha")]
+        public FileResult GetCaptcha()
+        {
+            Tuple<string, byte[]> captchaCode = _jwtOptions.CaptchaIsArithmetic ? CaptchaHelper.CreateArithmeticCaptcha() : CaptchaHelper.CreateCaptcha();
+            this.HttpContext.Response.Headers["sgr-captcha"] = buildCaptchaCode(captchaCode.Item1);
+            return File(captchaCode.Item2, @"image/jpeg");
+        }
+
+
         /// <summary>
         /// 获取令牌
         /// </summary>
@@ -74,8 +88,17 @@ namespace Sgr.Indentity.Controllers
             Check.StringNotNullOrEmpty(model.Name, nameof(model.Name));
             Check.StringNotNullOrEmpty(model.Password, nameof(model.Password));
 
-            if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.Name}-{model.Password}"))
-                return this.CustomBadRequest("获取令牌时，参数中的签名Signature验证失败!");
+            if (_jwtOptions.UseSignature)
+            {
+                if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.Name}-{model.Password}"))
+                    return this.CustomBadRequest("获取令牌时，参数中的签名Signature验证失败!");
+            }
+
+            if (_jwtOptions.UseCaptcha)
+            {
+                if (model.VerificationHash != buildCaptchaCode(model.VerificationCode))
+                    return this.CustomBadRequest("验证码错误!");
+            }
 
             var loginResult = await _accountService.ValidateAccountAsync(model.Name, model.Password);
 
@@ -116,10 +139,13 @@ namespace Sgr.Indentity.Controllers
         {
             Check.NotNull(model, nameof(model));
             Check.StringNotNullOrEmpty(model.RefrashToken, nameof(model.RefrashToken));
-            Check.StringNotNullOrEmpty(model.AccessToken, nameof(model.AccessToken)); 
+            Check.StringNotNullOrEmpty(model.AccessToken, nameof(model.AccessToken));
 
-            if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.AccessToken}-{model.RefrashToken}"))
-                return this.CustomBadRequest("刷新令牌时，参数中的签名Signature验证失败!");
+            if (_jwtOptions.UseSignature)
+            {
+                if (!_signatureChecker.VerifySignature(model.Signature, model.Timestamp, model.Nonce, $"{model.AccessToken}-{model.RefrashToken}"))
+                    return this.CustomBadRequest("刷新令牌时，参数中的签名Signature验证失败!");
+            }
 
             ClaimsPrincipal? claimsPrincipal = _jwtService.ValidateAccessToken(model.AccessToken!, _jwtOptions);
             if(claimsPrincipal == null)
@@ -217,5 +243,11 @@ namespace Sgr.Indentity.Controllers
                 _ => "未知的",
             };
         }
+
+        private static string buildCaptchaCode(string code)
+        {
+            return HashHelper.CreateMd5($"sgr-{code.ToLower()}-captcha");
+        }
+
     }
 }

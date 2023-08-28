@@ -21,9 +21,7 @@ namespace Sgr.Security
     {
         public FunctionPermissionRequirement(FunctionPermission permission)
         {
-            if (permission == null)
-                throw new ArgumentNullException(nameof(permission));
-            Permission = permission;
+            Permission = permission ?? throw new ArgumentNullException(nameof(permission));
         }
 
         public FunctionPermission Permission { get; set; }

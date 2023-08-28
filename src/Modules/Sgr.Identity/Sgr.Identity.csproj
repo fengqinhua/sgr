@@ -7,11 +7,16 @@
 		<OutputType>Library</OutputType>
 		<RootNamespace />
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="SkiaSharp" Version="$(SkiaSharpVersion)" />
+	  <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="$(SkiaSharpVersion)" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\Basiclibrary\Sgr.Identity.Core\Sgr.Identity.Core.csproj" />
 		<ProjectReference Include="..\..\Basiclibrary\Sgr.Module.Targets\Sgr.Module.Targets.csproj" />
 	</ItemGroup>
 
-
+	
 </Project>

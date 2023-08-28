@@ -29,6 +29,8 @@
 		<FluentValidationVersion>11.7.1</FluentValidationVersion>
 		<!--认证-->
 		<MicrosoftAspNetCoreAuthenticationJwtBearerVersion>6.0.21</MicrosoftAspNetCoreAuthenticationJwtBearerVersion>
+		<!--图像处理-->
+		<SkiaSharpVersion>2.88.5</SkiaSharpVersion>
 	</PropertyGroup>
 
 	<!--项目设置-->

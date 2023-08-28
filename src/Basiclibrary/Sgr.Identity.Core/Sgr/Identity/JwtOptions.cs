@@ -40,6 +40,19 @@ namespace Sgr.Identity
         public int ExpireSeconds { get; set; }
 
         /// <summary>
+        /// 是否启用签名验证
+        /// </summary>
+        public bool UseSignature { get; set; }
+        /// <summary>
+        /// 是否启用验证码
+        /// </summary>
+        public bool UseCaptcha { get; set; }
+        /// <summary>
+        /// 验证码是否为算术公式
+        /// </summary>
+        public bool CaptchaIsArithmetic { get; set; }
+
+        /// <summary>
         /// 创建缺省配置项
         /// </summary>
         /// <returns></returns>
@@ -50,7 +63,10 @@ namespace Sgr.Identity
                 Audience = "SGR",
                 ExpireSeconds = 60,
                 Issuer = "SGR",
-                Key = Guid.NewGuid().ToString("D").ToUpper()
+                Key = Guid.NewGuid().ToString("D").ToUpper(),
+                UseSignature = false,
+                UseCaptcha = false,
+                CaptchaIsArithmetic = true
             };
         }
     }

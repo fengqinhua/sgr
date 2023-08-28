@@ -38,6 +38,10 @@ namespace Sgr.Indentity.ViewModels
         /// 验证码
         /// </summary>
         public string VerificationCode { get; set; } = string.Empty;
+        /// <summary>
+        /// 验证码Hash值
+        /// </summary>
+        public string VerificationHash { get; set; } = string.Empty;
 
     }
 }

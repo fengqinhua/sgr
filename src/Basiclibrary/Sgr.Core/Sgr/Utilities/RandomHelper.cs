@@ -107,10 +107,10 @@ namespace Sgr.Utilities
             //if (useNum == true) { str += "0123456789"; }
             //if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
             //if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
-            if (useNum == true) { str += "123456789"; }
-            if (useLow == true) { str += "abcdefghijklmnpqrstuvwxyz"; }
-            if (useUpp == true) { str += "ABCDEFGHIJKLMNPQRSTUVWXYZ"; }
-            if (useSpe == true) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
+            if (useNum) { str += "123456789"; }
+            if (useLow) { str += "abcdefghijklmnpqrstuvwxyz"; }
+            if (useUpp) { str += "ABCDEFGHIJKLMNPQRSTUVWXYZ"; }
+            if (useSpe) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
 
             for (int i = 0; i < length; i++)
             {

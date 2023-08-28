@@ -38,7 +38,6 @@ namespace Sgr.AuditLogs
             else
                 services.AddTransient<IAuditLogService, AuditLogService>();
 
-
             services.AddTransient<ILogOperateQueries, LogOperateQueries>();
 
             EntityFrameworkTypeRegistrar.Instance.Register<SgrDbContext, AuditLogsEntityFrameworkTypeProvider>();
