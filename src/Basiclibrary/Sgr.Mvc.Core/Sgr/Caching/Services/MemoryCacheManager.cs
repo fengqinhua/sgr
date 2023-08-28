@@ -16,23 +16,20 @@ using Microsoft.Extensions.Primitives;
 using Sgr.Exceptions;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Sgr.Caching.Services
 {
     public class MemoryCacheManager : ICacheManager
     {
-        private static readonly object _mutex = new();
+        //private static readonly object _mutex = new();
 
         private bool _disposed;
         private CancellationTokenSource _clearToken = new();
 
-        private readonly List<string> _keysList = new();
+        private readonly ConcurrentDictionary<string,byte> _keysList = new();
 
         private readonly CacheOptions _cacheOptions;
         private readonly IMemoryCache _memoryCache;
@@ -45,13 +42,13 @@ namespace Sgr.Caching.Services
 
         #region ICacheManager
 
-        public Task SetAsync(string key, object obj, CacheEntryOptions? cacheEntryOptions)
+        public Task SetAsync(string key, object obj, CacheEntryOptions? cacheEntryOptions = null)
         {
             Set(key, obj, cacheEntryOptions);
             return Task.CompletedTask;
         }
 
-        public void Set(string key, object obj, CacheEntryOptions? cacheEntryOptions)
+        public void Set(string key, object obj, CacheEntryOptions? cacheEntryOptions = null)
         {
             if (string.IsNullOrEmpty(key))
                 return;
@@ -64,7 +61,7 @@ namespace Sgr.Caching.Services
             OnAddKey(key);
         }
 
-        public async Task<TData> GetAsync<TData>(string key, Func<Task<TData>> acquire, CacheEntryOptions? cacheEntryOptions)
+        public async Task<TData> GetAsync<TData>(string key, Func<Task<TData>> acquire, CacheEntryOptions? cacheEntryOptions = null)
         {
             if (string.IsNullOrEmpty(key))
                 throw new BusinessException("ICacheManager.GetAsync Parameter Key Is Null Or Empty!");
@@ -90,7 +87,7 @@ namespace Sgr.Caching.Services
             return result!;
         }
 
-        public async Task<TData> GetAsync<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions)
+        public async Task<TData> GetAsync<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions = null)
         {
             if (string.IsNullOrEmpty(key))
                 throw new BusinessException("ICacheManager.GetAsync Parameter Key Is Null Or Empty!");
@@ -116,7 +113,7 @@ namespace Sgr.Caching.Services
             return result!;
         }
 
-        public TData Get<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions)
+        public TData Get<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions = null)
         {
             if (string.IsNullOrEmpty(key))
                 return acquire();
@@ -162,15 +159,19 @@ namespace Sgr.Caching.Services
 
         public void RemoveByPrefix(string prefix)
         {
-            lock (_mutex)
+            var keys = _keysList
+                .Keys
+                .Where(key => key.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
+                .ToList();
+
+            //var keys = _keysList.Where(kv => kv.Key.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
+            //    .Select(kv => kv.Key)
+            //    .ToList();
+
+            foreach (var key in keys)
             {
-                foreach (var key in _keysList
-                    .Where(key => key.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase))
-                    .ToList())
-                {
-                    _memoryCache.Remove(key);
-                    _keysList.Remove(key);
-                }
+                _memoryCache.Remove(key);
+                _keysList.TryRemove(key, out _);
             }
         }
 
@@ -236,12 +237,11 @@ namespace Sgr.Caching.Services
             //设置过期时间
             var options = new MemoryCacheEntryOptions();
 
-            if (cacheEntryOptions != null)
-            {
-                options.SlidingExpiration = cacheEntryOptions!.SlidingExpiration;
-                options.AbsoluteExpirationRelativeToNow = cacheEntryOptions!.AbsoluteExpirationRelativeToNow;
-                options.AbsoluteExpiration = cacheEntryOptions!.AbsoluteExpiration;
-            }
+            cacheEntryOptions ??= CreateCacheEntryOptions();
+
+            options.SlidingExpiration = cacheEntryOptions!.SlidingExpiration;
+            options.AbsoluteExpirationRelativeToNow = cacheEntryOptions!.AbsoluteExpirationRelativeToNow;
+            options.AbsoluteExpiration = cacheEntryOptions!.AbsoluteExpiration;
 
             //设置清理缓存所需的令牌
             options.AddExpirationToken(new CancellationChangeToken(_clearToken.Token));
@@ -251,20 +251,12 @@ namespace Sgr.Caching.Services
 
         protected virtual void OnAddKey(string key)
         {
-            lock (_mutex)
-            {
-                if (!_keysList.Contains(key))
-                    _keysList.Add(key);
-            }
+            _keysList.TryAdd(key, default);
         }
 
         protected virtual void OnRemoveKey(string key)
         {
-            lock (_mutex)
-            {
-                if (!_keysList.Contains(key))
-                    _keysList.Remove(key);
-            }
+            _keysList.TryRemove(key, out _);
         }
 
     }

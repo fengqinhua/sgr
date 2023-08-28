@@ -39,17 +39,17 @@ namespace Sgr.Caching.Services
             throw new NotImplementedException();
         }
 
-        public TData Get<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions)
+        public TData Get<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TData> GetAsync<TData>(string key, Func<Task<TData>> acquire, CacheEntryOptions? cacheEntryOptions)
+        public Task<TData> GetAsync<TData>(string key, Func<Task<TData>> acquire, CacheEntryOptions? cacheEntryOptions = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TData> GetAsync<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions)
+        public Task<TData> GetAsync<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions = null)
         {
             throw new NotImplementedException();
         }

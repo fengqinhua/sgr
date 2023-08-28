@@ -12,6 +12,7 @@ using Sgr.Utilities;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sgr.Admin.WebHost
@@ -63,11 +64,9 @@ namespace Sgr.Admin.WebHost
                 options.AddSgrAuthenticationHeader();
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"Sgr.Admin.WebHost.xml"));
             });
-
-
-
+ 
             var app = builder.Build();
-
+            
             //// Configure the HTTP request pipeline.
             //if (!app.Environment.IsDevelopment())
             //{

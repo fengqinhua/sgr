@@ -26,5 +26,14 @@ namespace Sgr.Caching
         /// 绝对过期时间（秒数）的缺省值
         /// </summary>
         public int? DefaultAbsoluteExpirationSecond { get; set; }
+
+        public static CacheOptions CreatDefault()
+        {
+            return new CacheOptions()
+            {
+                DefaultSlidingExpirationSecond = 3600,
+                DefaultAbsoluteExpirationSecond = 600
+            };
+        }
     }
 }

@@ -13,9 +13,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Sgr.Application;
 using Sgr.AspNetCore.ActionFilters;
+using Sgr.AuditLogs;
 using Sgr.Domain.Entities;
+using Sgr.Domain.Repositories;
 using Sgr.ExceptionHandling;
 using Sgr.Exceptions;
 using Sgr.Identity;
@@ -44,7 +47,7 @@ namespace Sgr.Indentity.Controllers
         private readonly JwtOptions _jwtOptions;
 
 
-        public OAuthController(ISignatureChecker signatureChecker, 
+        public OAuthController(ISignatureChecker signatureChecker,
             IAccountService accountService,
             IJwtService jwtService,
             JwtOptions jwtOptions)
@@ -76,24 +79,29 @@ namespace Sgr.Indentity.Controllers
 
             var loginResult = await _accountService.ValidateAccountAsync(model.Name, model.Password);
 
-            switch (loginResult.Item1)
+            if (loginResult.Item1 == AccountLoginResults.Success)
             {
-                case AccountLoginResults.Success:
-
-                    if (loginResult.Item2 == null)
-                        return this.CustomBadRequest("创建令牌时的账号信息为空!");
-
+                if (loginResult.Item2 != null)
+                {
                     TokenModel tokenModel = await creatTokenModel(loginResult.Item2!);
+                    await createLoginLog(loginResult.Item2!.OrgId, loginResult.Item2!.LoginName, false, true, "");
                     return Ok(tokenModel);
-                case AccountLoginResults.IsDeactivate:
-                    return this.CustomBadRequest("账号被禁用!");
-                case AccountLoginResults.WrongPassword:
-                case AccountLoginResults.NotExist:
-                default:
-                    return this.CustomBadRequest("账号或密码错误!");
+                }
+                else
+                {
+                    string msg = "创建令牌时的账号信息为空!";
+                    await createLoginLog("", model.Name, false, false, msg);
+                    return this.CustomBadRequest(msg);
+                }
             }
-
+            else
+            {
+                string msg = getMessageFromAccountLoginResults(loginResult.Item1);
+                await createLoginLog(loginResult.Item2?.OrgId ?? "", model.Name, false, false, msg);
+                return this.CustomBadRequest(msg);
+            }
         }
+
 
         /// <summary>
         /// 刷新令牌
@@ -117,29 +125,40 @@ namespace Sgr.Indentity.Controllers
             if(claimsPrincipal == null)
                 return this.CustomBadRequest("AccessToken无法解析!");
 
-            var loginName = (claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value);
-            if(loginName == null)
+            var userId = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+            if(userId == null)
                 return this.CustomBadRequest("AccessToken中无法获取用户标识!");
 
-            var validateResult = await _accountService.ValidateRefreshTokenAsync(loginName, model.RefrashToken!);
-            switch(validateResult.Item1) 
+            var validateResult = await _accountService.ValidateRefreshTokenAsync(userId, model.RefrashToken!);
+
+            if(validateResult.Item1 == ValidateRefreshTokenResults.Success)
             {
-                case ValidateRefreshTokenResults.Success:
-
-                    if (validateResult.Item2 == null)
-                        return this.CustomBadRequest("刷新令牌时的账号信息为空!");
-
+                if(validateResult.Item2 != null)
+                {
                     TokenModel tokenModel = await creatTokenModel(validateResult.Item2!);
+                    await createLoginLog(validateResult.Item2!.OrgId, validateResult.Item2!.LoginName, true, true, "");
                     return Ok(tokenModel);
 
-                case ValidateRefreshTokenResults.Expire:
-                    return this.CustomBadRequest("RefreshToken已过期!");
-                case ValidateRefreshTokenResults.NotExist:
-                default:
-                    return this.CustomBadRequest("RefreshToken不存在!");
+                }
+                else
+                {
+                    string msg = "刷新令牌时的账号信息为空!";
+
+                    var userName = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+                    var orgId = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == Constant.CLAIM_USER_ORGID)?.Value;
+                    await createLoginLog(orgId ?? "", userName ?? "", true, false, msg);
+
+                    return this.CustomBadRequest(msg);
+                }
+            }
+            else
+            {
+                string msg = getMessageFromValidateRefreshTokenResults(validateResult.Item1);
+                var userName = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+                await createLoginLog(validateResult.Item2?.OrgId ?? "", userName ?? "", true, false, msg);
+                return this.CustomBadRequest(msg);
             }
         }
-
 
         private async Task<TokenModel> creatTokenModel(Account account)
         {
@@ -147,9 +166,9 @@ namespace Sgr.Indentity.Controllers
             //创建访问令牌
             var claims = new Claim[]
             {
-                        new Claim(ClaimTypes.Name, account.LoginName),
-                        new Claim(JwtRegisteredClaimNames.Sub, account.Id),
-                        new Claim(Constant.CLAIM_USER_ORGID, account.OrgId),
+                new Claim(ClaimTypes.Name, account.LoginName),
+                new Claim(JwtRegisteredClaimNames.Sub, account.Id.ToString()),
+                new Claim(Constant.CLAIM_USER_ORGID, account.OrgId.ToString()),
             };
             tokenModel.AccessToken = _jwtService.CreateAccessToken(claims, _jwtOptions);
             //创建刷新令牌
@@ -159,6 +178,44 @@ namespace Sgr.Indentity.Controllers
             return tokenModel;
         }
 
+        private Task createLoginLog(string orgId,string loginName, bool fromRefreshToken, bool status, string remarks)
+        {
+            var httpUserAgentProvider = this.HttpContext.RequestServices.GetRequiredService<IHttpUserAgentProvider>();
+            var httpUserAgent = httpUserAgentProvider.Analysis(this.HttpContext);
 
+            return _accountService.CreateLoginLog(loginName,
+               this.HttpContext.GetClientIpAddress(),
+               fromRefreshToken ? "账号密码登录" : "更新令牌",
+               httpUserAgent.BrowserInfo,
+               httpUserAgent.Os,
+               status,
+               remarks,
+               orgId);
+        }
+
+        private static string getMessageFromAccountLoginResults(AccountLoginResults accountLoginResults)
+        {
+            return accountLoginResults switch
+            {
+                AccountLoginResults.IsDeactivate => "账号被禁用!",
+                AccountLoginResults.IsDelete => "账号被删除!",
+                AccountLoginResults.IsLock => "账号被锁定!",
+                AccountLoginResults.WrongPassword or AccountLoginResults.NotExist => "账号或密码错误!",
+                AccountLoginResults.Success => "成功",
+                _ => "未知的",
+            };
+        }
+
+        private static string getMessageFromValidateRefreshTokenResults(ValidateRefreshTokenResults validateRefreshTokenResults)
+        {
+            return validateRefreshTokenResults switch
+            {
+                ValidateRefreshTokenResults.Expire => "RefreshToken已过期!",
+                ValidateRefreshTokenResults.AccountAbnormal => "账号异常!",
+                ValidateRefreshTokenResults.NotExist => "RefreshToken不存在!",
+                ValidateRefreshTokenResults.Success => "成功",
+                _ => "未知的",
+            };
+        }
     }
 }

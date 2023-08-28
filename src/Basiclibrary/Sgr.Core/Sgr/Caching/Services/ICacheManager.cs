@@ -19,12 +19,12 @@ namespace Sgr.Caching.Services
 {
     public interface ICacheManager : IDisposable
     {
-        //void Set(string key, object obj, CacheEntryOptions? cacheEntryOptions);
-        //Task SetAsync(string key, object obj, CacheEntryOptions? cacheEntryOptions);
+        //void Set(string key, object obj, CacheEntryOptions? cacheEntryOptions= null);
+        //Task SetAsync(string key, object obj, CacheEntryOptions? cacheEntryOptions= null);
 
-        Task<TData> GetAsync<TData>(string key, Func<Task<TData>> acquire, CacheEntryOptions? cacheEntryOptions);
-        Task<TData> GetAsync<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions);
-        TData Get<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions);
+        Task<TData> GetAsync<TData>(string key, Func<Task<TData>> acquire, CacheEntryOptions? cacheEntryOptions = null);
+        Task<TData> GetAsync<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions = null);
+        TData Get<TData>(string key, Func<TData> acquire, CacheEntryOptions? cacheEntryOptions = null);
 
         Task RemoveAsync(string key);
         void Remove(string key);

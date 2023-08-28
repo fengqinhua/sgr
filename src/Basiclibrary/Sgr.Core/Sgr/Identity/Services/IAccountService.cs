@@ -20,45 +20,40 @@ namespace Sgr.Identity.Services
 {
     public interface IAccountService
     {
-        ///// <summary>
-        ///// 根据登录名称获取账号信息
-        ///// </summary>
-        ///// <param name="loginName"></param>
-        ///// <returns></returns>
-        //Task<Account?> GetAccountByLoginNameAsync(string loginName);
-        /// <summary>
-        /// 创建刷新Token
-        /// </summary>
-        /// <param name="loginName">登录名称</param>
-        /// <param name="refreshToken">刷新令牌</param>
-        /// <param name="minutes">刷新令牌有效时长（分钟）,默认12小时</param>
-        Task CreateRefreshTokenAsync(string loginName, string refreshToken, int minutes = 720);
         /// <summary>
         /// 执行登录（验证账号和密码是否正确）
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="loginName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<Tuple<AccountLoginResults, Account?>> ValidateAccountAsync(string name, string password);
+        Task<Tuple<AccountLoginResults, Account?>> ValidateAccountAsync(string loginName, string password);
+        /// <summary>
+        /// 创建刷新Token
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="refreshToken">刷新令牌</param>
+        /// <param name="minutes">刷新令牌有效时长（分钟）,默认12小时</param>
+        Task CreateRefreshTokenAsync(string userId, string refreshToken, int minutes = 720);
         /// <summary>
         /// 验证刷新Token是否有效
         /// </summary>
-        /// <param name="loginName">登录名称</param>
+        /// <param name="userId">用户标识</param>
         /// <param name="refreshToken">刷新令牌</param>
         /// <returns></returns>
-        Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string loginName, string refreshToken);
-        /// <summary>
-        /// 根据账号Id获取账号信息
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task<Account?> GetAccountByUserIdAsync(string userId);
-        /// <summary>
-        /// 获取账户关联的角色列表
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task<AccountRoles> GetAccountRoleIdsAsync(string userId);
+        Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string userId, string refreshToken);
 
+        /// <summary>
+        /// 创建登录日志
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <param name="ipAddress"></param>
+        /// <param name="loginWay"></param>
+        /// <param name="clientBrowser"></param>
+        /// <param name="clientOs"></param>
+        /// <param name="status"></param>
+        /// <param name="remark"></param>
+        /// <param name="orgId"></param>
+        /// <returns></returns>
+        Task CreateLoginLog(string loginName, string ipAddress, string loginWay, string clientBrowser, string clientOs, bool status, string remark, string orgId);
     }
 }

@@ -21,6 +21,17 @@ namespace Sgr.UPMS.Domain.LogLogins
     /// </summary>
     public class LogLogin : CreationAuditedEntity<long, long>, IAggregateRoot, IMustHaveOrg<long>
     {
+        public LogLogin() { }
+
+
+        public LogLogin(string loginName, long orgId) : this()
+        {
+            LoginName = loginName;
+            OrgId = orgId;
+        }
+
+
+
         /// <summary>
         /// 登录账号
         /// </summary>

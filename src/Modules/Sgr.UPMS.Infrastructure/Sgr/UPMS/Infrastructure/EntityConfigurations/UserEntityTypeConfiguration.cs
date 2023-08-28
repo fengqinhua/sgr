@@ -34,9 +34,12 @@ namespace Sgr.UPMS.Infrastructure.EntityConfigurations
                 .IsRequired()
                 .HasComment("登录成功次数");
 
-            builder.PropertyAndHasColumnName(b => b.LoginFailCount, GetColumnNameCase())
+            builder.PropertyAndHasColumnName(b => b.FailedLoginAttempts, GetColumnNameCase())
                 .IsRequired()
-                .HasComment("登录失败次数");
+                .HasComment("连续登录失败次数");
+
+            builder.PropertyAndHasColumnName(b => b.CannotLoginUntilUtc, GetColumnNameCase())
+                .HasComment("禁止登录的截止时间");
 
             builder.PropertyAndHasColumnName(b => b.UserName, GetColumnNameCase())
                 .HasMaxLength(200)

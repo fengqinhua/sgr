@@ -19,6 +19,8 @@ using Sgr.AuditLogs.Queries;
 using Sgr.AuditLogs.Services;
 using Sgr.EntityFrameworkCore;
 using Sgr.Modules;
+using Sgr.Security;
+using System.Linq;
 
 namespace Sgr.AuditLogs
 {
@@ -31,7 +33,11 @@ namespace Sgr.AuditLogs
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
+            if (services.Any(f => f.ServiceType == typeof(IAuditLogService)))
+                services.Replace(ServiceDescriptor.Transient<IAuditLogService, AuditLogService>());
+            else
+                services.AddTransient<IAuditLogService, AuditLogService>();
+
 
             services.AddTransient<ILogOperateQueries, LogOperateQueries>();
 

@@ -22,6 +22,7 @@ using Sgr.Identity.Services;
 using Sgr.Security;
 using Sgr.Security.AuthorizationHandlers;
 using Microsoft.AspNetCore.Authorization;
+using Sgr.Caching;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -35,6 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddSgrCore(configuration);
 
+            AddSgrCaching(services, configuration);
             AddUserIdentity(services);
             AddSgrPoweredBy(services);
             AddModules(services, environment);
@@ -44,11 +46,17 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddSgrCaching(this IServiceCollection services)
+        public static IServiceCollection AddSgrCaching(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMemoryCache();
 
-            services.TryAddSingleton<ICacheManager, MemoryCacheManager>();
+            CacheOptions cacheOptions = configuration.GetSection("Sgr:Caching").Get<CacheOptions>() ?? CacheOptions.CreatDefault();
+            services.AddSingleton(cacheOptions);
+
+            if (services.Any(f => f.ServiceType == typeof(ICacheManager)))
+                services.Replace(ServiceDescriptor.Singleton<ICacheManager, MemoryCacheManager>());
+            else
+                services.AddSingleton<ICacheManager, MemoryCacheManager>();
 
             return services;
         }
@@ -74,8 +82,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddUserIdentity(this IServiceCollection services)
         {
             services.AddSingleton<ICurrentUser, DefaultCurrentUser>();
+            services.AddSingleton<IFunctionPermissionGrantingService, NoFunctionPermissionGrantingService>();
 
-            services.AddScoped<IFunctionPermissionGrantingService, DefaultFunctionPermissionGrantingService>();
             services.AddScoped<IAuthorizationHandler, FunctionPermissionHandler>();
 
             return services; 

@@ -35,6 +35,14 @@ namespace Sgr.Identity
         /// <summary>
         /// 账号被禁用
         /// </summary>
-        IsDeactivate = 3
+        IsDeactivate = 3,
+        /// <summary>
+        /// 账号被删除
+        /// </summary>
+        IsDelete = 4,
+        /// <summary>
+        /// 账号被锁定
+        /// </summary>
+        IsLock = 5
     }
 }

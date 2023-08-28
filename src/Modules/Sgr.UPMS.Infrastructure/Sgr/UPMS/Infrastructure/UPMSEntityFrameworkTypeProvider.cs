@@ -18,6 +18,7 @@ using Sgr.UPMS.Domain.LogLogins;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Roles;
 using Sgr.UPMS.Domain.Users;
+using Sgr.UPMS.Domain.UserTokens;
 using Sgr.UPMS.Infrastructure.EntityConfigurations;
 
 namespace Sgr.UPMS.Infrastructure
@@ -38,6 +39,8 @@ namespace Sgr.UPMS.Infrastructure
             modelBuilder.Entity<User>();
             modelBuilder.Entity<UserDuty>();
             modelBuilder.Entity<UserRole>();
+
+            modelBuilder.Entity<UserRefreshToken>();
         }
 
         public void RegisterEntityConfigurations(ModelBuilder modelBuilder)
@@ -54,6 +57,8 @@ namespace Sgr.UPMS.Infrastructure
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserDutyEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new UserRefreshTokenConfiguration());
         }
     }
 }

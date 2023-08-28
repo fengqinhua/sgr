@@ -42,6 +42,8 @@ namespace Sgr.UPMS.Application.DomainEventHandlers
             {
                 user.BindDepartment(0, "");
             }
+
+            await _sgrDbContext.SaveEntitiesAsync(cancellationToken);
         }
     }
 }

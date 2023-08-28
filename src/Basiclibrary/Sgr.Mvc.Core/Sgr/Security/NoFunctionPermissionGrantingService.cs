@@ -21,38 +21,11 @@ using Sgr.Identity;
 
 namespace Sgr.Security
 {
-    public class DefaultFunctionPermissionGrantingService : IFunctionPermissionGrantingService
+    public class NoFunctionPermissionGrantingService : IFunctionPermissionGrantingService
     {
-        private readonly IRoleService _roleService;
-        private readonly IAccountService _accountService;
-
-        public DefaultFunctionPermissionGrantingService(IAccountService accountService, IRoleService roleService)
+        public virtual Task<bool> IsGrantedAsync(string userId, string functionPermissionName)
         {
-            _accountService = accountService;
-            _roleService = roleService;
-        }
-
-        public async Task<bool> IsGrantedAsync(string userId, string functionPermissionName)
-        {
-            if (string.IsNullOrEmpty(functionPermissionName))
-                return false;
-
-            AccountRoles accountRoleIds = await _accountService.GetAccountRoleIdsAsync(userId);
-            
-            if (accountRoleIds.IsAdmin)
-                return true;
-
-            foreach (string accountRoleId in accountRoleIds.RoleIds)
-            {
-                IEnumerable<string> permissions = await _roleService.GetFunctionalPermissionNamesByAccountRoleIdAsync(accountRoleId);
-                foreach (var permission in permissions)
-                {
-                    if (functionPermissionName.Equals(permission, StringComparison.InvariantCultureIgnoreCase))
-                        return true;
-                }
-            }
-
-            return false;
+            return Task.FromResult(true);
         }
 
         public Task<bool> IsGrantedAsync(string userId, FunctionPermissionRequirement requirement)

@@ -94,12 +94,23 @@ namespace Sgr.UPMS.Domain.Roles
         /// <param name="resourceCode"></param>
         public void AddPermission(ResourceType resourceType, string resourceCode)
         {
-            var roleResource = _resources.SingleOrDefault(f => f.ResourceType == resourceType && f.ResourceCode == resourceCode);
+            var roleResource = _resources.FirstOrDefault(f => f.ResourceType == resourceType && f.ResourceCode == resourceCode);
             if (roleResource == null)
             {
                 roleResource = new RoleResource(resourceType, resourceCode);
                 _resources.Add(roleResource);
             }
+        }
+
+        /// <summary>
+        /// 是否存在某权限
+        /// </summary>
+        /// <param name="resourceType"></param>
+        /// <param name="resourceCode"></param>
+        /// <returns></returns>
+        public bool AnyPermission(ResourceType resourceType, string resourceCode)
+        {
+            return _resources.Any(f => f.ResourceType == resourceType && f.ResourceCode == resourceCode);
         }
 
         /// <summary>

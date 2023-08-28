@@ -13,9 +13,15 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Sgr.AuditLogs.Services;
+using Sgr.Caching;
 using Sgr.EntityFrameworkCore;
+using Sgr.Identity.Services;
 using Sgr.Modules;
+using Sgr.Security;
 using Sgr.UPMS.Application.Commands.Departments;
 using Sgr.UPMS.Application.Commands.Duties;
 using Sgr.UPMS.Application.Commands.Organizations;
@@ -33,9 +39,11 @@ using Sgr.UPMS.Domain.LogLogins;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Roles;
 using Sgr.UPMS.Domain.Users;
+using Sgr.UPMS.Domain.UserTokens;
 using Sgr.UPMS.Infrastructure;
 using Sgr.UPMS.Infrastructure.Checkers;
 using Sgr.UPMS.Infrastructure.Repositories;
+using System.Linq;
 
 namespace Sgr.UPMS.API
 {
@@ -89,8 +97,23 @@ namespace Sgr.UPMS.API
             services.AddTransient<IValidator<CreateDepartmentCommand>, CreateDepartmentCommandValidator>();
             services.AddTransient<IValidator<UpdateDepartmentCommand>, UpdateDepartmentCommandValidator>();
 
+            //认证与授权相关服务实现
+
+            if (services.Any(f => f.ServiceType == typeof(IAccountService)))
+                services.Replace(ServiceDescriptor.Scoped<IAccountService, UpmsAccountService>());
+            else
+                services.AddScoped<IAccountService, UpmsAccountService>();
+
+            if (services.Any(f => f.ServiceType == typeof(IFunctionPermissionGrantingService)))
+                services.Replace(ServiceDescriptor.Singleton<IFunctionPermissionGrantingService, UpmsFunctionPermissionGrantingService>());
+            else
+                services.AddSingleton<IFunctionPermissionGrantingService, UpmsFunctionPermissionGrantingService>();
+
             //其它
             services.AddScoped<ILogLoginRepository, LogLoginRepository>();
+            services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
+
+
 
             EntityFrameworkTypeRegistrar.Instance.Register<SgrDbContext, UPMSEntityFrameworkTypeProvider>();
             services.AddMediatR(cfg =>
@@ -98,7 +121,11 @@ namespace Sgr.UPMS.API
                 cfg.RegisterServicesFromAssemblyContaining<ModuleStartup>();
             });
 
-            
+            services.AddSingleton((sp) =>
+            {
+                IConfiguration configuration = sp.GetRequiredService<IConfiguration>();
+                return configuration.GetSection("Sgr:Upms").Get<UpmsOptions>() ?? UpmsOptions.CreatDefault();
+            });
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Sgr.Security.AuthorizationHandlers
         {
             if (context.HasSucceeded || !(context?.User?.Identity?.IsAuthenticated ?? false))
                 return;
-
+       
             if (await _permissionGrantingService.IsGrantedAsync(context.User, requirement))
                 context.Succeed(requirement);
         }

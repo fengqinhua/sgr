@@ -19,49 +19,24 @@ namespace Sgr.Identity.Services
 {
     public class NoAccountService : IAccountService
     {
-        public Task CreateRefreshTokenAsync(string loginName, string refreshToken, int minutes = 720)
+        public Task CreateLoginLog(string loginName, string ipAddress, string loginWay, string clientBrowser, string clientOs, bool status, string remark, string orgId)
         {
             return Task.CompletedTask;
         }
 
-        public Task<Tuple<AccountLoginResults, Account?>> ValidateAccountAsync(string name, string password)
+        public Task CreateRefreshTokenAsync(string userId, string refreshToken, int minutes = 720)
         {
-            //return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.Success, new Account("1", "1", "admin")));
+            return Task.CompletedTask;
+        }
 
+        public Task<Tuple<AccountLoginResults, Account?>> ValidateAccountAsync(string loginName, string password)
+        {
             return Task.FromResult(new Tuple<AccountLoginResults, Account?>(AccountLoginResults.NotExist, null));
         }
 
-        /// <summary>
-        /// 验证刷新Token是否有效
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="refreshToken"></param>
-        /// <returns></returns>
         public Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string userId, string refreshToken)
         {
-            //return Task.FromResult(new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.Success, new Account("1", "1", "admin")));
             return Task.FromResult(new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.Expire, null));
-        }
-
-        /// <summary>
-        /// 根据账号Id获取账号信息
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public Task<Account?> GetAccountByUserIdAsync(string userId)
-        {
-            return Task.FromResult(default(Account));
-        }
-
-        /// <summary>
-        /// 获取账户关联的角色列表
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public Task<AccountRoles> GetAccountRoleIdsAsync(string userId)
-        {
-            AccountRoles result = new AccountRoles(new List<string>());
-            return Task.FromResult(result);
         }
     }
 }

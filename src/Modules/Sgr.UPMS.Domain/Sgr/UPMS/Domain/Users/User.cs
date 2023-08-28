@@ -80,9 +80,13 @@ namespace Sgr.UPMS.Domain.Users
         /// </summary>
         public int LoginSuccessCount { get; private set; } = 0;
         /// <summary>
-        /// 登录失败次数
+        /// 连续登录失败次数
         /// </summary>
-        public int LoginFailCount { get; private set; } = 0;
+        public int FailedLoginAttempts { get; private set; } = 0;
+        /// <summary>
+        /// 禁止登录的截止时间
+        /// </summary>
+        public DateTimeOffset? CannotLoginUntilUtc { get; set; }
 
         /// <summary>
         /// 用户姓名
@@ -143,20 +147,33 @@ namespace Sgr.UPMS.Domain.Users
         #region 密码与登录相关
 
         /// <summary>
-        /// 执行登录完成
+        /// 登录成功
         /// </summary>
-        /// <param name="status">是否成功</param>
-        public void LoginComplete(bool status)
+        public void LoginSuccess()
         {
             if (FirstLoginTime == null)
                 FirstLoginTime = DateTimeOffset.UtcNow;
-
             LastLoginTime = DateTimeOffset.UtcNow;
 
-            if (status)
-                LoginSuccessCount += 1;
-            else
-                LoginFailCount += 1;
+            LoginSuccessCount += 1;
+            FailedLoginAttempts = 0;
+        }
+
+        /// <summary>
+        /// 登录失败
+        /// </summary>
+        public void LoginFail()
+        {
+            FailedLoginAttempts += 1;
+        }
+
+        /// <summary>
+        /// 禁止登录
+        /// </summary>
+        public void LoginLock(DateTimeOffset cannotLoginUntilUtc)
+        {
+            CannotLoginUntilUtc = cannotLoginUntilUtc;
+            FailedLoginAttempts = 0;
         }
 
         /// <summary>

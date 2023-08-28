@@ -29,6 +29,10 @@ namespace Sgr.Identity
         /// <summary>
         /// RefreshToken过期
         /// </summary>
-        Expire = 2
+        Expire = 2,
+        /// <summary>
+        /// 账号异常
+        /// </summary>
+        AccountAbnormal = 3
     }
 }

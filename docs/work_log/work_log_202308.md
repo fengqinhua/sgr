@@ -193,5 +193,11 @@
 [基于.NetCore3.1系列 —— 认证授权方案之授权揭秘](https://www.cnblogs.com/i3yuan/p/13275774.html)  
 [为什么HttpContextAccessor要这么设计](https://www.cnblogs.com/InCerry/p/Why-The-Design-HttpContextAccessor.html)  
 
+### 12. 线程安全集合
 
+
+
+参考资料：  
+[.NET框架中的并发HashSet<T>](https://cloud.tencent.com/developer/ask/sof/58784)  
+[自定义一个线程安全的Hashset类](https://github.com/i3arnon/ConcurrentHashSet/blob/main/src/ConcurrentHashSet/ConcurrentHashSet.cs)  
 
