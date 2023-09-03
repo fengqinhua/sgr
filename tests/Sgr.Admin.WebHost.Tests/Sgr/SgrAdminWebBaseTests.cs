@@ -25,22 +25,46 @@ using System.Threading.Tasks;
 
 namespace Sgr.Admin.WebHost.Tests.Sgr
 {
-    public class SgrAdminWebBaseTests
+    public class SgrAdminWebBaseTests :IDisposable
     {
+        private volatile bool _disposedValue;
+        private TestServer testServer;
+
+        public SgrAdminWebBaseTests()
+        {
+            testServer = CreateServer();
+        }
+         
+        public TestServer TestServer { get => testServer;}
+         
         /// <summary>
         /// 构建服务HOST
         /// </summary>
         /// <returns></returns>
-        public  TestServer CreateServer()
+        private static TestServer CreateServer()
         {
             var factory = new SgrApplication();
             return factory.CreateServer();
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    testServer.Dispose();
+                }
 
+                _disposedValue = true;
+            }
+        }
 
-        public string WeatherForecast_Get => "/WeatherForecast";
-
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
 
         private class SgrApplication : WebApplicationFactory<Program>
         {

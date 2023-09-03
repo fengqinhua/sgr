@@ -210,3 +210,9 @@
 [LazyCaptcha是仿EasyCaptcha和SimpleCaptcha,基于.Net Standard 2.1的图形验证码模块](https://www.cnblogs.com/readafterme/p/15890042.html)  
 
 
+### 14. 任务调度
+
+
+参考资料： 
+[cron表达式详细讲解](https://baijiahao.baidu.com/s?id=1761866232950907868&wfr=spider&for=pc)  
+[Quartz.NET Docs](https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html#cron-expressions)  

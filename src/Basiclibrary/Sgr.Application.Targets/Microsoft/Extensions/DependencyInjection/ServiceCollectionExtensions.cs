@@ -34,6 +34,8 @@ namespace Microsoft.Extensions.DependencyInjection
             
             services.AddUserIdentity();
             services.AddSgrPoweredBy();
+            //缓存
+            services.AddSgrCaching(configuration);
             //审计日志
             services.AddSgrAuditLog(applicationOptions.IsAuditFull);
             //异常处理
@@ -42,7 +44,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddModules(environment, applicationOptions.ModuleInfoProvider);
             //Oss文件管理
             services.AddSgrLocalFileSystemOss(configuration);
-            
+            //任务调度
+            services.AddSgrBackGroundTasksCore();
+            services.AddQuartzBackGroundTasks(configuration);
+
             return services;
         }
     }

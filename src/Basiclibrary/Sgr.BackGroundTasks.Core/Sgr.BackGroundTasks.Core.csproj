@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>$(NetstandardVersion)</TargetFramework>
+		<Description>$(SrgDescription)</Description>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Sgr.BackGroundTasks.Abstractions\Sgr.BackGroundTasks.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

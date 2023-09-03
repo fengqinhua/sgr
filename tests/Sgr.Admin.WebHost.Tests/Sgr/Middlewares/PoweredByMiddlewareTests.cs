@@ -24,11 +24,12 @@ namespace Sgr.Admin.WebHost.Tests.Sgr.Middlewares
     [TestClass]
     public class PoweredByMiddlewareTests: SgrAdminWebBaseTests
     {
+        public static string WeatherForecast_Get => "/WeatherForecast";
+
         [TestMethod]
         public async Task CheckPoweredBy()
         {
-            using var server = CreateServer();
-            var response = await server.CreateClient().GetAsync(this.WeatherForecast_Get);
+            var response = await base.TestServer.CreateClient().GetAsync(WeatherForecast_Get);
             var values = response.Headers.GetValues(Constant.POWEREDBY_HEADERNAME);
             Assert.AreEqual(values?.First(), Constant.POWEREDBY_HEADERVALUE);
         }

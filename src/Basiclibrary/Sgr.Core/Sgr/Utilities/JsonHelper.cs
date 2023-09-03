@@ -96,7 +96,20 @@ namespace Sgr.Utilities
         public static string SerializeObject<T>(T data)
         {
             var options = GetJsonSerializerOptions();
-            return JsonSerializer.Serialize<T>(data, options);
+            return JsonSerializer.Serialize(data, options);
+        }
+
+        /// <summary>
+        /// 将实体类序列化为JSON
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputType"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string SerializeObject<T>(Type inputType, object value)
+        {
+            var options = GetJsonSerializerOptions();
+            return JsonSerializer.Serialize(value, inputType, options);
         }
 
         /// <summary>
@@ -111,6 +124,20 @@ namespace Sgr.Utilities
 
             var options = GetJsonSerializerOptions();
             return JsonSerializer.Deserialize<T>(json, options);
+        }
+
+        /// <summary>
+        /// 反序列化JSON
+        /// </summary>
+        /// <param name="returnType"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static object? DeserializeObject(Type returnType, string json)
+        {
+            Check.StringNotNullOrEmpty(json, nameof(json));
+
+            var options = GetJsonSerializerOptions();
+            return JsonSerializer.Deserialize(json, returnType, options);
         }
     }
 }

@@ -1,0 +1,7 @@
+{
+  "id": "Sgr.BackGroundTasks.Tests",
+  "name": "后台任务单元测试",
+  "category": "Tests",
+  "description": "",
+  "isEnable": true
+}
