@@ -39,15 +39,18 @@ namespace Sgr.UPMS.Application.Commands.Users
             //当前登录用户不存在，删除失败
             if (!long.TryParse(_currentUser.Id, out long currentUserId))
                 return false;
+
             var current_user = await _userRepository.GetAsync(currentUserId, cancellationToken);
             if (current_user == null)
                 return false;
+
             //当前登录密码验证失败，删除失败
             if (!current_user.CheckPassWord(request.Password))
                 return false;
 
-            //发布组织机构删除事件
-            user.AddDomainEvent(new UserDeleteDomainEvent(user.Id));
+            //发布用户信息改变事件
+            user.AddDomainEvent(new UserChangedDomainEvent(user.Id));
+
             //执行删除
             await _userRepository.DeleteAsync(user, cancellationToken);
 

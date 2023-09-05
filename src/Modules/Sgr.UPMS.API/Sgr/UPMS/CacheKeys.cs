@@ -16,11 +16,13 @@ namespace Sgr.UPMS
     public static class CacheKeys
     {
         public const string ALL_USER_PREFIX = "Sgr.UPMS.User";
-        public const string USER_PREFIX = "Sgr.UPMS.User.{0}";
-        public const string USER_WITH_ROLES = "Sgr.UPMS.User.{0}.WithRoles";
+        public const string USER_KEY_WITH_ROLES = "Sgr.UPMS.User.{0}.WithRoles";
 
-        public const string ROLE_WITH_RESOURCES = "Sgr.UPMS.Role.{0}.WithResources";
+        public const string ALL_ROLE_PREFIX = "Sgr.UPMS.Role";
+        public const string ROLE_KEY_WITH_RESOURCES = "Sgr.UPMS.Role.{0}.WithResources";
 
+        public const string ALL_ORG_PREFIX = "Sgr.UPMS.Organizations";
+        public const string ORG_KEY = "Sgr.UPMS.Organizations.{0}";
     }
 }
 

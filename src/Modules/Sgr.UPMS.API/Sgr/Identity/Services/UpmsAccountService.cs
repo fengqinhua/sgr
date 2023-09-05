@@ -13,8 +13,10 @@
 using Sgr.Exceptions;
 using Sgr.UPMS;
 using Sgr.UPMS.Domain.LogLogins;
+using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Users;
 using Sgr.UPMS.Domain.UserTokens;
+using Sgr.UPMS.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -28,7 +30,7 @@ namespace Sgr.Identity.Services
         private readonly IUserRepository _userRepository;
         private readonly UpmsOptions _upmsOptions;
 
-        public UpmsAccountService(IUserRepository userRepository, ILogLoginRepository logLoginRepository, IUserRefreshTokenRepository userRefreshTokenRepository,  UpmsOptions upmsOptions)
+        public UpmsAccountService(IUserRepository userRepository, ILogLoginRepository logLoginRepository, IUserRefreshTokenRepository userRefreshTokenRepository, UpmsOptions upmsOptions)
         {
             _userRefreshTokenRepository = userRefreshTokenRepository;
             _userRepository = userRepository;
@@ -53,13 +55,13 @@ namespace Sgr.Identity.Services
             if (user == null)
                 return new Tuple<AccountLoginResults, Account?>(AccountLoginResults.NotExist, null);
 
-            if(user.IsDeleted)
+            if (user.IsDeleted)
                 return new Tuple<AccountLoginResults, Account?>(AccountLoginResults.IsDelete, null);
 
             if (user.State != Domain.Entities.EntityStates.Normal)
                 return new Tuple<AccountLoginResults, Account?>(AccountLoginResults.IsDeactivate, null);
 
-            if(user.CannotLoginUntilUtc.HasValue && user.CannotLoginUntilUtc.Value >DateTimeOffset.UtcNow)
+            if (user.CannotLoginUntilUtc.HasValue && user.CannotLoginUntilUtc.Value > DateTimeOffset.UtcNow)
                 return new Tuple<AccountLoginResults, Account?>(AccountLoginResults.IsLock, null);
 
             if (user.CheckPassWord(password))
@@ -93,7 +95,7 @@ namespace Sgr.Identity.Services
 
         public async Task<Tuple<ValidateRefreshTokenResults, Account?>> ValidateRefreshTokenAsync(string userId, string refreshToken)
         {
-            if(string.IsNullOrEmpty(refreshToken))
+            if (string.IsNullOrEmpty(refreshToken))
                 return new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.NotExist, null);
 
             UserRefreshToken? userRefreshToken = await _userRefreshTokenRepository.GetByRefreshTokenAsync(refreshToken);
@@ -107,14 +109,14 @@ namespace Sgr.Identity.Services
             if (!long.TryParse(userId, out long id))
                 throw new BusinessException($"userId {userId} 格式错误");
 
-            if ( userRefreshToken.UserId != id)
+            if (userRefreshToken.UserId != id)
                 return new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.NotExist, null);
 
             User? user = await _userRepository.GetAsync(id);
 
             if (user == null
-                || user.IsDeleted 
-                || user.State != Domain.Entities.EntityStates.Normal 
+                || user.IsDeleted
+                || user.State != Domain.Entities.EntityStates.Normal
                 || (user.CannotLoginUntilUtc.HasValue && user.CannotLoginUntilUtc.Value > DateTimeOffset.UtcNow))
                 return new Tuple<ValidateRefreshTokenResults, Account?>(ValidateRefreshTokenResults.AccountAbnormal, null);
 

@@ -52,7 +52,7 @@ namespace Sgr.Security
                 return false;
 
             //获取用户
-            User? user = await _cacheManager.Get(string.Format(CacheKeys.USER_WITH_ROLES, userId), async () =>
+            User? user = await _cacheManager.Get(string.Format(CacheKeys.USER_KEY_WITH_ROLES, userId), async () =>
             {
                 return await GetUserRepository().GetAsync(id, new string[] { "Roles" });
             });
@@ -66,7 +66,7 @@ namespace Sgr.Security
             bool result = false;
             foreach (UserRole item in user.Roles)
             {
-                Role? role = await _cacheManager.Get(string.Format(CacheKeys.ROLE_WITH_RESOURCES, item.RoleId), async () =>
+                Role? role = await _cacheManager.Get(string.Format(CacheKeys.ROLE_KEY_WITH_RESOURCES, item.RoleId), async () =>
                 {
                     return await GetRoleRepository().GetAsync(item.RoleId, new string[] { "Resources" });
                 });
