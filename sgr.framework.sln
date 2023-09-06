@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "work_logs", "work_logs", "{
 	ProjectSection(SolutionItems) = preProject
 		docs\work_log\work_log_202307.md = docs\work_log\work_log_202307.md
 		docs\work_log\work_log_202308.md = docs\work_log\work_log_202308.md
+		docs\work_log\work_log_202309.md = docs\work_log\work_log_202309.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.Admin.WebHost.Tests", "tests\Sgr.Admin.WebHost.Tests\Sgr.Admin.WebHost.Tests.csproj", "{5AFCBC76-7304-4304-B588-816B2EA0B65D}"
@@ -102,7 +103,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.BackGroundTasks.Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.BackGroundTasks.Quartz", "src\Basiclibrary\Sgr.BackGroundTasks.Quartz\Sgr.BackGroundTasks.Quartz.csproj", "{E685080C-9E4C-4F73-BC96-E4F0896A13F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sgr.BackGroundTasks.Tests", "tests\Sgr.BackGroundTasks.Tests\Sgr.BackGroundTasks.Tests.csproj", "{99D649AA-E0C4-4DBB-A1D1-AA96539B3841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sgr.BackGroundTasks.Tests", "tests\Sgr.BackGroundTasks.Tests\Sgr.BackGroundTasks.Tests.csproj", "{99D649AA-E0C4-4DBB-A1D1-AA96539B3841}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

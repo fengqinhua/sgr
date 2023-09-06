@@ -11,11 +11,13 @@
  **************************************************************/
 
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Sgr.Application;
 using Sgr.AuditLogs.Services;
 using Sgr.Caching.Services;
 using Sgr.Database;
 using Sgr.DataCategories.Services;
+using Sgr.DistributedLock;
 using Sgr.Domain.Entities.Auditing;
 using Sgr.Generator;
 using Sgr.Identity.Services;
@@ -65,7 +67,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             //缓存
             services.AddSingleton<ICacheManager, NoCacheManager>();
-            
+
+            //本地使用的锁(限单机使用，如需实现分布式锁，可以基于DistributedLock.Core库结合实际应用场景选取合适的技术方案进行封装，例如：redis、数据库、文件等)
+            services.TryAddSingleton<IDistributedLock, DefaultLocalDistributedLock>();
+
 
             return services;
         }
