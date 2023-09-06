@@ -11,8 +11,10 @@
  **************************************************************/
 
 using MediatR;
+using Sgr.UPMS.Application.DomainEventHandlers;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Users;
+using Sgr.UPMS.Events;
 using Sgr.Utilities;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,6 +54,11 @@ namespace Sgr.UPMS.Application.Commands.Organizations
 
             await _organizationRepository.InsertAsync(organization, cancellationToken);
             await _userRepository.InsertAsync(user, cancellationToken);
+
+            //发布组织机构改变事件
+            organization.AddDomainEvent(new OrganizationChangedDomainEvent(organization.Id));            
+            //发布用户改变事件
+            user.AddDomainEvent(new UserChangedDomainEvent(user.Id));
 
             return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

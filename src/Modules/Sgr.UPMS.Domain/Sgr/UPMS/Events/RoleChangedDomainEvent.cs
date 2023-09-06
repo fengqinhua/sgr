@@ -17,7 +17,7 @@ using System.Text;
 
 namespace Sgr.UPMS.Events
 {
-    internal class RoleChangedDomainEvent : INotification
+    public class RoleChangedDomainEvent : INotification
     {
         public long RoleId { get; }
 

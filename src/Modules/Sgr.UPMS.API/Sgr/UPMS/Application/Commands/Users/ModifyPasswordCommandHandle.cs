@@ -42,6 +42,9 @@ namespace Sgr.UPMS.Application.Commands.Users
             user.ChangePassword(HashHelper.CreateMd5(request.NewPassword));
             await _userRepository.UpdateAsync(user, cancellationToken);
 
+            //发布用户改变事件
+            user.AddDomainEvent(new UserChangedDomainEvent(user.Id));
+
             return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
     }

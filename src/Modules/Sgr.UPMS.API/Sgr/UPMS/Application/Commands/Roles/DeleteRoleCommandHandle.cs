@@ -12,6 +12,8 @@
 
 using MediatR;
 using Sgr.UPMS.Domain.Roles;
+using Sgr.UPMS.Events;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +30,15 @@ namespace Sgr.UPMS.Application.Commands.Roles
 
         public async Task<bool> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
         {
-            await _roleRepository.DeleteAsync(request.RoleId, cancellationToken);
+            //角色不存在，删除失败
+            var role = await _roleRepository.GetAsync(request.RoleId, cancellationToken);
+            if (role == null)
+                return false;
+
+            await _roleRepository.DeleteAsync(role, cancellationToken);
+
+            //发布用户改变事件
+            role.AddDomainEvent(new RoleChangedDomainEvent(role.Id));
 
             return await _roleRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 

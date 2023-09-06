@@ -73,5 +73,15 @@ namespace Sgr.Caching.Services
         {
             throw new NotImplementedException();
         }
+
+        public void Set(string key, object obj, CacheEntryOptions? cacheEntryOptions = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetAsync(string key, object obj, CacheEntryOptions? cacheEntryOptions = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

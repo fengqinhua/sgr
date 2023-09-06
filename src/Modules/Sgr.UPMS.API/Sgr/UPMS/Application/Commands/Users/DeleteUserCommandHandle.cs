@@ -48,11 +48,11 @@ namespace Sgr.UPMS.Application.Commands.Users
             if (!current_user.CheckPassWord(request.Password))
                 return false;
 
-            //发布用户信息改变事件
-            user.AddDomainEvent(new UserChangedDomainEvent(user.Id));
-
             //执行删除
             await _userRepository.DeleteAsync(user, cancellationToken);
+
+            //发布用户改变事件
+            user.AddDomainEvent(new UserChangedDomainEvent(user.Id));
 
             return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

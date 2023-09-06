@@ -41,7 +41,7 @@ namespace Sgr.UPMS.Application.Commands.Departments
 
             foreach(var son in sons)
             {
-                entity.AddDomainEvent(new DepartmentDeleteDomainEvent(son.Id));
+                son.AddDomainEvent(new DepartmentDeleteDomainEvent(son.Id));
                 await _departmentRepository.DeleteAsync(son!, cancellationToken);
             }
 

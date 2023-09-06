@@ -13,6 +13,7 @@
 using MediatR;
 using Sgr.Domain.Repositories;
 using Sgr.Exceptions;
+using Sgr.UPMS.Application.DomainEventHandlers;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Infrastructure.Checkers;
 using Sgr.UPMS.Infrastructure.Repositories;
@@ -49,6 +50,9 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             org.Address = request.Address;
 
             await _organizationRepository.UpdateAsync(org, cancellationToken);
+
+            //发布组织机构改变事件
+            org.AddDomainEvent(new OrganizationChangedDomainEvent(org.Id));
 
             return await _organizationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

@@ -13,6 +13,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Sgr.Caching.Services;
 using Sgr.UPMS;
+using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Roles;
 using Sgr.UPMS.Domain.Users;
 using System;
@@ -34,6 +35,10 @@ namespace Sgr.Security
             _cacheManager = cacheManager;
         }
 
+        private IOrganizationRepository GetOrganizationRepository()
+        {
+            return _serviceProvider.GetRequiredService<IOrganizationRepository>();
+        }
 
         private IUserRepository GetUserRepository()
         {
@@ -57,10 +62,20 @@ namespace Sgr.Security
                 return await GetUserRepository().GetAsync(id, new string[] { "Roles" });
             });
 
-            if (user == null)
+            if (user == null || user.IsDeleted || user.State == Domain.Entities.EntityStates.Deactivate)
                 return false;
+
             if(user.IsSuperAdmin)
                 return true;
+
+            //获取用户所在组织
+            Organization? org = await _cacheManager.Get(string.Format(CacheKeys.ORG_KEY, user.OrgId), async () =>
+            {
+                return await GetOrganizationRepository().GetAsync(user.OrgId);
+            });
+
+            if (org == null || org.IsDeleted || org.State == Domain.Entities.EntityStates.Deactivate)
+                return false;
 
             //获取角色
             bool result = false;

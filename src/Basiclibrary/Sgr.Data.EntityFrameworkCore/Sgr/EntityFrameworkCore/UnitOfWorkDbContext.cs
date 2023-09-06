@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Sgr.Domain.Uow;
 using Sgr.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,6 +39,15 @@ namespace Sgr.EntityFrameworkCore
         protected IDbContextTransaction? _currentTransaction;
 
         /// <summary>
+        /// 数据库事务提交成功后的处理事件
+        /// </summary>
+        protected IList<Func<Task>> _completedHandlers;
+        /// <summary>
+        /// 事务是否已提交
+        /// </summary>
+        protected bool _isCompleted;
+
+        /// <summary>
         /// 支持IUnitOfWork的DbContext
         /// </summary>
         /// <param name="options"></param>
@@ -47,7 +57,9 @@ namespace Sgr.EntityFrameworkCore
         {
             Check.NotNull(mediator, nameof(mediator));
 
-            _mediator = mediator;
+            this._mediator = mediator;
+            this._completedHandlers = new List<Func<Task>>();
+            this._isCompleted = false;
 #if DEBUG
             System.Diagnostics.Debug.WriteLine(this.GetType() + "::ctor ->" + this.GetHashCode());
 #endif
@@ -56,7 +68,15 @@ namespace Sgr.EntityFrameworkCore
         /// <summary>
         /// 是否有活动的事务
         /// </summary>
-        public bool HasActiveTransaction => _currentTransaction != null;
+        public virtual bool HasActiveTransaction => this._currentTransaction != null && !this._isCompleted;
+        /// <summary>
+        /// 添加事务提交成功后的处理事件
+        /// </summary>
+        /// <param name="handler"></param>
+        public virtual void AddTransactionCompletedHandler(Func<Task> handler)
+        {
+            _completedHandlers.Add(handler);
+        }
 
         /// <summary>
         /// 获取当前活动的事务
@@ -95,6 +115,10 @@ namespace Sgr.EntityFrameworkCore
 
         #region 事务处理
 
+
+
+
+
         /// <summary>
         /// 开启事务
         /// </summary>
@@ -103,7 +127,8 @@ namespace Sgr.EntityFrameworkCore
         {
             if (_currentTransaction != null) return null;
 
-            _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            this._currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            this._isCompleted = false;
 
             return _currentTransaction;
         }
@@ -123,10 +148,17 @@ namespace Sgr.EntityFrameworkCore
             {
                 await SaveChangesAsync();
                 await transaction.CommitAsync();
+
+                this._isCompleted = true;
+
+                //数据储存了，事务提交了，则说明工作单元已经完成了，遍历完成事件集合，依次调用这些方法。
+                await OnCompletedAsync();
             }
             catch
             {
-                RollbackTransaction();
+                if (!this._isCompleted)
+                    RollbackTransaction();
+
                 throw;
             }
             finally
@@ -158,6 +190,13 @@ namespace Sgr.EntityFrameworkCore
             }
         }
 
+        protected virtual async Task OnCompletedAsync()
+        {
+            foreach (var handler in _completedHandlers)
+            {
+                await handler.Invoke();
+            }
+        }
 
         #endregion 
 

@@ -17,11 +17,11 @@ namespace Sgr.UPMS.Application.DomainEventHandlers
     /// <summary>
     ///  组织机构信息改变
     /// </summary>
-    public class OrganizationChangeDomainEvent : INotification
+    public class OrganizationChangedDomainEvent : INotification
     {
         public long OrgId { get; }
 
-        public OrganizationChangeDomainEvent(long orgId)
+        public OrganizationChangedDomainEvent(long orgId)
         {
             this.OrgId = orgId;
         }

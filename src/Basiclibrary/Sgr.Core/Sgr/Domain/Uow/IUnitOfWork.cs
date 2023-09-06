@@ -30,6 +30,15 @@ namespace Sgr.Domain.Uow
         //Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// 是否存在活动的事务
+        /// </summary>
+        bool HasActiveTransaction { get; }
+        /// <summary>
+        /// 添加事务提交成功后的处理事件
+        /// </summary>
+        /// <param name="handler"></param>
+        void AddTransactionCompletedHandler(Func<Task> handler);
+        /// <summary>
         /// 执行Save操作
         /// </summary>
         /// <param name="cancellationToken"></param>

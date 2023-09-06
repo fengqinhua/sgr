@@ -13,6 +13,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Sgr.Oss.Services;
+using Sgr.UPMS.Application.DomainEventHandlers;
 using Sgr.UPMS.Domain.Organizations;
 using Sgr.UPMS.Domain.Users;
 using Sgr.UPMS.Events;
@@ -30,7 +31,11 @@ namespace Sgr.UPMS.Application.Commands.Organizations
         private readonly ICurrentUser _currentUser;
         private readonly IOssService _ossService;
 
-        public CancellationOrgCommandHandle(IOrganizationManage organizationManage, IOrganizationRepository organizationRepository, IUserRepository userRepository, ICurrentUser currentUser, IOssService  ossService)
+        public CancellationOrgCommandHandle(IOrganizationManage organizationManage, 
+            IOrganizationRepository organizationRepository, 
+            IUserRepository userRepository, 
+            ICurrentUser currentUser, 
+            IOssService  ossService)
         {
             _organizationManage = organizationManage;
             _organizationRepository = organizationRepository;
@@ -62,11 +67,9 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             if(!await  _organizationManage.CancellationExamination(org, user))
                 return false;
 
-            //发布组织机构删除事件
-            org.AddDomainEvent(new OrganizationCancellationDomainEvent(org.Id));
             //执行删除
             await _organizationRepository.DeleteAsync(org, cancellationToken);
-    
+
             //删除附件
             if (org.LogoUrl != null)
                 await _ossService.RemoveImageAsync(org.LogoUrl, cancellationToken);
@@ -74,9 +77,16 @@ namespace Sgr.UPMS.Application.Commands.Organizations
             if (org.BusinessLicensePath != null)
                 await _ossService.RemoveImageAsync(org.BusinessLicensePath, cancellationToken);
 
+            //发布组织机构改变事件
+            org.AddDomainEvent(new OrganizationChangedDomainEvent(org.Id));
 
             return await _organizationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
         }
+
+        //private Task clearCacheAsync()
+        //{
+
+        //}
     }
 }

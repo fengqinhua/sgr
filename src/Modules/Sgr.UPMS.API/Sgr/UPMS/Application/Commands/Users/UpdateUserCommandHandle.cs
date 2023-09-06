@@ -13,6 +13,7 @@
 using MediatR;
 using Sgr.UPMS.Domain.Departments;
 using Sgr.UPMS.Domain.Users;
+using Sgr.UPMS.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,6 +56,9 @@ namespace Sgr.UPMS.Application.Commands.Users
                 user.BindRoles(request.RoleIds!);
 
             await _userRepository.UpdateAsync(user, cancellationToken);
+
+            //发布用户改变事件
+            user.AddDomainEvent(new UserChangedDomainEvent(user.Id));
 
             return await _userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 

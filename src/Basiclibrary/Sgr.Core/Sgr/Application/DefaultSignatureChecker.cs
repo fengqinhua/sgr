@@ -10,6 +10,8 @@
  * 
  **************************************************************/
 
+using Sgr.Caching.Services;
+using Sgr.Generator;
 using Sgr.Utilities;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,15 @@ namespace Sgr.Application
 {
     public class DefaultSignatureChecker : ISignatureChecker
     {
+        private static string key = "Sgr.Application.SignatureChecker.{0}";
+
+        private readonly ICacheManager _cacheManager;
+
+        public DefaultSignatureChecker(ICacheManager cacheManager)
+        {
+            _cacheManager = cacheManager;
+        }
+
         /// <summary>
         /// 验证签名是否正确
         /// </summary>
@@ -56,7 +67,15 @@ namespace Sgr.Application
         /// <returns></returns>
         protected virtual bool NonceHasBeenVerified(string nonce)
         {
-            return false;
+            bool hasKey = true;
+            _cacheManager.Get(string.Format(key, nonce), () =>
+            {
+                hasKey = false;
+                return '_';
+            },
+           _cacheManager.CreateCacheEntryOptions().SetAbsoluteExpirationRelativeToNowSecond(120));
+
+            return hasKey;
         }
 
         /// <summary>

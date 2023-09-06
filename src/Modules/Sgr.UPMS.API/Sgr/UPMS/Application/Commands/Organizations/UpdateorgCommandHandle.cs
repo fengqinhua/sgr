@@ -11,7 +11,10 @@
  **************************************************************/
 
 using MediatR;
+using Sgr.UPMS.Application.DomainEventHandlers;
 using Sgr.UPMS.Domain.Organizations;
+using Sgr.UPMS.Domain.Users;
+using Sgr.UPMS.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,6 +49,9 @@ namespace Sgr.UPMS.Application.Commands.Organizations
 
 
             await _organizationRepository.UpdateAsync(org, cancellationToken);
+
+            //发布组织机构改变事件
+            org.AddDomainEvent(new OrganizationChangedDomainEvent(org.Id));
 
             return await _organizationRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }

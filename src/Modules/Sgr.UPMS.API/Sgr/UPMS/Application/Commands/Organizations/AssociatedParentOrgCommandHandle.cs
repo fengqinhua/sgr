@@ -11,6 +11,7 @@
  **************************************************************/
 
 using MediatR;
+using Sgr.UPMS.Application.DomainEventHandlers;
 using Sgr.UPMS.Domain.Organizations;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,6 +37,9 @@ namespace Sgr.UPMS.Application.Commands.Organizations
                 return false;
 
             await _organizationManage.ChangeParentIdAsync(org, request.ParentId ?? 0, 5, cancellationToken);
+
+            //发布组织机构改变事件
+            org.AddDomainEvent(new OrganizationChangedDomainEvent(org.Id));
 
             return true;
         }
