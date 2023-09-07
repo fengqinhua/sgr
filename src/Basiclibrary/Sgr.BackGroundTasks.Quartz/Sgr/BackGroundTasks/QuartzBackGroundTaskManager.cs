@@ -30,6 +30,25 @@ namespace Sgr.BackGroundTasks
             _schedulerFactory = factory;
         }
 
+        public async Task<string> EnqueueAsync(BackGroundTaskBuilder backGroundTaskBuilder, CancellationToken cancellationToken = default)
+        {
+            if(backGroundTaskBuilder.HasTaskArgs && backGroundTaskBuilder.TaskArgs == null)
+                throw new BackGroundTaskException($"未设置任务 {backGroundTaskBuilder.TaskTypeName} 执行所需的参数!");
+
+            string? dataObject = null;
+            if (backGroundTaskBuilder.HasTaskArgs)
+                dataObject = JsonHelper.SerializeObject(backGroundTaskBuilder.TaskArgs);
+
+            var job = CreateJobDetail(backGroundTaskBuilder.TaskTypeName, dataObject, backGroundTaskBuilder.MaxRetryCountOnError, backGroundTaskBuilder.RetryIntervalSecond);
+
+            ITrigger trigger = CreateTrigger(backGroundTaskBuilder.Priority, backGroundTaskBuilder.Delay);
+
+            var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
+            await scheduler.ScheduleJob(job, trigger, cancellationToken);
+
+            return job.Key.Name;
+        }
+
         /// <summary>
         /// 添加一个任务（任务无入参）
         /// </summary>
@@ -47,16 +66,8 @@ namespace Sgr.BackGroundTasks
             int? retryIntervalSecond = null,
             CancellationToken cancellationToken = default) where TTask : IBackGroundTask
         {
-            var job = JobBuilder.Create<QuartzGenericJob>()
-                       .UsingJobData(Prefix + "TaskClassType", typeof(TTask).FullName)
-                       .UsingJobData(Prefix + "MaxRetryCountOnError", maxRetryCountOnError.HasValue ? maxRetryCountOnError.Value.ToString() : "")
-                       .UsingJobData(Prefix + "RetryIntervalSecond", retryIntervalSecond.HasValue ? retryIntervalSecond.Value.ToString() : "")
-                       .Build();
-
-            int priorityValue = getPriorityValue(priority);
-
-            var trigger = delay.HasValue ? TriggerBuilder.Create().StartAt(DateTimeOffset.UtcNow.Add(delay!.Value)).WithPriority(priorityValue).Build()
-                : TriggerBuilder.Create().StartNow().WithPriority(priorityValue).Build();
+            var job = CreateJobDetail(typeof(TTask).FullName, null, maxRetryCountOnError, retryIntervalSecond);
+            ITrigger trigger = CreateTrigger(priority, delay);
 
             var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             await scheduler.ScheduleJob(job, trigger, cancellationToken);
@@ -86,17 +97,8 @@ namespace Sgr.BackGroundTasks
             where TTask : IBackGroundTask<TTaskData>
             where TTaskData : class
         {
-            var job = JobBuilder.Create<QuartzGenericJob>()
-                       .UsingJobData(Prefix + "TaskClassType", typeof(TTask).FullName)
-                       .UsingJobData(Prefix + "TDataObject", JsonHelper.SerializeObject(data))
-                       .UsingJobData(Prefix + "MaxRetryCountOnError", maxRetryCountOnError.HasValue ? maxRetryCountOnError.Value.ToString() : "")
-                       .UsingJobData(Prefix + "RetryIntervalSecond", retryIntervalSecond.HasValue ? retryIntervalSecond.Value.ToString() : "")
-                       .Build();
-
-            int priorityValue = getPriorityValue(priority);
-
-            var trigger = delay.HasValue ? TriggerBuilder.Create().StartAt(DateTimeOffset.UtcNow.Add(delay!.Value)).WithPriority(priorityValue).Build()
-                : TriggerBuilder.Create().StartNow().WithPriority(priorityValue).Build();
+            var job = CreateJobDetail(typeof(TTask).FullName, JsonHelper.SerializeObject(data), maxRetryCountOnError, retryIntervalSecond);
+            ITrigger trigger = CreateTrigger(priority, delay);
 
             var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             await scheduler.ScheduleJob(job, trigger, cancellationToken);
@@ -104,7 +106,16 @@ namespace Sgr.BackGroundTasks
             return job.Key.Name;
         }
 
-        private static int getPriorityValue(BackGroundTaskPriority priority)
+        private static ITrigger CreateTrigger(BackGroundTaskPriority priority, TimeSpan? delay)
+        {
+            int priorityValue = GetPriorityValue(priority);
+
+            var trigger = delay.HasValue ? TriggerBuilder.Create().StartAt(DateTimeOffset.UtcNow.Add(delay!.Value)).WithPriority(priorityValue).Build()
+                : TriggerBuilder.Create().StartNow().WithPriority(priorityValue).Build();
+            return trigger;
+        }
+
+        private static int GetPriorityValue(BackGroundTaskPriority priority)
         {
             var priorityValue = priority switch
             {
@@ -116,6 +127,27 @@ namespace Sgr.BackGroundTasks
             return priorityValue;
         }
 
+        private static IJobDetail CreateJobDetail(
+            string? taskClassType,
+            string? dataObject, 
+            int? maxRetryCountOnError = null,
+            int? retryIntervalSecond = null)
+        {
+            JobBuilder jobBuilder = JobBuilder.Create<QuartzGenericJob>()
+                       .UsingJobData(Prefix + "TaskClassType", taskClassType)
+                       .UsingJobData(Prefix + "MaxRetryCountOnError", maxRetryCountOnError.HasValue ? maxRetryCountOnError.Value.ToString() : "")
+                       .UsingJobData(Prefix + "RetryIntervalSecond", retryIntervalSecond.HasValue ? retryIntervalSecond.Value.ToString() : "");
 
+            if (string.IsNullOrEmpty(dataObject))
+            {
+                return jobBuilder.Build();
+            }
+            else
+            {
+                return jobBuilder
+                    .UsingJobData(Prefix + "TDataObject", dataObject)
+                    .Build();
+            }
+        }
     }
 }

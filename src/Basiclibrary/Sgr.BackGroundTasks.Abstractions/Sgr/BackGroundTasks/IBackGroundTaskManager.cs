@@ -23,6 +23,14 @@ namespace Sgr.BackGroundTasks
     public interface IBackGroundTaskManager
     {
         /// <summary>
+        /// 添加一个任务
+        /// </summary>
+        /// <param name="backGroundTaskBuilder"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<string> EnqueueAsync(BackGroundTaskBuilder backGroundTaskBuilder, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 添加一个任务（任务无入参）
         /// </summary>
         /// <typeparam name="TTask"></typeparam>

@@ -31,5 +31,10 @@ namespace Sgr.BackGroundTasks
         {
             throw new NotImplementedException();
         }
+
+        public Task<string> EnqueueAsync(BackGroundTaskBuilder backGroundTaskBuilder, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

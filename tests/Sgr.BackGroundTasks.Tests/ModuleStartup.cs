@@ -31,11 +31,13 @@ namespace Sgr.BackGroundTasks.Tests
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<WriteReadBackGroundTask>();
             services.AddSingleton<CounterBackGroundTask>();
-            services.AddSingleton<TimerBackGroundTask>();
+            services.AddSingleton<TimerBackGroundTask>(); 
 
             services.Configure<BackGroundTaskOptions>(opts =>
             {
+                opts.RegistBackGroundTask<WriteReadBackGroundTask>();
                 opts.RegistBackGroundTask<CounterBackGroundTask>();
                 opts.RegistRecurringTask<TimerBackGroundTask>(TimerBackGroundTaskId, "每秒更新一次时间", "0/2 * * * * ?");
             });

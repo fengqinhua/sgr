@@ -27,23 +27,25 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddSgrBackGroundTasksCore(this IServiceCollection services/*, IConfiguration configuration*/)
         {
+            services.AddHttpClient();
+
             services.AddSingleton<IBackGroundExceptionHandle, DefaultBackGroundExceptionHandle>();
             services.AddSingleton<IBackGroundTaskExecutor, DefaultBackGroundTaskExecutor>();
 
             services.AddSingleton<IBackGroundTaskManager, NoBackGroundTaskManager>();
             services.AddSingleton<IRecurringTaskManager, NoRecurringTaskManager>();
 
-            services.AddSingleton<RemoveCacheBackGroundTask>();
+            services.AddSingleton<HttpRequestBackGroundTask>();
             
             services.AddOptions<BackGroundTaskOptions>();
             services.Configure<BackGroundTaskOptions>(opts =>
             {
-                opts.RegistBackGroundTask<RemoveCacheBackGroundTask>();
+                opts.RegistBackGroundTask<HttpRequestBackGroundTask>();
             });
-            
+
             //services.PostConfigure<BackGroundTaskOptions>(opt =>
             //{
-            //    opt.RegistBackGroundTask<RemoveCacheBackGroundTask>();
+            //    opt.RegistBackGroundTask<HttpRequestBackGroundTask>();
             //});
 
 

@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sgr.Domain.Uow;
 using Sgr.EntityFrameworkCore;
 using System;
 
@@ -49,8 +50,9 @@ namespace Sgr.Admin.WebHost.Extensions
                 var serverVersion = ServerVersion.Parse(configuration.GetRequiredString("ConnectionStrings:SgrDBVersion"));
 
                 options.UseMySql(configuration.GetRequiredString("ConnectionStrings:SgrDB"), serverVersion, ConfigureSqlOptions);
-
             });
+
+            services.AddScoped<IUnitOfWork>(sp => { return sp.GetRequiredService<SgrDbContext>(); });
 
             return services;
         }

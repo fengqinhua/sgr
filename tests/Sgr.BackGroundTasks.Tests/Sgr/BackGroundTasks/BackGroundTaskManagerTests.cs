@@ -55,30 +55,31 @@ namespace Sgr.BackGroundTasks
             IBackGroundTaskManager backGroundTaskManager = base.TestServer.Services.GetRequiredService<IBackGroundTaskManager>();
 
             //先设置缓存
-            string key = "cache-key";
-            string prefix = "cache";
             string value1 = "abc";
             string value2 = "def";
-            cacheManager.Get(key, () =>
-            {
-                return value1;
-            });
 
-            //添加后台任务，清理缓存
-            await backGroundTaskManager.EnqueueAsync<RemoveCacheBackGroundTask, RemoveCacheArgs>(
-                new RemoveCacheArgs() { Prefix = prefix }
+            WriteReadBackGroundTask.Value = value1;
+
+            //调用方法一
+            await backGroundTaskManager.EnqueueAsync<WriteReadBackGroundTask, WriteReadArgs>(
+                new WriteReadArgs() {  Value = value2 }
             );
             //稍等一下，等待任务完成
             Thread.Sleep(100);
 
-            //重新获取缓存
-            string val = cacheManager.Get(key, () =>
-            {
-                return value2;
-            });
+            //检查缓存值是否为新值
+            Assert.AreEqual(WriteReadBackGroundTask.Value, value2);
+
+            //调用方法二
+            BackGroundTaskBuilder builder = BackGroundTaskBuilder.Create<WriteReadBackGroundTask>()
+                .WithArgs(new WriteReadArgs() { Value = value1 });
+            await backGroundTaskManager.EnqueueAsync(builder);
+
+            //稍等一下，等待任务完成
+            Thread.Sleep(100);
 
             //检查缓存值是否为新值
-            Assert.AreEqual(val, value2);
+            Assert.AreEqual(WriteReadBackGroundTask.Value, value1);
         }
     }
 }
